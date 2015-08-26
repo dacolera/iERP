@@ -50,6 +50,46 @@ return array(
                     ),
                 ),
             ),
+            'charts' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route'    => '/charts',
+                    'defaults' => array(
+                        'controller' => 'Application\Controller\Index',
+                        'action'     => 'charts',
+                    ),
+                ),
+            ),
+            'forms' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route'    => '/forms',
+                    'defaults' => array(
+                        'controller' => 'Application\Controller\Index',
+                        'action'     => 'forms',
+                    ),
+                ),
+            ),
+            'tables' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route'    => '/tables',
+                    'defaults' => array(
+                        'controller' => 'Application\Controller\Index',
+                        'action'     => 'tables',
+                    ),
+                ),
+            ),
+            'bootstrap-elements' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route'    => '/bootstrap-elements',
+                    'defaults' => array(
+                        'controller' => 'Application\Controller\Index',
+                        'action'     => 'bootstrapElements',
+                    ),
+                ),
+            ),
         ),
     ),
     'service_manager' => array(

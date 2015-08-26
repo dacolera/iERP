@@ -16,6 +16,11 @@ class IndexController extends AbstractActionController
 {
     public function indexAction()
     {
+        $renderer = $this->getServiceLocator()->get('Zend\View\Renderer\PhpRenderer');
+        $renderer->headTitle('ADMIN | CONTJET');
+        $renderer->headMeta()->appendName('keywords', 'contabilidade-fiscal');
+        $renderer->headMeta()->appendName('description', 'Escrituracao fiscal, contabilidade de empresas');
+           
         return new ViewModel();
     }
     
@@ -26,6 +31,14 @@ class IndexController extends AbstractActionController
     
     public function chartsAction()
     {
+        $script = $this->getServiceLocator()->get('viewhelpermanager')->get('headScript');
+
+        $script->appendFile("js/plugins/flot/jquery.flot.js");
+        $script->appendFile("js/plugins/flot/jquery.flot.tooltip.min.js");
+        $script->appendFile("js/plugins/flot/jquery.flot.resize.js");
+        $script->appendFile("js/plugins/flot/jquery.flot.pie.js");
+        $script->appendFile("js/plugins/flot/flot-data.js");
+
         return new ViewModel();
     }
     
