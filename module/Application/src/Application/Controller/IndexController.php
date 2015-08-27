@@ -17,10 +17,15 @@ class IndexController extends AbstractActionController
     public function indexAction()
     {
         $renderer = $this->getServiceLocator()->get('Zend\View\Renderer\PhpRenderer');
-        $renderer->headTitle('ADMIN | CONTJET');
+        
         $renderer->headMeta()->appendName('keywords', 'contabilidade-fiscal');
         $renderer->headMeta()->appendName('description', 'Escrituracao fiscal, contabilidade de empresas');
-           
+        
+        $mapperEmpresa = $this->getServiceLocator()->get('Application\Mapper\Empresa');
+
+        $nomeEmpresa = $mapperEmpresa->loadByNomeFantasia('Contjet')->current()->getNomeFantasia();
+        $renderer->headTitle("ADMIN | {$nomeEmpresa}");
+
         return new ViewModel();
     }
     

@@ -36,4 +36,24 @@ class Module
             ),
         );
     }
+
+    public function getServiceConfig()
+    {
+        return array(
+            'factories' => array(
+                /*
+                 * Configurações de Mappers
+                 */
+                'Application\Mapper\Empresa' =>
+                 function ($sm) {
+                    $mapper = new \Application\Mapper\Empresa();
+                    $dbConfig = $sm->get('Configuration')['db'];
+                    $mapper->setDbAdapter(new \Zend\Db\Adapter\Adapter($dbConfig))
+                            ->setentityprototype(new Entity\Empresa())
+                            ->setHydrator(new Mapper\Hydrator\Empresa());
+                    return $mapper;
+                 },
+            )
+        );
+    }                        
 }
