@@ -37,6 +37,17 @@ class Empresa
         return $this;
     }
 
+    public function getUsrId()
+    {
+        return $this->usrId;
+    }
+
+    public function setUsrId($usrId)
+    {
+        $this->usrId = $usrId;
+        return $this;
+    }
+
     public function getRazaoSocial()
     {
         return $this->razaoSocial;
@@ -70,6 +81,17 @@ class Empresa
         return $this;
     }
 
+    public function getEnderecoId()
+    {
+        return $this->enderecoId;
+    }
+
+    public function setEnderecoId($enderecoId)
+    {
+        $this->enderecoId = $enderecoId;
+        return $this;
+    }
+
     public function getInscricaoMunicipal()
     {
         return $this->inscricaoMunicipal;
@@ -92,60 +114,146 @@ class Empresa
         return $this;
     }
 
-    public function getDataEntrada()
+    public function getCNAEPrincipal()
     {
-        return $this->dataEntrada;
+        return $this->CNAEPrincipal;
     }
 
-    public function setDataEntrada($dataEntrada)
+    public function setCNAEPrincipal($CNAEPrincipal)
     {
-        $this->dataEntrada = $dataEntrada;
+        $this->CNAEPrincipal = $CNAEPrincipal;
         return $this;
     }
 
-    public function getEnderecoId()
+    public function getCNAESecundario()
     {
-        return $this->enderecoId;
+        return $this->CNAESecundario;
     }
 
-    public function setEnderecoId($enderecoId)
+    public function setCNAESecundario($CNAESecundario)
     {
-        $this->enderecoId = $enderecoId;
+        $this->CNAESecundario = $CNAESecundario;
         return $this;
     }
 
-    public function getOrigemId()
+    public function getRegimeTributacao()
     {
-        return $this->origemId;
+        return $this->regimeTributacao;
     }
 
-    public function setOrigemId($origemId)
+    public function setRegimeTributacao($regimeTributacao)
     {
-        $this->origemId = $origemId;
-        return $this;
-    } 
-
-    public function getTipo()
-    {
-        return $this->tipo;
-    }
-
-    public function setTipo($tipo)
-    {
-        $this->tipo = $tipo;
+        $this->regimeTributacao = $regimeTributacao;
         return $this;
     }
 
-    
-
-    public function getRamo()
+    public function getValorHonorarios()
     {
-        return $this->ramo;
+        return $this->valorHonorarios;
     }
 
-    public function setRamo($ramo)
+    public function setValorHonorarios($valorHonorarios)
     {
-        $this->ramoId = $ramo;
+        $this->valorHonorarios = $valorHonorarios;
+        return $this;
+    }
+
+    public function getVencimentoHonorarios()
+    {
+        return $this->vencimentoHonorarios;
+    }
+
+    public function setVencimentoHonorarios($vencimentoHonorarios)
+    {
+        $this->vencimentoHonorarios = $vencimentoHonorarios;
+        return $this;
+    }
+
+    public function getVencimentoProcuracaoCaixa()
+    {
+        return $this->vencimentoProcuracaoCaixa;
+    }
+
+    public function setVencimentoProcuracaoCaixa($vencimentoProcuracaoCaixa)
+    {
+        $this->vencimentoProcuracaoCaixa = $vencimentoProcuracaoCaixa;
+        return $this;
+    }
+
+    public function getVencimentoProcuracaoRFB()
+    {
+        return $this->vencimentoProcuracaoRFB;
+    }
+
+    public function setVencimentoProcuracaoRFB($vencimentoProcuracaoRFB)
+    {
+        $this->vencimentoProcuracaoRFB = $vencimentoProcuracaoRFB;
+        return $this;
+    }
+
+    public function getCertificadoDigital()
+    {
+        return $this->certificadoDigital;
+    }
+
+    public function setCertificadoDigital($certificadoDigital)
+    {
+        $this->certificadoDigital = $certificadoDigital;
+        return $this;
+    }
+
+    public function getSenhaWeb()
+    {
+        return $this->senhaWeb;
+    }
+
+    public function setSenhaWeb($senhaWeb)
+    {
+        $this->senhaWeb = $senhaWeb;
+        return $this;
+    }
+
+    public function getSenhaFazenda()
+    {
+        return $this->senhaFazenda;
+    }
+
+    public function setSenhaFazenda($senhaFazenda)
+    {
+        $this->senhaFazenda = $senhaFazenda;
+        return $this;
+    }
+
+    public function getTipoEmpresa()
+    {
+        return $this->tipoEmpresa;
+    }
+
+    public function setTipoEmpresa($tipoEmpresa)
+    {
+        $this->tipoEmpresa = $tipoEmpresa;
+        return $this;
+    }
+
+    public function getContrato()
+    {
+        return $this->contrato;
+    }
+
+    public function setContrato($contrato)
+    {
+        $this->contrato = $contrato;
+        return $this;
+    }
+
+    public function getVencimentoContrato()
+    {
+        return $this->vencimentoContrato;
+    }
+
+    public function setVencimentoContrato($vencimentoContrato)
+    {
+        $this->vencimentoContrato = $vencimentoContrato;
         return $this;
     }
 }

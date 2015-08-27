@@ -4,22 +4,13 @@ namespace Application\Mapper;
 
 use Application\Entity\Empresa as EmpresaEntity;
 use Zend\Db\Sql\Select;
-use ZfcBase\Mapper\AbstractDbMapper;
 use Zend\Db\Sql\Expression;
 use Zend\Db\Sql\Predicate\Like;
 
-class Empresa extends AbstractDbMapper
+class Empresa extends AbstractMapper
 {
 
     protected $tableName = 'emp';
-
-    public function loadByListId(array $ids)
-    {
-        $sql = $this->getSelect($this->tableName)
-                ->where(array('id' => $ids));
-
-        return $this->select($sql);
-    }
 
     /**
      * carrega empresa pelo nome fantasia
@@ -45,33 +36,6 @@ class Empresa extends AbstractDbMapper
                 ->where(array('status' => $status, 'cnpj'=>$cnpj));
 
         return $this->select($sql);
-    }
-
-    public function loadById($id)
-    {
-        $sql = $this->getSelect(array('e' => $this->tableName))
-                ->join(
-                    array(
-                        'el' => 'emp_logo'
-                    ),
-                    'e.emp_id = el.emp_id',
-                    array(
-                        'data_logo_cadastrado' => 'data'
-                    ),
-                    'left'
-                )
-                ->where(array('e.emp_id' => $id));
-
-        return $this->select($sql)->current();
-    }
-
-    public function loadByVagaId($id)
-    {
-        $sql = $this->getSelect(array('e' => $this->tableName))
-                ->join(array('v' => 'vag'), 'e.emp_id = v.emp_id')
-                ->where(array('v.vag_id' => $id));
-
-        return $this->select($sql)->current();
     }
 
     /**

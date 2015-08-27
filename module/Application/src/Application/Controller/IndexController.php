@@ -21,10 +21,16 @@ class IndexController extends AbstractActionController
         $renderer->headMeta()->appendName('keywords', 'contabilidade-fiscal');
         $renderer->headMeta()->appendName('description', 'Escrituracao fiscal, contabilidade de empresas');
         
-        $mapperEmpresa = $this->getServiceLocator()->get('Application\Mapper\Empresa');
+        $mapperEmpresa = $this
+                        ->getServiceLocator()
+                        ->get('Application\Mapper\Empresa');
 
-        $nomeEmpresa = $mapperEmpresa->loadByNomeFantasia('Contjet')->current()->getNomeFantasia();
-        $renderer->headTitle("ADMIN | {$nomeEmpresa}");
+        $login = $mapperEmpresa
+                        ->getByValues(array('enderecoId'=>1))
+                        ->current()
+                        ->getNomeFantasia();
+
+        $renderer->headTitle("ADMIN | {$login}");
 
         return new ViewModel();
     }

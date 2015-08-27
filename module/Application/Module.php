@@ -44,15 +44,9 @@ class Module
                 /*
                  * Configurações de Mappers
                  */
-                'Application\Mapper\Empresa' =>
-                 function ($sm) {
-                    $mapper = new \Application\Mapper\Empresa();
-                    $dbConfig = $sm->get('Configuration')['db'];
-                    $mapper->setDbAdapter(new \Zend\Db\Adapter\Adapter($dbConfig))
-                            ->setentityprototype(new Entity\Empresa())
-                            ->setHydrator(new Mapper\Hydrator\Empresa());
-                    return $mapper;
-                 },
+                'Application\Mapper\Empresa' => 'Application\Factory\Mapper\Empresa',
+                'Application\Mapper\Endereco' => 'Application\Factory\Mapper\Endereco',
+                'Application\Mapper\Usuario' => 'Application\Factory\Mapper\Usuario',
             )
         );
     }                        
