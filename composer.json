@@ -1,14 +1,14 @@
 {
-    "name": "zendframework/skeleton-application",
-    "description": "Skeleton Application for ZF2",
-    "license": "BSD-3-Clause",
+    "name": "iERP",
+    "description": "ERP CONTABIL FISCAL",
     "keywords": [
-        "framework",
-        "zf2"
+        "contabil",
+        "fiscal"
     ],
     "homepage": "http://framework.zend.com/",
     "require": {
         "php": ">=5.5",
-        "zendframework/zendframework": "~2.5"
+        "zendframework/zendframework": "~2.5",
+        "zf-commons/zfc-base": "0.1.2"
     }
 }
