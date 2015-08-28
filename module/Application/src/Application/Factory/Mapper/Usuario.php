@@ -19,7 +19,7 @@ class Usuario implements FactoryInterface
         $dbConfig = $serviceLocator->get('Configuration')['db'];
         $mapper
             ->setDbAdapter(new \Zend\Db\Adapter\Adapter($dbConfig))
-            ->setentityprototype(new \Application\Entity\Usuario())
+            ->setEntityPrototype(new \Application\Entity\Usuario())
             ->setHydrator(new \Application\Mapper\Hydrator\Usuario());
 
         return $mapper;

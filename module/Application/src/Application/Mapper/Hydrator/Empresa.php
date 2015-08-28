@@ -15,4 +15,9 @@ class Empresa extends Hydrator
             'enderecoId' => 'endereco_id'
         );
     }
+
+    protected function getTemporary()
+    {
+        return array('endereco','usuario');
+    }
 }

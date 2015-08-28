@@ -19,7 +19,7 @@ class Endereco implements FactoryInterface
         $dbConfig = $serviceLocator->get('Configuration')['db'];
         $mapper
             ->setDbAdapter(new \Zend\Db\Adapter\Adapter($dbConfig))
-            ->setentityprototype(new \Application\Entity\Endereco())
+            ->setEntityPrototype(new \Application\Entity\Endereco())
             ->setHydrator(new \Application\Mapper\Hydrator\Endereco());
 
         return $mapper;

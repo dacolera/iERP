@@ -54,26 +54,35 @@ class Empresa extends AbstractMapper
      * @param \Empresa\Entity\Empresa
      * @return ResultInterface
      */
-    public function save(EmpresaEntity $empresa, UsuarioEntity $usuario, EnderecoEntity $endereco)
+    public function save(EmpresaEntity $empresa)
     {
-        try {
-            $usrId = (int)$this->usuarioMapper->insert($usuario)->getGeneratedValue();
-        } catch (\Exception $e) {
-            print $e->getMessage();
-            exit;
-        }
+        $db = $this->getDbAdapter();
+        $con = $db->getDriver()->getConnection();
+        $con->beginTransaction();
 
         try {
-            $endId = (int)$this->enderecoMapper->insert($endereco)->getGeneratedValue();
-        } catch (\Exception $e) {
-            print $e->getMessage();
-            exit;
-        }
-
-        $empresa
-            ->setUsrId($usrId)
-            ->setEnderecoId($endId);
-
-        return parent::insert($empresa);
-    }
+            if (!$empresa->getId()) {
+                $empresa
+                    ->setUsrId(
+                        $this->usuarioMapper->insert($empresa->getUsuario())->getGeneratedValue()
+                    )
+                    ->setEnderecoId(
+                        $this->enderecoMapper->insert($empresa->getEndereco())->getGeneratedValue()
+                    );
+                parent::insert($empresa);
+            } else {
+                $this->usuarioMapper->update($empresa->getUsuario(), $empresa->getUsuario()->getId());
+                $this->enderecoMapper->update($empresa->getEndereco(), $empresa->getEndereco()->getId());
+                $empresa
+                    ->setUsrId($empresa->getUsuario()->getId())
+                    ->setEnderecoId($empresa->getEndereco()->getId());
+                    
+                parent::update($empresa, $empresa->getId());
+            } 
+            $con->commit();
+        } catch (Exception $e) {
+            $con->rollback();
+            throw $e;
+        }        
+    }   
 }

@@ -22,7 +22,7 @@ class Empresa implements FactoryInterface
         $dbConfig = $serviceLocator->get('Configuration')['db'];
         $mapper
             ->setDbAdapter(new \Zend\Db\Adapter\Adapter($dbConfig))
-            ->setentityprototype(new \Application\Entity\Empresa())
+            ->setEntityPrototype(new \Application\Entity\Empresa())
             ->setHydrator(new \Application\Mapper\Hydrator\Empresa());
 
         return $mapper;

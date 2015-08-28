@@ -6,10 +6,12 @@ class Empresa
 {
     protected $id;
     protected $usrId;
+    protected $usuario;
     protected $razaoSocial;
     protected $nomeFantasia;
     protected $cnpj;
     protected $enderecoId;
+    protected $endereco;
     protected $inscricaoMunicipal;
     protected $inscricaoEstadual;
     protected $CNAEPrincipal;
@@ -45,6 +47,17 @@ class Empresa
     public function setUsrId($usrId)
     {
         $this->usrId = $usrId;
+        return $this;
+    }
+
+    public function getUsuario()
+    {
+        return $this->usuario;
+    }
+
+    public function setUsuario(Usuario $usuario)
+    {
+        $this->usuario = $usuario;
         return $this;
     }
 
@@ -89,6 +102,17 @@ class Empresa
     public function setEnderecoId($enderecoId)
     {
         $this->enderecoId = $enderecoId;
+        return $this;
+    }
+
+    public function getEndereco()
+    {
+        return $this->endereco;
+    }
+
+    public function setEndereco(Endereco $endereco)
+    {
+        $this->endereco = $endereco;
         return $this;
     }
 
@@ -256,4 +280,6 @@ class Empresa
         $this->vencimentoContrato = $vencimentoContrato;
         return $this;
     }
+
+
 }

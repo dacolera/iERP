@@ -27,19 +27,12 @@ class IndexController extends AbstractActionController
 
         $renderer->headTitle("ADMIN | ");
 
-
-        $entityEmp = new \Application\Entity\Empresa();
-        $entityEmp
-            ->setRazaoSocial('empresa teste Ltda')
-            ->setNomeFantasia('Emp teste')
-            ->setCnpj('4736493842348230-8');
-
         $entityUser = new \Application\Entity\Usuario();
         $entityUser
             ->setDataCadastro(date('Y-m-d H:i:s'))
             ->setEmail('joao@contjet.com.br')
             ->setLogin('antunes')
-            ->setSenha(md5('1q2w3e'))
+            ->setSenha('1q2w3e')
             ->setOrigem('C')
             ->setStatus('A');
 
@@ -52,8 +45,16 @@ class IndexController extends AbstractActionController
             ->setCep('12567-008')
             ->setEstado('SP');
 
+         $entityEmp = new \Application\Entity\Empresa();
+         $entityEmp
+            ->setUsuario($entityUser)
+            ->setEndereco($entityEnd)
+            ->setRazaoSocial('empresa teste Ltda')
+            ->setNomeFantasia('Emp teste')
+            ->setCnpj('47364938423482308');   
+
         try {
-            $mapperEmpresa->save($entityEmp, $entityUser, $entityEnd);
+            $mapperEmpresa->save($entityEmp);
         } catch (\Exception $e) {
             print $e->getMessage();
             exit;

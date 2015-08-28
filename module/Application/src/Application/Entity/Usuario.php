@@ -14,7 +14,7 @@ class Usuario
 
 	public function getId()
 	{
-		return $this->id;
+		return (int) $this->id;
 	}
 
 	public function setId($id)
@@ -63,7 +63,7 @@ class Usuario
 
 	public function setSenha($senha)
 	{
-		$this->senha = $senha;
+		$this->senha = md5($senha);
 		return $this;
 	}
 
