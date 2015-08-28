@@ -12,8 +12,7 @@ class Empresa extends Hydrator
     public function getMap()
     {
         return array(
-           'id' => 'usr_id',
-           'enderecoId' => 'endereco_id'     
+            'enderecoId' => 'endereco_id'
         );
     }
 }

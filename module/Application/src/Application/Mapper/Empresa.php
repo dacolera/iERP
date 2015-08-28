@@ -3,14 +3,26 @@
 namespace Application\Mapper;
 
 use Application\Entity\Empresa as EmpresaEntity;
-use Zend\Db\Sql\Select;
-use Zend\Db\Sql\Expression;
-use Zend\Db\Sql\Predicate\Like;
+use Application\Entity\Usuario as UsuarioEntity;
+use Application\Entity\Endereco as EnderecoEntity;
+
+
 
 class Empresa extends AbstractMapper
 {
 
     protected $tableName = 'emp';
+
+    protected $usuarioMapper;
+
+    protected $enderecoMapper;
+
+    public function __construct(Usuario $usuario, Endereco $endereco)
+    {
+        $this->usuarioMapper  = $usuario;
+
+        $this->enderecoMapper = $endereco;
+    }
 
     /**
      * carrega empresa pelo nome fantasia
@@ -42,12 +54,26 @@ class Empresa extends AbstractMapper
      * @param \Empresa\Entity\Empresa
      * @return ResultInterface
      */
-    public function save(EmpresaEntity $empresa)
+    public function save(EmpresaEntity $empresa, UsuarioEntity $usuario, EnderecoEntity $endereco)
     {
-        $return = parent::insert($empresa);
-        $empresa->setId(
-            $return->getGeneratedValue()
-        );
-        return $return;
+        try {
+            $usrId = (int)$this->usuarioMapper->insert($usuario)->getGeneratedValue();
+        } catch (\Exception $e) {
+            print $e->getMessage();
+            exit;
+        }
+
+        try {
+            $endId = (int)$this->enderecoMapper->insert($endereco)->getGeneratedValue();
+        } catch (\Exception $e) {
+            print $e->getMessage();
+            exit;
+        }
+
+        $empresa
+            ->setUsrId($usrId)
+            ->setEnderecoId($endId);
+
+        return parent::insert($empresa);
     }
 }

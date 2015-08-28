@@ -20,18 +20,44 @@ class IndexController extends AbstractActionController
         
         $renderer->headMeta()->appendName('keywords', 'contabilidade-fiscal');
         $renderer->headMeta()->appendName('description', 'Escrituracao fiscal, contabilidade de empresas');
-        
+
         $mapperEmpresa = $this
                         ->getServiceLocator()
                         ->get('Application\Mapper\Empresa');
 
-        $login = $mapperEmpresa
-                        ->getByValues(array('enderecoId'=>1))
-                        ->current()
-                        ->getNomeFantasia();
+        $renderer->headTitle("ADMIN | ");
 
-        $renderer->headTitle("ADMIN | {$login}");
 
+        $entityEmp = new \Application\Entity\Empresa();
+        $entityEmp
+            ->setRazaoSocial('empresa teste Ltda')
+            ->setNomeFantasia('Emp teste')
+            ->setCnpj('4736493842348230-8');
+
+        $entityUser = new \Application\Entity\Usuario();
+        $entityUser
+            ->setDataCadastro(date('Y-m-d H:i:s'))
+            ->setEmail('joao@contjet.com.br')
+            ->setLogin('antunes')
+            ->setSenha(md5('1q2w3e'))
+            ->setOrigem('C')
+            ->setStatus('A');
+
+        $entityEnd = new \Application\Entity\Endereco();
+        $entityEnd
+            ->setLogradouro('Avenida Pompeia')
+            ->setNumero('234')
+            ->setComplemento('ao lado do estadio do palmeiras')
+            ->setMunicipio('são paulo')
+            ->setCep('12567-008')
+            ->setEstado('SP');
+
+        try {
+            $mapperEmpresa->save($entityEmp, $entityUser, $entityEnd);
+        } catch (\Exception $e) {
+            print $e->getMessage();
+            exit;
+        }
         return new ViewModel();
     }
     

@@ -15,7 +15,10 @@ class Empresa implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $mapper = new \Application\Mapper\Empresa();
+        $mapper = new \Application\Mapper\Empresa(
+            $serviceLocator->get('Application\Mapper\Usuario'),
+            $serviceLocator->get('Application\Mapper\Endereco')
+        );
         $dbConfig = $serviceLocator->get('Configuration')['db'];
         $mapper
             ->setDbAdapter(new \Zend\Db\Adapter\Adapter($dbConfig))
