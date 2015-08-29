@@ -8,6 +8,7 @@ class Endereco
 	protected $logradouro;
 	protected $numero;
 	protected $complemento;
+	protected $bairro;
 	protected $municipio;
 	protected $cep;
 	protected $estado;
@@ -53,6 +54,17 @@ class Endereco
 	public function setComplemento($complemento)
 	{
 		$this->complemento = $complemento;
+		return $this;
+	}
+
+	public function getBairro()
+	{
+		return $this->bairro;
+	}
+
+	public function setBairro($bairro)
+	{
+		$this->bairro = $bairro;
 		return $this;
 	}
 

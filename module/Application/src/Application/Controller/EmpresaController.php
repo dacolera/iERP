@@ -39,6 +39,7 @@ class EmpresaController  extends AbstractActionController{
                 ->setLogradouro($dados['logradouro'])
                 ->setNumero($dados['numero'])
                 ->setComplemento($dados['complemento'])
+                ->setBairro($dados['bairro'])
                 ->setMunicipio($dados['municipio'])
                 ->setCep($dados['cep'])
                 ->setEstado($dados['estado']);
