@@ -76,13 +76,13 @@ class Empresa extends AbstractMapper
                 $empresa
                     ->setUsrId($empresa->getUsuario()->getId())
                     ->setEnderecoId($empresa->getEndereco()->getId());
-                    
+
                 parent::update($empresa, $empresa->getId());
-            } 
+            }
             $con->commit();
         } catch (Exception $e) {
             $con->rollback();
             throw $e;
-        }        
+        }
     }   
 }

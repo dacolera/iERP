@@ -26,40 +26,6 @@ class IndexController extends AbstractActionController
                         ->get('Application\Mapper\Empresa');
 
         $renderer->headTitle("ADMIN | ");
-
-        $entityUser = new \Application\Entity\Usuario();
-        $entityUser
-            ->setDataCadastro(date('Y-m-d H:i:s'))
-            ->setEmail('joao@contjet.com.br')
-            ->setLogin('antunes')
-            ->setSenha('1q2w3e')
-            ->setOrigem('C')
-            ->setStatus('A');
-
-        $entityEnd = new \Application\Entity\Endereco();
-        $entityEnd
-            ->setLogradouro('Avenida Pompeia')
-            ->setNumero('234')
-            ->setComplemento('ao lado do estadio do palmeiras')
-            ->setMunicipio('são paulo')
-            ->setCep('12567-008')
-            ->setEstado('SP');
-
-         $entityEmp = new \Application\Entity\Empresa();
-         $entityEmp
-            ->setUsuario($entityUser)
-            ->setEndereco($entityEnd)
-            ->setRazaoSocial('empresa teste Ltda')
-            ->setNomeFantasia('Emp teste')
-            ->setCnpj('47364938423482308');   
-
-        try {
-            $mapperEmpresa->save($entityEmp);
-        } catch (\Exception $e) {
-            print $e->getMessage();
-            exit;
-        }
-        return new ViewModel();
     }
     
     public function formsAction()

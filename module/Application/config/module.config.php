@@ -70,6 +70,16 @@ return array(
                     ),
                 ),
             ),
+            'cadastro' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route'    => '/cadastro',
+                    'defaults' => array(
+                        'controller' => 'Application\Controller\Empresa',
+                        'action'     => 'index',
+                    ),
+                ),
+            ),
             'tables' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
@@ -113,7 +123,8 @@ return array(
     ),
     'controllers' => array(
         'invokables' => array(
-            'Application\Controller\Index' => 'Application\Controller\IndexController'
+            'Application\Controller\Index' => 'Application\Controller\IndexController',
+            'Application\Controller\Empresa' => 'Application\Controller\EmpresaController'
         ),
     ),
     'view_manager' => array(
