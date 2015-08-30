@@ -116,6 +116,19 @@ return array(
                     ),
                 ),
             ),
+            'suspender' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route'    => '/suspender-ativar-toogle/:id/:status',
+                    'constraints' => array(
+                        'id' => '\d+'
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Application\Controller\Empresa',
+                        'action'     => 'suspenderAtivarEmpresaToogleAjax',
+                    ),
+                ),
+            ),
             'listar' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(

@@ -102,11 +102,32 @@ class EmpresaController  extends AbstractActionController{
                $model->setTerminal(true);
                $arrayOrdenado = $serviceEmpresa->pegarEmpresasOrdenadas($campo, $order);
                echo  json_encode($arrayOrdenado);
-                die;
+               exit;
             }
         }
+        $this->redirect()->toRoute('listar');
+    }
 
-
+    public function suspenderAtivarEmpresaToogleAjaxAction()
+    {
+        if($this->getRequest()->isXmlHttpRequest()){
+            $id =  $this->params()->fromRoute('id', false);
+            $status = $this->params()->fromRoute('status', false);
+            if($id && $status) {
+                $serviceEmpresa = $this->getServiceLocator()->get('Application\Service\Empresa');
+                $model = new ViewModel();
+                $model->setTerminal(true);
+                try {
+                    $serviceEmpresa->suspenderAtivarToogleEmpresa($id, $status);
+                    $retorno = array('status' => 'ok');
+                } catch (\Exception $e) {
+                    throw $e;
+                }
+                echo  json_encode($retorno);
+                exit;
+            }
+        }
+        $this->redirect()->toRoute('listar');
     }
 
     public function exportarAction()

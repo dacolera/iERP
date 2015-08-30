@@ -92,7 +92,12 @@ class Empresa
     {
         $mapperEmpresa = $this->getService()->get('Application\Mapper\Empresa');
 
-        return $mapperEmpresa->loadAllEmpresas();
+        $empresas = $mapperEmpresa->loadAllEmpresas();
+        $empresasArray = [];
+        foreach($empresas->getDataSource() as $empresa) {
+            $empresasArray[] = $empresa;
+        }
+        return $empresasArray;
     }
 
     public function pegarEmpresaPorId($id)
@@ -108,7 +113,7 @@ class Empresa
 
         $empresas = $mapperEmpresa->loadEmpresasInOrder($campo, $order);
         $empresasOrdenadas = [];
-        foreach($empresas as $empresa) {
+        foreach($empresas->getdataSource() as $empresa) {
             $empresasOrdenadas[] = $empresa;
         }
         return $empresasOrdenadas;
@@ -118,5 +123,12 @@ class Empresa
     {
         $mapperEmpresa = $this->getService()->get('Application\Mapper\Empresa');
         return  $mapperEmpresa->deletarEmpresa($id);
+    }
+
+    public function suspenderAtivarToogleEmpresa($id, $status)
+    {
+        $mapperEmpresa = $this->getService()->get('Application\Mapper\Empresa');
+        $novoStatus = $status == 'Ativa' ? 'A' : 'S';
+        return  $mapperEmpresa->suspenderAtivarToogleEmpresa($id, $novoStatus);
     }
 }

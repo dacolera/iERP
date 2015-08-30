@@ -41,10 +41,10 @@ class Empresa extends AbstractMapper
     {
         $sql = $this->getSelect()
             ->join('usr',
-                'usr.usr_id = emp.usr_id', array()
+                'usr.usr_id = emp.usr_id'
             )
             ->join('endereco',
-                'endereco.end_id = emp.end_id', array()
+                'endereco.end_id = emp.end_id'
             );
 
         return $this->select($sql);
@@ -66,7 +66,12 @@ class Empresa extends AbstractMapper
 
     public function deletarEmpresa($id) {
 
-        $this->delete('id ='. $id);
+        return $this->delete('id ='. $id);
+    }
+
+    public function suspenderAtivarToogleEmpresa($id, $status)
+    {
+        return $this->usuarioMapper->update(array("status" => $status), sprintf('usr_id = %s', $id));
     }
 
     public function loadEmpresasInOrder($campo, $order)
@@ -79,7 +84,7 @@ class Empresa extends AbstractMapper
                 'endereco.end_id = emp.end_id'
             )
             ->order(array($campo => $order));
-        return $this->select($sql)->getDataSource();
+        return $this->select($sql);
     }
 
     /**
@@ -90,7 +95,7 @@ class Empresa extends AbstractMapper
     public function loadByStatusAndCnpj($status, $cnpj)
     {
         $sql = $this->getSelect($this->tableName)
-                ->where(array('status' => $status, 'cnpj'=>$cnpj));
+                ->where(array('status' => $status, 'cnpj' => $cnpj));
 
         return $this->select($sql);
     }
@@ -127,8 +132,8 @@ class Empresa extends AbstractMapper
                 $end_id = $arrayEnd['id'];
                 unset($arrayEnd['id']);
 
-                $this->usuarioMapper->update($arrayUser, "usr_id = ". $usr_id);
-                $this->enderecoMapper->update($arrayEnd, "end_id = ". $end_id);
+                $this->usuarioMapper->update($arrayUser, sprintf("usr_id = %s", $usr_id));
+                $this->enderecoMapper->update($arrayEnd, sprintf("end_id = %s", $end_id));
                 $empresa
                     ->setUsrId($empresa->getUsuario()->getId())
                     ->setEnderecoId($empresa->getEndereco()->getId());
@@ -137,7 +142,7 @@ class Empresa extends AbstractMapper
                 $emp_id = $arrayEmp['id'];
                 unset($arrayEmp['id']);
 
-                parent::update($arrayEmp, "id = ". $emp_id);
+                parent::update($arrayEmp, sprintf("id = %s", $emp_id));
             }
             $con->commit();
         } catch (Exception $e) {

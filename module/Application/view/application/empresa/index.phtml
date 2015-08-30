@@ -34,27 +34,31 @@
                                         <th ord="desc" campo="regime_tributacao"><i class="fa fa-fw"></i> Regime de Tributação</th>
                                         <th ord="desc" campo="valor_honorarios"><i class="fa fa-fw"></i> Valor dos Honorários</th>
                                         <th ord="desc" campo="vencimento_honorarios"><i class="fa fa-fw"></i> Vencimento dos Honorários</th>
+                                        <th ord="desc" campo="status"><i class="fa fa-fw"></i> Status</th>
                                         <th>Editar</th>
                                         <th>Excluir</th>
+                                        <th>Suspender</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="emp_content">
                                 <?php
                                     if($empresas) {
                                         foreach($empresas as $empresa) {
                                 ?>
                                     <tr>
-                                        <td><?= $empresa->getId() ?></td>
-                                        <td><?= $empresa->getRazaoSocial() ?></td>
-                                        <td><?= $empresa->getCnpj() ?></td>
-                                        <td><?= $empresa->getInscricaoMunicipal() ?></td>
-                                        <td><?= $empresa->getInscricaoEstadual() ?></td>
-                                        <td><?= $empresa->getCNAEPrincipal() ?></td>
-                                        <td><?= $empresa->getRegimeTributacao() ?></td>
-                                        <td><?= $empresa->getValorHonorarios() ?></td>
-                                        <td><?= $empresa->getVencimentoHonorarios() ?></td>
-                                        <td class="text-center"><a href="<?php echo $this->basePath()?>/editar/<?php echo $empresa->getId() ?>"><i class="fa fa-fw fa-edit"></i></a></td>
-                                        <td class="text-center"><a href="<?php echo $this->basePath()?>/deletar/<?php echo $empresa->getId() ?>"><i class="fa fa-fw fa-times"></i></a></td>
+                                        <td><?= $empresa['id'] ?></td>
+                                        <td><?= $empresa['razao_social'] ?></td>
+                                        <td><?= $empresa['cnpj'] ?></td>
+                                        <td><?= $empresa['inscricao_municipal'] ?></td>
+                                        <td><?= $empresa['inscricao_estadual'] ?></td>
+                                        <td><?= $empresa['CNAE_principal'] ?></td>
+                                        <td><?= $empresa['regime_tributacao'] ?></td>
+                                        <td><?= $empresa['valor_honorarios'] ?></td>
+                                        <td><?= $empresa['vencimento_honorarios'] ?></td>
+                                        <td class="text-center status-emp-<?= $empresa['usr_id'] ?>"><? print $empresa['status'] == 'A' ? 'Ativa' : 'Inativa' ?></td>
+                                        <td class="text-center"><a href="<?php echo $this->basePath()?>/editar/<?php echo $empresa['id'] ?>"><i class="fa fa-fw fa-edit"></i></a></td>
+                                        <td class="text-center"><a href="<?php echo $this->basePath()?>/deletar/<?php echo $empresa['id'] ?>"><i class="fa fa-fw fa-times"></i></a></td>
+                                        <td class="suspender text-center" emp="<?= $empresa['usr_id'] ?>"><i class="fa fa-fw fa-lock"></i></td>
                                     </tr>
                                 <?php
                                         }
