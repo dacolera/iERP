@@ -138,19 +138,44 @@ $(function(){
     var erros = 0;
     //submit form cadastrar empresa
     $('.emp-cad').click(function(e){
+
         e.preventDefault();
+
         $('#emp-cad-form input.obr').each(function(){
             App.valida(this);
-
         });
+
         erros = $('#emp-cad-form .has-error').length;
+
         if(erros > 0)
             return false;
         $('#emp-cad-form').submit();
-
     });
 
     $('#emp-cad-form input.obr').blur(function(){
         App.valida(this);
+    });
+
+    $('#ordered > th[ord]').each(function(){
+        $(this).click(function(){
+            if($(this).attr('ord') == 'desc')
+            {
+                $('#ordered > th[ord] i').removeClass('fa-arrow-down').removeClass('fa-arrow-up');
+                $(this).children('i').removeClass('fa-arrow-down').addClass('fa-arrow-up');
+                $(this).attr('ord','asc');
+            } else {
+                $('#ordered > th[ord] i').removeClass('fa-arrow-down').removeClass('fa-arrow-up');
+                $(this).children('i').removeClass('fa-arrow-up').addClass('fa-arrow-down');
+                $(this).attr('ord','desc');
+            }
+
+            $.ajax({
+                url : 'http://localhost/ierp/public/ordenar/'+$(this).attr('campo')+'/'+$(this).attr('ord'),
+                success : function(data) {
+                    $data = eval(data.split('<!')[0]);
+                    console.log(data);
+                }
+            });
+        });
     });
 });

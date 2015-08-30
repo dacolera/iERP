@@ -3,10 +3,6 @@
 namespace Application\Mapper;
 
 use Application\Entity\Empresa as EmpresaEntity;
-use Application\Entity\Usuario as UsuarioEntity;
-use Application\Entity\Endereco as EnderecoEntity;
-
-
 
 class Empresa extends AbstractMapper
 {
@@ -35,6 +31,55 @@ class Empresa extends AbstractMapper
                 ->where(array('nomefantasia' => $nomeFantasia));
 
         return $this->select($sql);
+    }
+
+    /**
+     * carrega todas as empresas
+     * @return \Zend\Db\ResultSet\HydratingResultSet;
+     */
+    public function loadAllEmpresas()
+    {
+        $sql = $this->getSelect()
+            ->join('usr',
+                'usr.usr_id = emp.usr_id', array()
+            )
+            ->join('endereco',
+                'endereco.end_id = emp.end_id', array()
+            );
+
+        return $this->select($sql);
+    }
+
+    public function loadEmpresaById($id)
+    {
+        $sql = $this->getSelect()
+            ->join('usr',
+                'usr.usr_id = emp.usr_id'
+            )
+            ->join('endereco',
+                'endereco.end_id = emp.end_id'
+            )
+            ->where(array('emp.id' => $id));
+
+        return $this->select($sql)->getDataSource()->current();
+    }
+
+    public function deletarEmpresa($id) {
+
+        $this->delete('id ='. $id);
+    }
+
+    public function loadEmpresasInOrder($campo, $order)
+    {
+        $sql = $this->getSelect()
+            ->join('usr',
+                'usr.usr_id = emp.usr_id'
+            )
+            ->join('endereco',
+                'endereco.end_id = emp.end_id'
+            )
+            ->order(array($campo => $order));
+        return $this->select($sql)->getDataSource()->current();
     }
 
     /**
@@ -71,13 +116,28 @@ class Empresa extends AbstractMapper
                     );
                 parent::insert($empresa);
             } else {
-                $this->usuarioMapper->update($empresa->getUsuario(), $empresa->getUsuario()->getId());
-                $this->enderecoMapper->update($empresa->getEndereco(), $empresa->getEndereco()->getId());
+                //entitys to array
+
+                $arrayUser = $this->usuarioMapper->getHydrator()->extract($empresa->getUsuario());
+
+                $usr_id = $arrayUser['id'];
+                unset($arrayUser['id']);
+
+                $arrayEnd  = $this->enderecoMapper->getHydrator()->extract($empresa->getEndereco());
+                $end_id = $arrayEnd['id'];
+                unset($arrayEnd['id']);
+
+                $this->usuarioMapper->update($arrayUser, "usr_id = ". $usr_id);
+                $this->enderecoMapper->update($arrayEnd, "end_id = ". $end_id);
                 $empresa
                     ->setUsrId($empresa->getUsuario()->getId())
                     ->setEnderecoId($empresa->getEndereco()->getId());
 
-                parent::update($empresa, $empresa->getId());
+                $arrayEmp  = $this->getHydrator()->extract($empresa);
+                $emp_id = $arrayEmp['id'];
+                unset($arrayEmp['id']);
+
+                parent::update($arrayEmp, "id = ". $emp_id);
             }
             $con->commit();
         } catch (Exception $e) {

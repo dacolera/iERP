@@ -8,6 +8,7 @@
 
 namespace Application\Controller;
 
+use Application\Utils\DateConversion;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
@@ -16,65 +17,95 @@ class EmpresaController  extends AbstractActionController{
 
     public function indexAction()
     {
-        return new ViewModel();
+
+        $empresaService = $this->getServiceLocator()->get('\Application\Service\Empresa');
+
+        $dados = $empresaService->pegarEmpresas();
+
+        $model = new ViewModel();
+        $model->setVariable('empresas', $dados);
+        //do something here
+        return $model;
     }
 
     public function cadastrarAction()
     {
         if($this->getRequest()->isPost()) {
 
-            $dados = $this->getRequest()->getPost();
-
-            $entityUser = new \Application\Entity\Usuario();
-            $entityUser
-                ->setDataCadastro(date('Y-m-d H:i:s'))
-                ->setEmail($dados['email'])
-                ->setLogin($dados['login'])
-                ->setSenha($dados['senha'])
-                ->setOrigem('C')
-                ->setStatus('A');
-
-            $entityEnd = new \Application\Entity\Endereco();
-            $entityEnd
-                ->setLogradouro($dados['logradouro'])
-                ->setNumero($dados['numero'])
-                ->setComplemento($dados['complemento'])
-                ->setBairro($dados['bairro'])
-                ->setMunicipio($dados['municipio'])
-                ->setCep($dados['cep'])
-                ->setEstado($dados['estado']);
-
-            $entityEmp = new \Application\Entity\Empresa();
-            $entityEmp
-                ->setUsuario($entityUser)
-                ->setEndereco($entityEnd)
-                ->setRazaoSocial($dados['razao-social'])
-                ->setNomeFantasia($dados['nome-fantasia'])
-                ->setCnpj($dados['cnpj']);
-
+            $serviceEmpresa = $this->getServiceLocator()->get('Application\Service\Empresa');
             try {
-                $mapperEmpresa = $this->getServiceLocator()->get('Application\Mapper\Empresa');
-                $mapperEmpresa->save($entityEmp);
-            } catch (\Exception $e) {
-                print $e->getMessage();
-                exit;
+                $serviceEmpresa->saveEmpresa($this->getRequest()->getPost());
+            } catch (\Eception $e) {
+                throw $e;
             }
 
-            $model =  new ViewModel();
-            $model->setTemplate('application/empresa/sucesso.phtml');
-
-            return $model;
+            $this->redirect()->toRoute('listar');
         }
-      die('erro ao cadastrar empresa');
     }
 
     public function editarAction()
     {
 
+
+        if($this->getRequest()->isPost()) {
+            $serviceEmpresa = $this->getServiceLocator()->get('Application\Service\Empresa');
+
+            try {
+                $serviceEmpresa->saveEmpresa($this->getRequest()->getPost());
+            } catch (\Eception $e) {
+                throw $e;
+            }
+
+            $this->redirect()->toRoute('listar');
+        }
+
+        $id =  $this->params()->fromRoute('id', false);
+
+        if($id) {
+            $serviceEmpresa = $this->getServiceLocator()->get('Application\Service\Empresa');
+            $empresa = $serviceEmpresa->pegarEmpresaPorId($id);
+
+            $model =  new ViewModel();
+            $model->setVariable('empresa', $empresa);
+            $model->setVariable('id', $id);
+
+            return $model;
+        }
     }
 
-    public function excluirAction()
+    public function deletarAction()
     {
+        $id =  $this->params()->fromRoute('id', false);
+
+        if($id) {
+            $serviceEmpresa = $this->getServiceLocator()->get('Application\Service\Empresa');
+
+            try {
+                $serviceEmpresa->deletarEmpresa($id);
+            } catch (\Exception $e) {
+                throw $e;
+            }
+
+            $this->redirect()->toRoute('listar');
+        }
+    }
+
+    public function ordenarAjaxAction()
+    {
+        if($this->getRequest()->isXmlHttpRequest()){
+            $campo =  $this->params()->fromRoute('campo', false);
+            $order =  $this->params()->fromRoute('order', false);
+
+            if($campo && $order) {
+                $serviceEmpresa = $this->getServiceLocator()->get('Application\Service\Empresa');
+               $model = new ViewModel();
+               $model->setTerminal(true);
+               $arrayOrdenado = $serviceEmpresa->pegarEmpresasOrdenadas($campo, $order);
+               $arrayOrdenado['data_cadastro'] = DateConversion::conversion($arrayOrdenado['data_cadastro']);
+               echo  json_encode($serviceEmpresa->pegarEmpresasOrdenadas($campo, $order));
+            }
+        }
+
 
     }
 

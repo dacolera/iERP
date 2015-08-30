@@ -4,7 +4,7 @@ namespace Application\Entity;
 
 class Usuario
 {
-	protected $id;
+	protected $usrId;
 	protected $dataCadastro;
 	protected $email;
 	protected $login;
@@ -14,12 +14,12 @@ class Usuario
 
 	public function getId()
 	{
-		return (int) $this->id;
+		return (int) $this->usrId;
 	}
 
 	public function setId($id)
 	{
-		$this->id = $id;
+		$this->usrId = $id;
 		return $this;
 	}
 

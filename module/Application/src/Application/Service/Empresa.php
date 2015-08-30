@@ -32,8 +32,86 @@ class Empresa
         return $this->serviceLocator;
     }
 
-    public function salvarEmpresa()
+    public function saveEmpresa($dados)
     {
+        $id = $dados['id'] ? $dados['id'] : null;
+        $usr_id = $dados['usr_id'] ? $dados['usr_id'] : null;
+        $end_id = $dados['end_id'] ? $dados['end_id'] : null;
 
+        $this->usuarioEntity
+            ->setId($usr_id)
+            ->setDataCadastro(date('Y-m-d H:i:s'))
+            ->setEmail($dados['email'])
+            ->setLogin($dados['login'])
+            ->setSenha($dados['senha'])
+            ->setOrigem('C')
+            ->setStatus('A');
+
+        $this->enderecoEntity
+            ->setId($end_id)
+            ->setLogradouro($dados['logradouro'])
+            ->setNumero($dados['numero'])
+            ->setComplemento($dados['complemento'])
+            ->setBairro($dados['bairro'])
+            ->setMunicipio($dados['municipio'])
+            ->setCep($dados['cep'])
+            ->setEstado($dados['estado']);
+
+        $this->empresaEntity
+             ->setId($id)
+             ->setUsuario($this->usuarioEntity)
+             ->setRazaoSocial($dados['razao-social'])
+             ->setNomeFantasia($dados['nome-fantasia'])
+             ->setCnpj($dados['cnpj'])
+             ->setEndereco($this->enderecoEntity)
+             ->setInscricaoMunicipal($dados['inscricao-municipal'])
+             ->setInscricaoEstadual($dados['inscricao-estadual'])
+             ->setCNAEPrincipal($dados['cnae-principal'])
+             ->setCNAESecundario($dados['cnae-secundario'])
+             ->setRegimeTributacao($dados['regime-tributacao'])
+             ->setValorHonorarios($dados['valor-honorarios'])
+             ->setVencimentoHonorarios($dados['vencimento-honorarios'])
+             ->setVencimentoProcuracaoCaixa($dados['vencimento-procuracao-caixa'])
+             ->setVencimentoProcuracaoRFB($dados['vencimento-procuracao-rfb'])
+             ->setCertificadoDigital($dados['certificado-digital'])
+             ->setSenhaWeb($dados['senha-web'])
+             ->setSenhaFazenda($dados['senha-fazenda'])
+             ->setTipoEmpresa($dados['tipo-empresa'])
+             ->setContrato($dados['contrato'])
+             ->setVencimentoContrato($dados['vencimento-contrato']);
+
+        try {
+            $mapperEmpresa = $this->getService()->get('Application\Mapper\Empresa');
+            $mapperEmpresa->save($this->empresaEntity);
+        } catch (\Exception $e) {
+           throw $e;
+        }
+    }
+
+    public function pegarEmpresas()
+    {
+        $mapperEmpresa = $this->getService()->get('Application\Mapper\Empresa');
+
+        return $mapperEmpresa->loadAllEmpresas();
+    }
+
+    public function pegarEmpresaPorId($id)
+    {
+        $mapperEmpresa = $this->getService()->get('Application\Mapper\Empresa');
+
+        return $mapperEmpresa->loadEmpresaById($id);
+    }
+
+    public function pegarEmpresasOrdenadas($campo, $order)
+    {
+        $mapperEmpresa = $this->getService()->get('Application\Mapper\Empresa');
+
+        return $mapperEmpresa->loadEmpresasInOrder($campo, $order);
+    }
+
+    public function deletarEmpresa($id)
+    {
+        $mapperEmpresa = $this->getService()->get('Application\Mapper\Empresa');
+        return  $mapperEmpresa->deletarEmpresa($id);
     }
 }

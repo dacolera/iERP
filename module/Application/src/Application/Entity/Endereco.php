@@ -4,7 +4,7 @@ namespace Application\Entity;
 
 class Endereco
 {
-	protected $id;
+	protected $endId;
 	protected $logradouro;
 	protected $numero;
 	protected $complemento;
@@ -15,12 +15,12 @@ class Endereco
 
 	public function getId()
 	{
-		return (int) $this->id;
+		return (int) $this->endId;
 	}
 
 	public function setId($id)
 	{
-		$this->id = $id;
+		$this->endId = $id;
 		return $this;
 	}
 

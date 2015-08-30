@@ -47,6 +47,17 @@ class Module
                 'Application\Mapper\Empresa' => 'Application\Factory\Mapper\Empresa',
                 'Application\Mapper\Endereco' => 'Application\Factory\Mapper\Endereco',
                 'Application\Mapper\Usuario' => 'Application\Factory\Mapper\Usuario',
+                'Application\Service\Empresa' => function($sm) {
+                    $empresaService = new \Application\Service\Empresa(
+                        new \Application\Entity\Empresa(),
+                        new \Application\Entity\Usuario(),
+                        new \Application\Entity\Endereco()
+                    );
+
+                    $empresaService->setService($sm);
+
+                    return $empresaService;
+                }
             )
         );
     }                        

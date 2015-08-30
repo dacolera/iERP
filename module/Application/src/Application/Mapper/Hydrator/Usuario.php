@@ -8,9 +8,4 @@ class Usuario extends Hydrator
     {
         return 'Application\Entity\Usuario';
     }
-
-    public function getMap()
-    {
-        return array();
-    }
 }

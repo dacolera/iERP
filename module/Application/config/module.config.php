@@ -70,10 +70,56 @@ return array(
                     ),
                 ),
             ),
-            'cadastro' => array(
+            'cadastrar' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
-                    'route'    => '/cadastro',
+                    'route'    => '/cadastrar',
+                    'defaults' => array(
+                        'controller' => 'Application\Controller\Empresa',
+                        'action'     => 'cadastrar',
+                    ),
+                ),
+            ),
+            'editar' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route'    => '/editar/:id',
+                    'constraints' => array(
+                        'id' => '\d+'
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Application\Controller\Empresa',
+                        'action'     => 'editar',
+                    ),
+                ),
+            ),
+            'deletar' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route'    => '/deletar/:id',
+                    'constraints' => array(
+                        'id' => '\d+'
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Application\Controller\Empresa',
+                        'action'     => 'deletar',
+                    ),
+                ),
+            ),
+            'ordenar' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route'    => '/ordenar/:campo/:order',
+                    'defaults' => array(
+                        'controller' => 'Application\Controller\Empresa',
+                        'action'     => 'ordenarAjax',
+                    ),
+                ),
+            ),
+            'listar' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route'    => '/listar',
                     'defaults' => array(
                         'controller' => 'Application\Controller\Empresa',
                         'action'     => 'index',
