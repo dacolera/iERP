@@ -13,7 +13,7 @@ class Usuario extends AbstractMapper
     public function loadById($id)
     {
         $sql = $this->getSelect($this->tableName)
-                ->where('id' , $id);
+                ->where('usr_id' , $id);
 
         return $this->select($sql);
     }

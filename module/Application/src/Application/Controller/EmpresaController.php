@@ -17,7 +17,6 @@ class EmpresaController  extends AbstractActionController{
 
     public function indexAction()
     {
-
         $empresaService = $this->getServiceLocator()->get('\Application\Service\Empresa');
 
         $dados = $empresaService->pegarEmpresas();
@@ -131,11 +130,6 @@ class EmpresaController  extends AbstractActionController{
     }
 
     public function exportarAction()
-    {
-
-    }
-
-    public function importar()
     {
 
     }

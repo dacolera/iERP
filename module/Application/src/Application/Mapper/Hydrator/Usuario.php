@@ -8,4 +8,9 @@ class Usuario extends Hydrator
     {
         return 'Application\Entity\Usuario';
     }
+
+    protected function getTemporary()
+    {
+        return array();
+    }
 }

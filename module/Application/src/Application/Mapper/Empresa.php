@@ -112,13 +112,20 @@ class Empresa extends AbstractMapper
 
         try {
             if (!$empresa->getId()) {
+
+                $arrUser = $this->usuarioMapper->getHydrator()->extract($empresa->getUsuario());
+                unset($arrUser['id']);
+                $arrEnd  = $this->enderecoMapper->getHydrator()->extract($empresa->getEndereco());
+                unset($arrEnd['id']);
+
                 $empresa
                     ->setUsrId(
-                        $this->usuarioMapper->insert($empresa->getUsuario())->getGeneratedValue()
+                        $this->usuarioMapper->insert($arrUser)->getGeneratedValue()
                     )
                     ->setEnderecoId(
-                        $this->enderecoMapper->insert($empresa->getEndereco())->getGeneratedValue()
+                        $this->enderecoMapper->insert($arrEnd)->getGeneratedValue()
                     );
+
                 parent::insert($empresa);
             } else {
                 //entitys to array

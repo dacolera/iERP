@@ -14,5 +14,10 @@ class Endereco extends Hydrator
         return array();
     }
 
+    protected function getTemporary()
+    {
+        return array();
+    }
+
 
 }
