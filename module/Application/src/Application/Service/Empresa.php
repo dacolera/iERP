@@ -106,7 +106,12 @@ class Empresa
     {
         $mapperEmpresa = $this->getService()->get('Application\Mapper\Empresa');
 
-        return $mapperEmpresa->loadEmpresasInOrder($campo, $order);
+        $empresas = $mapperEmpresa->loadEmpresasInOrder($campo, $order);
+        $empresasOrdenadas = [];
+        foreach($empresas as $empresa) {
+            $empresasOrdenadas[] = $empresa;
+        }
+        return $empresasOrdenadas;
     }
 
     public function deletarEmpresa($id)

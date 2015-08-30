@@ -172,8 +172,10 @@ $(function(){
             $.ajax({
                 url : 'http://localhost/ierp/public/ordenar/'+$(this).attr('campo')+'/'+$(this).attr('ord'),
                 success : function(data) {
-                    $data = eval(data.split('<!')[0]);
-                    console.log(data);
+                    var json = JSON.parse(data);
+                    for (i in json) {
+                        console.log(json[i]);
+                    }
                 }
             });
         });

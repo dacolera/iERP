@@ -101,8 +101,8 @@ class EmpresaController  extends AbstractActionController{
                $model = new ViewModel();
                $model->setTerminal(true);
                $arrayOrdenado = $serviceEmpresa->pegarEmpresasOrdenadas($campo, $order);
-               $arrayOrdenado['data_cadastro'] = DateConversion::conversion($arrayOrdenado['data_cadastro']);
-               echo  json_encode($serviceEmpresa->pegarEmpresasOrdenadas($campo, $order));
+               echo  json_encode($arrayOrdenado);
+                die;
             }
         }
 

@@ -79,7 +79,7 @@ class Empresa extends AbstractMapper
                 'endereco.end_id = emp.end_id'
             )
             ->order(array($campo => $order));
-        return $this->select($sql)->getDataSource()->current();
+        return $this->select($sql)->getDataSource();
     }
 
     /**
