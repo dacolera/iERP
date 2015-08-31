@@ -44,6 +44,7 @@
                                 <?php
                                     if($empresas) {
                                         foreach($empresas as $empresa) {
+                                          $status = $empresa['status'] == 'A' ? 'Ativa' : 'Inativa';  
                                 ?>
                                     <tr>
                                         <td><?= $empresa['id'] ?></td>
@@ -55,7 +56,7 @@
                                         <td><?= $empresa['regime_tributacao'] ?></td>
                                         <td><?= $empresa['valor_honorarios'] ?></td>
                                         <td><?= $empresa['vencimento_honorarios'] ?></td>
-                                        <td class="text-center status-emp-<?= $empresa['usr_id'] ?>"><? print $empresa['status'] == 'A' ? 'Ativa' : 'Inativa' ?></td>
+                                        <td class="text-center status-emp-<?= $empresa['usr_id'] ?>"><?=$status ?></td>
                                         <td class="text-center"><a href="<?php echo $this->basePath()?>/editar/<?php echo $empresa['id'] ?>"><i class="fa fa-fw fa-edit"></i></a></td>
                                         <td class="text-center"><a href="<?php echo $this->basePath()?>/deletar/<?php echo $empresa['id'] ?>"><i class="fa fa-fw fa-times"></i></a></td>
                                         <td class="suspender text-center" emp="<?= $empresa['usr_id'] ?>"><i class="fa fa-fw fa-lock"></i></td>

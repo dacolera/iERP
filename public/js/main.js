@@ -122,6 +122,14 @@
 
 
 $(function(){
+
+
+    //login no sistema
+
+    $("#login").click(function(){
+        $("#myModal").modal();
+    });
+
     var erros = 0;
     //submit form cadastrar empresa
     $('.emp-cad').click(function(e){
@@ -181,23 +189,6 @@ $(function(){
                         row += '<td class="text-center suspender" emp="'+json[i].usr_id+'"><i class="fa fa-fw fa-lock"></i></td>';
                         row += '</tr>';
                         $('#emp_content').append(row);
-                        //suspender empresa ajax
-
-                        $('.suspender').on('click', function(){
-
-                            var id = $(this).attr('emp');
-                            var status = $('.status-emp-'+id).text() == 'Ativa' ? 'Inativa' : 'Ativa';
-
-                            $.ajax({
-                                url: '/ierp/public/suspender-ativar-toogle/' + id +'/'+ status,
-                                success: function (data) {
-                                    var json = JSON.parse(data);
-                                    if (json.status == 'ok') {
-                                        $('.status-emp-'+id).text(status);
-                                    }
-                                }
-                            });
-                        });
                     }
                 }
             });
@@ -207,7 +198,7 @@ $(function(){
 
     //suspender empresa ajax
 
-    $('.suspender').on('click', function(){
+    $('tbody').on('click', '.suspender', function(){
 
         var id = $(this).attr('emp');
         var status = $('.status-emp-'+id).text() == 'Ativa' ? 'Inativa' : 'Ativa';
