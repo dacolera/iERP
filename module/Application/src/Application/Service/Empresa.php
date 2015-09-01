@@ -2,34 +2,29 @@
 
 namespace Application\Service;
 
-use Zend\ServiceManager\ServiceLocatorInterface;
 use \Application\Entity\Empresa as EmpresaEntity;
 use \Application\Entity\Usuario as UsuarioEntity;
 use \Application\Entity\Endereco as EnderecoEntity;
+use ZfcBase\EventManager\EventProvider;
+use Zend\ServiceManager\ServiceManagerAwareInterface;
+use Zend\ServiceManager\ServiceManager;
 
-class Empresa
+class Empresa extends EventProvider implements ServiceManagerAwareInterface
 {
-    protected $serviceLocator;
+    protected $serviceManager;
     protected $empresaEntity;
     protected $usuarioEntity;
     protected $enderecoEntity;
 
-    public function __construct(EmpresaEntity $empresa, UsuarioEntity $usuario, EnderecoEntity $endereco)
+    public function setServiceManager(ServiceManager $serviceManager)
     {
-        $this->empresaEntity  = $empresa;
-        $this->usuarioEntity  = $usuario;
-        $this->enderecoEntity = $endereco;
-    }
-
-    public function setService(ServiceLocatorInterface $serviceLocator)
-    {
-        $this->serviceLocator = $serviceLocator;
+        $this->serviceManager = $serviceManager;
         return $this;
     }
 
     public function getService()
     {
-        return $this->serviceLocator;
+        return $this->serviceManager;
     }
 
     public function saveEmpresa($dados)
@@ -40,7 +35,8 @@ class Empresa
         $status = $dados['status'] ? $dados['status'] : 'A';
         $origem = $dados['origem'] ? $dados['origem'] : 'C';
 
-        $this->usuarioEntity
+        $usuarioEntity = new UsuarioEntity;
+        $usuarioEntity
             ->setId($usr_id)
             ->setDataCadastro(date('Y-m-d H:i:s'))
             ->setEmail($dados['email'])
@@ -49,7 +45,8 @@ class Empresa
             ->setOrigem($origem)
             ->setStatus($status);
 
-        $this->enderecoEntity
+        $enderecoEntity = new EnderecoEntity;    
+        $enderecoEntity
             ->setId($end_id)
             ->setLogradouro($dados['logradouro'])
             ->setNumero($dados['numero'])
@@ -59,13 +56,14 @@ class Empresa
             ->setCep($dados['cep'])
             ->setEstado($dados['estado']);
 
-        $this->empresaEntity
+        $empresaEntity = new EmpresaEntity;
+        $empresaEntity
              ->setId($id)
-             ->setUsuario($this->usuarioEntity)
+             ->setUsuario($usuarioEntity)
              ->setRazaoSocial($dados['razao-social'])
              ->setNomeFantasia($dados['nome-fantasia'])
              ->setCnpj($dados['cnpj'])
-             ->setEndereco($this->enderecoEntity)
+             ->setEndereco($enderecoEntity)
              ->setInscricaoMunicipal($dados['inscricao-municipal'])
              ->setInscricaoEstadual($dados['inscricao-estadual'])
              ->setCNAEPrincipal($dados['cnae-principal'])
@@ -84,7 +82,7 @@ class Empresa
 
         try {
             $mapperEmpresa = $this->getService()->get('Application\Mapper\Empresa');
-            $mapperEmpresa->save($this->empresaEntity);
+            $mapperEmpresa->save($empresaEntity);
         } catch (\Exception $e) {
            throw $e;
         }
