@@ -37,6 +37,8 @@ class Empresa
         $id = $dados['id'] ? $dados['id'] : null;
         $usr_id = $dados['usr_id'] ? $dados['usr_id'] : null;
         $end_id = $dados['end_id'] ? $dados['end_id'] : null;
+        $status = $dados['status'] ? $dados['status'] : 'A';
+        $origem = $dados['origem'] ? $dados['origem'] : 'C';
 
         $this->usuarioEntity
             ->setId($usr_id)
@@ -44,8 +46,8 @@ class Empresa
             ->setEmail($dados['email'])
             ->setLogin($dados['login'])
             ->setSenha($dados['senha'])
-            ->setOrigem('C')
-            ->setStatus('A');
+            ->setOrigem($origem)
+            ->setStatus($status);
 
         $this->enderecoEntity
             ->setId($end_id)

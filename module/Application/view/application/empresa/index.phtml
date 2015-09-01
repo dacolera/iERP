@@ -8,7 +8,7 @@
                         </h1>
                         <ol class="breadcrumb">
                             <li>
-                                <i class="fa fa-dashboard"></i>  <a href="<?php echo $this->basePath()?>">Dashboard</a>
+                                <i class="fa fa-dashboard"></i>  <a href="javascript:void(0)">Dashboard</a>
                             </li>
                             <li class="active">
                                 <i class="fa fa-table"></i> Listagem de Empresas
@@ -17,6 +17,24 @@
                     </div>
                 </div>
                 <!-- /.row -->
+<div class="container">
+  <!-- Modal -->
+  <div class="modal fade " id="confirm" role="dialog">
+    <div class="modal-dialog"   style="top:200px;">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+          <div class="modal-body" style="padding:50px 20px;">
+                Voce tem certeza que deseja excluir essa empresa?
+          </div>
+        <div class="modal-footer">
+          <button class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+          <button class="btn btn-success btn-default pull-right confirm-ok" data-dismiss="modal"><span class="glyphicon glyphicon-on"></span> Ok</button>
+        </div>
+      </div>     
+    </div>
+  </div> 
+</div>
 
                 <div class="row">
                     <div class="col-lg-12">
@@ -58,7 +76,7 @@
                                         <td><?= $empresa['vencimento_honorarios'] ?></td>
                                         <td class="text-center status-emp-<?= $empresa['usr_id'] ?>"><?=$status ?></td>
                                         <td class="text-center"><a href="<?php echo $this->basePath()?>/editar/<?php echo $empresa['id'] ?>"><i class="fa fa-fw fa-edit"></i></a></td>
-                                        <td class="text-center"><a href="<?php echo $this->basePath()?>/deletar/<?php echo $empresa['id'] ?>"><i class="fa fa-fw fa-times"></i></a></td>
+                                        <td class="text-center deletar"><a href="<?php echo $this->basePath()?>/deletar/<?php echo $empresa['id'] ?>"><i class="fa fa-fw fa-times"></i></a></td>
                                         <td class="suspender text-center" emp="<?= $empresa['usr_id'] ?>"><i class="fa fa-fw fa-lock"></i></td>
                                     </tr>
                                 <?php

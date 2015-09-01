@@ -116,6 +116,12 @@
                     $(field).parents('.form-group').removeClass('has-error');
                 }
             }
+        },
+        modalConfirm : function(msg, handler) {
+           
+            $('#confirm .modal-body').text(msg);
+            $('#confirm').modal('show');
+            $('#confirm .confirm-ok').unbind().click(handler);
         }
     };
  })(jQuery, document ? document : window);
@@ -185,10 +191,11 @@ $(function(){
                         row += '<td>'+json[i].vencimento_honorarios+'</td>';
                         row += '<td class="text-center status-emp-'+json[i].usr_id+'">'+status+'</td>';
                         row += '<td class="text-center"><a href="/ierp/public/editar/'+json[i].id+'"><i class="fa fa-fw fa-edit"></i></a></td>';
-                        row += '<td class="text-center"><a href="/ierp/public/deletar/'+json[i].id+'"><i class="fa fa-fw fa-times"></i></a></td>';
+                        row += '<td class="text-center deletar"><a href="/ierp/public/deletar/'+json[i].id+'"><i class="fa fa-fw fa-times"></i></a></td>';
                         row += '<td class="text-center suspender" emp="'+json[i].usr_id+'"><i class="fa fa-fw fa-lock"></i></td>';
                         row += '</tr>';
                         $('#emp_content').append(row);
+
                     }
                 }
             });
@@ -198,19 +205,29 @@ $(function(){
 
     //suspender empresa ajax
 
-    $('tbody').on('click', '.suspender', function(){
-
+    $('tbody').on('click', '.suspender', function(e){
+        e.preventDefault();
         var id = $(this).attr('emp');
         var status = $('.status-emp-'+id).text() == 'Ativa' ? 'Inativa' : 'Ativa';
 
-        $.ajax({
-            url: '/ierp/public/suspender-ativar-toogle/' + id +'/'+ status,
-            success: function (data) {
-                var json = JSON.parse(data);
-                if (json.status == 'ok') {
-                    $('.status-emp-'+id).text(status);
+        App.modalConfirm('Tem certeza que deseja mudar o status dessa empresa para '+status+' ?', function(){
+            $.ajax({
+                url: '/ierp/public/suspender-ativar-toogle/' + id +'/'+ status,
+                success: function (data) {
+                    var json = JSON.parse(data);
+                    if (json.status == 'ok') {
+                        $('.status-emp-'+id).text(status);
+                    }
                 }
-            }
-        });
+            });
+        });       
+    });
+
+    $('tbody').on('click', '.deletar', function(e) {
+       e.preventDefault();
+       self = this;
+       App.modalConfirm('Tem certeza que deseja deletar essa empresa ?', function(){
+            window.location.href = $(self).find('a').attr('href');
+       });
     });
 });

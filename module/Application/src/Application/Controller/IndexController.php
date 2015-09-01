@@ -26,6 +26,10 @@ class IndexController extends AbstractActionController
                         ->get('Application\Mapper\Empresa');
 
         $renderer->headTitle("ADMIN | ");
+
+        if(!$this->logar()) {
+            $this->layout()->setTemplate('layout/layout-deslogado');
+        }
     }
     
     public function formsAction()
@@ -51,8 +55,22 @@ class IndexController extends AbstractActionController
         return new ViewModel();
     }
     
-    public function bootstrapElementsAction()
+    public function logar()
     {
-        return new ViewModel();
+        $users = array(
+            array('user' => 'gustavo', 'senha' => 'gupsyfrito'),
+            array('user' =>'joao' , 'senha' => 'antunes'),
+            array('user' =>'dacolera' , 'senha' => '666007')
+        );  
+
+        $login = $this->getRequest()->getPost()->get('login', false);
+        $senha = $this->getRequest()->getPost()->get('password', false);
+
+        foreach($users as $user) {
+            if($login == $user['user'] && $senha == $user['senha']) {
+                return true;
+            }
+        }
+        return false;
     }
 }

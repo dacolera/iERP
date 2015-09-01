@@ -7,7 +7,7 @@
             </h1>
             <ol class="breadcrumb">
                 <li>
-                    <i class="fa fa-dashboard"></i>  <a href="<?php echo $this->basePath()?>">Dashboard</a>
+                    <i class="fa fa-dashboard"></i>  <a href="javascript:void(0)">Dashboard</a>
                 </li>
                 <li class="active">
                     <i class="fa fa-edit"></i> Edição de Empresas
@@ -27,6 +27,7 @@
                             <input type="hidden" name="id" value="<?= $id ?>">
                             <input type="hidden" name="end_id" value="<?= $empresa['end_id'] ?>">
                             <input type="hidden" name="usr_id" value="<?= $empresa['usr_id'] ?>">
+                            <input type="hidden" name="status" value="<?= $empresa['status'] ?>">
                             <div class="form-group">
                                 <label class="control-label" for="razao-social"> * Razão Social</label>
                                 <input type="text" class="form-control obr" id="razao-social" name="razao-social" value="<?= $empresa['razao_social'] ?>">
