@@ -85,8 +85,9 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="control-label" for="certificado-digital">Certificado Digital</label>
-                                <input type="text" class="form-control" id="certificado-digital" name="certificado-digital">
+                                <label for="certificado-digital">Certificado Digital</label>
+                                <input type="file" id="certificado-digital" name="certificado-digital">
+<!--                                <p class="help-block">Example block-level help text here.</p>-->
                             </div>
 
                             <div class="form-group">
@@ -100,8 +101,12 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="control-label" for="tipo-empresa">Tipo da Empresa</label>
-                                <input type="text" class="form-control" id="tipo-empresa" name="tipo-empresa">
+                                <label for="tipo-empresa">Tipo da Empresa</label>
+                                <select class="form-control" id="tipo-empresa" name="tipo-empresa">
+                                <?php foreach($combos['tipo-empresa'] as $chave => $tipo): ?>
+                                    <option value="<?=$chave?>"><?=$tipo?></option>
+                                <?php endforeach;  ?>    
+                                </select>
                             </div>
 
                             <div class="form-group">
@@ -152,8 +157,12 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="control-label" for="estado">Estado</label>
-                                <input type="text" class="form-control obr" id="estado" name="estado">
+                                <label for="estado">Estado</label>
+                                <select class="form-control obr" id="estado" name="estado">
+                                <?php foreach($combos['estados'] as $sigla => $estado): ?>
+                                    <option value="<?=$sigla?>"><?=$estado?></option>
+                                <?php endforeach;  ?>
+                                </select>
                             </div>
                         </fieldset>
                     </div>
@@ -175,7 +184,7 @@
 
                             <div class="form-group">
                                 <label class="control-label" for="senha">Senha</label>
-                                <input type="text" class="form-control obr senha" id="senha" name="senha">
+                                <input type="password" class="form-control obr senha" id="senha" name="senha">
                             </div>
                         </fieldset>
                     </div>

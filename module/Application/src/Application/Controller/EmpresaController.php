@@ -40,6 +40,16 @@ class EmpresaController  extends AbstractActionController{
 
             $this->redirect()->toRoute('listar');
         }
+        $model = new ViewModel();
+
+        $dados = [];
+        $dados['tipo-empresa'] = \Application\Model\Rotulos::$tipoEmpresa;
+        $dados['estados'] = \Application\Model\Rotulos::$UF;
+
+        $model->setVariable('combos', $dados);
+
+        return $model;
+
     }
 
     public function editarAction()

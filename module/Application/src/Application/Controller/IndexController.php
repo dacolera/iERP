@@ -27,7 +27,7 @@ class IndexController extends AbstractActionController
 
         $renderer->headTitle("ADMIN | Contjet");
 
-        $objPHPExcel = new \PHPExcel;
+       /* $objPHPExcel = new \PHPExcel;
         // Definimos o estilo da fonte
         $objPHPExcel->getActiveSheet()->getStyle('A1')->getFont()->setBold(true);
 
@@ -70,16 +70,16 @@ class IndexController extends AbstractActionController
         // Salva diretamente no output, poderíamos mudar arqui para um nome de arquivo em um diretório ,caso não quisessemos jogar na tela
         $objWriter->save('php://output'); 
 
-        exit;
+        exit;*/
         
-        $sessionUser = new Container('user');
+        //$sessionUser = new Container('user');
 
         $model = new ViewModel();
 
-        if(!$sessionUser->logado) {
+        /*if(!$sessionUser->logado) {
             $this->layout()->setTemplate('layout/layout-deslogado');
             return $model;
-        }
+        }*/
 
         $model->setTemplate('application/index/dashboard.phtml');
         return $model;
@@ -115,15 +115,15 @@ class IndexController extends AbstractActionController
             array('user' =>'joao' , 'senha' => 'antunes'),
             array('user' =>'dacolera' , 'senha' => '666007')
         );  
-        $sessionUser = new Container('user');
-        $sessionUser->logado = false;
+        //$sessionUser = new Container('user');
+        //$sessionUser->logado = false;
         $login = $this->getRequest()->getPost()->get('login', false);
         $senha = $this->getRequest()->getPost()->get('password', false);
 
         foreach($users as $user) {
             if($login == $user['user'] && $senha == $user['senha']) {
-               $sessionUser->logado = true;
-               $sessionUser->nome = $login;
+               //$sessionUser->logado = true;
+               //$sessionUser->nome = $login;
             }
         }
     }
