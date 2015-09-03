@@ -103,6 +103,7 @@
                             <div class="form-group">
                                 <label for="tipo-empresa">Tipo da Empresa</label>
                                 <select class="form-control" id="tipo-empresa" name="tipo-empresa">
+                                    <option value="">Escolha</option>
                                 <?php foreach($combos['tipo-empresa'] as $chave => $tipo): ?>
                                     <option value="<?=$chave?>"><?=$tipo?></option>
                                 <?php endforeach;  ?>    
@@ -159,6 +160,7 @@
                             <div class="form-group">
                                 <label for="estado">Estado</label>
                                 <select class="form-control obr" id="estado" name="estado">
+                                    <option value="">Escolha</option>
                                 <?php foreach($combos['estados'] as $sigla => $estado): ?>
                                     <option value="<?=$sigla?>"><?=$estado?></option>
                                 <?php endforeach;  ?>

@@ -9,6 +9,7 @@ use ZfcBase\EventManager\EventProvider;
 use Zend\ServiceManager\ServiceManagerAwareInterface;
 use Zend\ServiceManager\ServiceManager;
 use Application\Utils\DateConversion as Conversion;
+use Application\Model\Rotulos;
 
 class Empresa extends EventProvider implements ServiceManagerAwareInterface
 {

@@ -104,8 +104,13 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="control-label" for="tipo-empresa">Tipo da Empresa</label>
-                                <input type="text" class="form-control" id="tipo-empresa" name="tipo-empresa" value="<?= $empresa['tipo_empresa'] ?>">
+                                <label for="tipo-empresa">Tipo da Empresa</label>
+                                <select class="form-control" id="tipo-empresa" name="tipo-empresa">
+                                    <option value="">Escolha</option>
+                                <?php foreach(Application\Model\Rotulos::$tipoEmpresa as $chave => $tipo): ?>
+                                    <option value="<?=$chave?>" <?php if($empresa['tipo_empresa'] == $chave) echo 'selected="selected"'?>><?=$tipo?></option>
+                                <?php endforeach;  ?>    
+                                </select>
                             </div>
 
                             <div class="form-group">
@@ -155,8 +160,13 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="control-label" for="estado">Estado</label>
-                                <input type="text" class="form-control obr" id="estado" name="estado" value="<?= $empresa['estado'] ?>">
+                                <label for="estado">Estado</label>
+                                <select class="form-control obr" id="estado" name="estado">
+                                    <option value="">Escolha</option>
+                                <?php foreach(Application\Model\Rotulos::$UF as $sigla => $estado): ?>
+                                    <option value="<?=$sigla?>"  <?php if($empresa['estado'] == $sigla) echo 'selected="selected"'?>><?=$estado?></option>
+                                <?php endforeach;  ?>
+                                </select>
                             </div>
                         </fieldset>
                     </div>
