@@ -16,7 +16,6 @@ class IndexController extends AbstractActionController
 {
     public function indexAction()
     {
-
         $renderer = $this->getServiceLocator()->get('Zend\View\Renderer\PhpRenderer');
         
         $renderer->headMeta()->appendName('keywords', 'contabilidade-fiscal');
@@ -31,10 +30,11 @@ class IndexController extends AbstractActionController
         $model = new ViewModel();
         if(!isset($_SESSION['user']['logado']) || !$_SESSION['user']['logado']) {
             $this->logar();
-        }
-        if(!$_SESSION['user']['logado']) {
-            $this->layout()->setTemplate('layout/layout-deslogado');
-            return $model;
+
+            if(!$_SESSION['user']['logado']) {
+                $this->layout()->setTemplate('layout/layout-deslogado');
+                return $model;
+            }
         }
 
         $model->setTemplate('application/index/dashboard.phtml');
@@ -71,6 +71,7 @@ class IndexController extends AbstractActionController
             array('user' =>'joao' , 'senha' => 'antunes'),
             array('user' =>'dacolera' , 'senha' => '666007')
         );  
+
         $_SESSION['user']['logado'] = false;
         $login = $this->getRequest()->getPost()->get('login', false);
         $senha = $this->getRequest()->getPost()->get('password', false);
