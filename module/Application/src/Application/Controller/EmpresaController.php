@@ -17,6 +17,10 @@ class EmpresaController  extends AbstractActionController{
 
     public function indexAction()
     {
+        if(!$this->isLogado())
+        {
+            $this->redirect()->toRoute('home');
+        }
         $empresaService = $this->getServiceLocator()->get('\Application\Service\Empresa');
 
         $dados = $empresaService->pegarEmpresas();
@@ -29,6 +33,11 @@ class EmpresaController  extends AbstractActionController{
 
     public function cadastrarAction()
     {
+        if(!$this->isLogado())
+        {
+            $this->redirect()->toRoute('home');
+        }
+
         if($this->getRequest()->isPost()) {
 
             $serviceEmpresa = $this->getServiceLocator()->get('Application\Service\Empresa');
@@ -54,8 +63,6 @@ class EmpresaController  extends AbstractActionController{
 
     public function editarAction()
     {
-
-
         if($this->getRequest()->isPost()) {
             $serviceEmpresa = $this->getServiceLocator()->get('Application\Service\Empresa');
 
@@ -142,5 +149,13 @@ class EmpresaController  extends AbstractActionController{
     public function exportarAction()
     {
 
+    }
+
+    protected function isLogado()
+    {
+        if(isset($_SESSION['user']['logado']) && $_SESSION['user']['logado']) {
+            return true;
+        }
+        return false;
     }
 }
