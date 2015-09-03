@@ -75,17 +75,17 @@
 
                             <div class="form-group">
                                 <label class="control-label" for="vencimento-honorarios">Vencimento dos Honorários</label>
-                                <input type="text" class="form-control obr" id="vencimento-honorarios" name="vencimento-honorarios" value="<?= $empresa['vencimento_honorarios'] ?>">
+                                <input type="text" class="form-control obr" id="vencimento-honorarios" name="vencimento-honorarios" value="<?= Application\Utils\DateConversion::conversion($empresa['vencimento_honorarios']) ?>">
                             </div>
 
                             <div class="form-group">
                                 <label class="control-label" for="vencimento-procuracao-caixa">Vencimento da Procuração Caixa</label>
-                                <input type="text" class="form-control" id="vencimento-procuracao-caixa" name="vencimento-procuracao-caixa" value="<?= $empresa['vencimento_procuracao_caixa'] ?>">
+                                <input type="text" class="form-control" id="vencimento-procuracao-caixa" name="vencimento-procuracao-caixa" value="<?= Application\Utils\DateConversion::conversion($empresa['vencimento_procuracao_caixa']) ?>">
                             </div>
 
                             <div class="form-group">
                                 <label class="control-label" for="vencimento-procuracao-rfb">Vencimento da Procuração RFB</label>
-                                <input type="text" class="form-control" id="vencimento-procuracao-rfb" name="vencimento-procuracao-rfb" value="<?= $empresa['vencimento_procuracao_RFB'] ?>">
+                                <input type="text" class="form-control" id="vencimento-procuracao-rfb" name="vencimento-procuracao-rfb" value="<?= Application\Utils\DateConversion::conversion($empresa['vencimento_procuracao_RFB']) ?>">
                             </div>
 
                             <div class="form-group">
@@ -115,7 +115,7 @@
 
                             <div class="form-group">
                                 <label class="control-label" for="vencimento-contrato">Vencimento do Contrato</label>
-                                <input type="text" class="form-control" id="vencimento-contrato" name="vencimento-contrato" value="<?= $empresa['vencimento_contrato'] ?>">
+                                <input type="text" class="form-control" id="vencimento-contrato" name="vencimento-contrato" value="<?= Application\Utils\DateConversion::conversion($empresa['vencimento_contrato']) ?>">
                             </div>
                         </fieldset>
                     </div>
