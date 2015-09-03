@@ -11,8 +11,6 @@ namespace Application;
 
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
-use Zend\Session\Config\SessionConfig;
-use Zend\Session\Container;
 use Zend\Session\SessionManager;
 
 class Module
@@ -24,7 +22,29 @@ class Module
         $moduleRouteListener->attach($eventManager);
         $session = new SessionManager();
         $session->start();
+        $eventManager->attach(
+            'dispatch',
+             array(
+                $this,
+                'secureSession'
+            )
+        ); 
     }
+
+    public function secureSession($e) 
+    { 
+        $target = $e->getTarget(); 
+
+        if(!$target instanceof \Application\Controller\IndexController 
+            && (
+                !isset($_SESSION['user']['logado']) || 
+                !$_SESSION['user']['logado']
+            )
+        )
+        {
+            return $target->redirect()->toRoute('home');    
+        }        
+    } 
 
     public function getConfig()
     {
