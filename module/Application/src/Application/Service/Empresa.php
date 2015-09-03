@@ -8,6 +8,7 @@ use \Application\Entity\Endereco as EnderecoEntity;
 use ZfcBase\EventManager\EventProvider;
 use Zend\ServiceManager\ServiceManagerAwareInterface;
 use Zend\ServiceManager\ServiceManager;
+use Application\Utils\DateConversion as Conversion;
 
 class Empresa extends EventProvider implements ServiceManagerAwareInterface
 {
@@ -70,15 +71,15 @@ class Empresa extends EventProvider implements ServiceManagerAwareInterface
              ->setCNAESecundario($dados['cnae-secundario'])
              ->setRegimeTributacao($dados['regime-tributacao'])
              ->setValorHonorarios($dados['valor-honorarios'])
-             ->setVencimentoHonorarios($dados['vencimento-honorarios'])
-             ->setVencimentoProcuracaoCaixa($dados['vencimento-procuracao-caixa'])
-             ->setVencimentoProcuracaoRFB($dados['vencimento-procuracao-rfb'])
+             ->setVencimentoHonorarios(Conversion::conversion($dados['vencimento-honorarios']))
+             ->setVencimentoProcuracaoCaixa(Conversion::conversion($dados['vencimento-procuracao-caixa']))
+             ->setVencimentoProcuracaoRFB(Conversion::conversion($dados['vencimento-procuracao-rfb']))
              ->setCertificadoDigital($dados['certificado-digital'])
              ->setSenhaWeb($dados['senha-web'])
              ->setSenhaFazenda($dados['senha-fazenda'])
              ->setTipoEmpresa($dados['tipo-empresa'])
              ->setContrato($dados['contrato'])
-             ->setVencimentoContrato($dados['vencimento-contrato']);
+             ->setVencimentoContrato(Conversion::conversion($dados['vencimento-contrato']));
 
         try {
             $mapperEmpresa = $this->getService()->get('Application\Mapper\Empresa');

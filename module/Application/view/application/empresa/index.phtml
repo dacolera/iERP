@@ -73,7 +73,7 @@
                                         <td><?= $empresa['CNAE_principal'] ?></td>
                                         <td><?= $empresa['regime_tributacao'] ?></td>
                                         <td><?= $empresa['valor_honorarios'] ?></td>
-                                        <td><?= $empresa['vencimento_honorarios'] ?></td>
+                                        <td><?= Application\Utils\DateConversion::conversion($empresa['vencimento_honorarios']) ?></td>
                                         <td class="text-center status-emp-<?= $empresa['usr_id'] ?>"><?=$status ?></td>
                                         <td class="text-center"><a href="<?php echo $this->basePath()?>/editar/<?php echo $empresa['id'] ?>"><i class="fa fa-fw fa-edit"></i></a></td>
                                         <td class="text-center deletar"><a href="<?php echo $this->basePath()?>/deletar/<?php echo $empresa['id'] ?>"><i class="fa fa-fw fa-times"></i></a></td>
