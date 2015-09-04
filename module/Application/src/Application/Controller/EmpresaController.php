@@ -33,7 +33,7 @@ class EmpresaController  extends AbstractActionController{
             foreach($this->getRequest()->getFiles()->toArray() as $arquivo) {
                 $this->fileUpload($arquivo);
             } 
-            exit;
+            
             $serviceEmpresa = $this->getServiceLocator()->get('Application\Service\Empresa');
             try {
                 $serviceEmpresa->saveEmpresa($this->getRequest()->getPost());
@@ -145,24 +145,22 @@ class EmpresaController  extends AbstractActionController{
         $uploaddir = realpath(__DIR__ .'/../../../../../data/upload/');
         $uploadfile = $uploaddir .'/'. basename($file['name']);
         
-        #var_dump($uploaddir); exit;
-        
-
-        echo '<pre>';
-        if (move_uploaded_file($file['tmp_name'], $uploadfile)) {
-            echo "Arquivo válido e enviado com sucesso.\n";
-        } else {
-            echo "Possível ataque de upload de arquivo!\n";
+        try {
+            move_uploaded_file($file['tmp_name'], $uploadfile)); 
+        } catch(\Exception $e) {
+            throw $e;
         }
-
-        echo 'Aqui está mais informações de debug:';
-        print_r($_FILES);
-
-        print "</pre>";
     }
-
+    
     public function exportarAction()
     {
-
+            //pega o service de empresa
+            $serviceEmp = $this->getServiceLocator()->get('Application\Service\Empresa');
+            //pega o(s) parametros de filtro da rota ajax
+            $filter = $this->params()->fromRoute('filter', false);
+            //realiza a query e retorna array
+            $listaEmpresas = $serviceEmp->pegarEmpresas();//$serviceEmp->pegarEmpresasExcel($filter);
+            //chama o exporta excel
+            $serviceEmp->exportExcel($listaEmpresas);
     }
 }

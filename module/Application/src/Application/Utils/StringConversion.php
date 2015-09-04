@@ -8,13 +8,16 @@ class StringConversion
     {
         //pegar indices tipo nome_fantasia
         //transformar em Nome Fantasia
-        
-        if(strstr('_', $index)) {
+        $title = '';
+        if(strstr($index, '_')) {
+            
             $arr = explode('_',$index);
-            array_filter($arr, function($text){
+            $n_arr = array_map(function($text){
                 return ucfirst($text);
-            });
-            $title = implode(' ', $arr);
+            }, $arr);
+            $title = implode(' ', $n_arr);
+        } else {
+            $title = ucfirst($index);
         }
         return $title;
     }

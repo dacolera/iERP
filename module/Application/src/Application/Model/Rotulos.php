@@ -4,7 +4,6 @@ namespace Application\Model;
 
 class Rotulos
 {
-	public static $status = array('1' => 'Ativo', '0' => 'Inativo');
 	public static $novidade = array('1' => 'Sim', '0' => 'Não');
 	
 	public static $statusInscrito = array('1' => 'Ativo', '0' => 'Inativo', '2' => 'Pendende');
@@ -41,6 +40,8 @@ class Rotulos
 	 * sports-app
 	 * promocoes
 	 */
+	 
+	public static $status = ['A' => 'Ativa', 'I' => 'Inativa', 'S' => 'Inativa']; 
 	
 	public static $tipoPessoa = array(
 		'J' => 'Jurídica', 

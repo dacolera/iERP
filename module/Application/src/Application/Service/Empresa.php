@@ -141,4 +141,61 @@ class Empresa extends EventProvider implements ServiceManagerAwareInterface
         $novoStatus = $status == 'Ativa' ? 'A' : 'S';
         return  $mapperEmpresa->suspenderAtivarToogleEmpresa($id, $novoStatus);
     }
+    
+    public function exportExcel($filter)
+    {
+        // Create new PHPExcel object
+        $objPHPExcel = new \PHPExcel();
+        
+        // Definimos o estilo da fonte
+        
+        $num_registros = count($filter);
+        if($num_registros > 0 ) {
+            
+            $objPHPExcel->getActiveSheet()->getStyle('X1')->getFont()->setBold(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(15);
+            $campos = [];
+            $count = 0;
+    
+            foreach ($filter[0] as $chave => $fields)
+            {
+                $campos[] =  \Application\Utils\StringConversion::indexToTitle($chave);
+                $normalizeField[] = $chave;
+                
+            }
+            foreach ( range('A', $objPHPExcel->getActiveSheet()->getHighestColumn()) as $column_key) {
+                $objPHPExcel->getActiveSheet()->getStyle($column_key.'1')->getFont()->setBold(true);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue($column_key.'1', $campos[$count]);
+                if($column_key != 'A') 
+                    $objPHPExcel->getActiveSheet()->getColumnDimension($column_key)->setWidth(30);
+                $count++;    
+            }
+            $row=2;
+            foreach($filter as $linha) {
+                for($i = 0 ; $i < count($normalizeField); $i++) {
+                    $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($i, $row, $linha[$normalizeField[$i]]);
+                }
+                $row++;
+            }
+        } else {
+            $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(0, 1, "Não existem registros para serem exibidos !");
+        }    
+        // Podemos renomear o nome das planilha atual, lembrando que um único arquivo pode ter várias planilhas
+        $objPHPExcel->getActiveSheet()->setTitle('Listagem de Empresas');
+        
+        // Cabeçalho do arquivo para ele baixar
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment;filename="listagem_empresas.xls"');
+        header('Cache-Control: max-age=0');
+        // Se for o IE9, isso talvez seja necessário
+        header('Cache-Control: max-age=1');
+        
+        // Acessamos o 'Writer' para poder salvar o arquivo
+        $objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+        
+        // Salva diretamente no output, poderíamos mudar arqui para um nome de arquivo em um diretório ,caso não quisessemos jogar na tela
+        $objWriter->save('php://output'); 
+        
+        exit;
+    }
 }
