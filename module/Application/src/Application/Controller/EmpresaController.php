@@ -142,8 +142,10 @@ class EmpresaController  extends AbstractActionController{
     
     protected function fileUpload($file)
     {
-        $uploaddir = realpath(dirname(__FILE__)) .'/ierp/uploads/';
-        $uploadfile = $uploaddir . basename($file['name']);
+        $uploaddir = realpath(__DIR__ .'/../../../../../data/upload/');
+        $uploadfile = $uploaddir .'/'. basename($file['name']);
+        
+        #var_dump($uploaddir); exit;
         
 
         echo '<pre>';

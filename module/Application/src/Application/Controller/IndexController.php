@@ -16,6 +16,11 @@ class IndexController extends AbstractActionController
 {
     public function indexAction()
     {
+        
+        $serviceEmp = $this->getServiceLocator()->get('Application\Service\Empresa');
+        $listaEmpresas = $serviceEmp->pegarEmpresasForExcel();
+        $this->exportExcel($listaEmpresas);
+        
         $renderer = $this->getServiceLocator()->get('Zend\View\Renderer\PhpRenderer');
         
         $renderer->headMeta()->appendName('keywords', 'contabilidade-fiscal');
@@ -37,7 +42,7 @@ class IndexController extends AbstractActionController
             }
         }
 
-        $model->setTemplate('application/empresa/detalhe.phtml');
+        $model->setTemplate('application/index/dashboard.phtml');
         return $model;
     }
     
@@ -93,6 +98,8 @@ class IndexController extends AbstractActionController
 
     protected function exportExcel($filter)
     {
+        set_include_path(get_include_path() . PATH_SEPARATOR . realpath(__DIR__ . '/../../../../../public/Pear'));
+        set_include_path(get_include_path() . PATH_SEPARATOR . realpath(__DIR__ . '/../../../../../public'));
         require_once('Spreadsheet/Excel/Writer.php');
         header("Content-type: application/Octet-Stream");
         header("Content-Disposition: inline; filename=Imprensa.xls");
@@ -112,9 +119,9 @@ class IndexController extends AbstractActionController
         $format['normal-gray'] =& $xls->addFormat(array('bold'=>0, 'size'=>8, 'fontFamily'=>'arial', 'borderColor' => 'black', 'border'=>1, 'fgColor' => 'silver'));
         $format['normal-esq-gray'] =& $xls->addFormat(array('bold'=>0, 'size'=>8, 'fontFamily'=>'arial', 'borderColor' => 'black', 'border'=>1, 'align'=>'left', 'fgColor' => 'silver'));
         $format['normal-cen-gray'] =& $xls->addFormat(array('bold'=>0, 'size'=>8, 'fontFamily'=>'arial', 'borderColor' => 'black', 'border'=>1, 'align'=>'center', 'fgColor' => 'silver'));
-        $plan =& $xls->addWorksheet('Imprensa');
+        $plan =& $xls->addWorksheet('Empresas');
 
-        $plan->writeString(0, 0, 'Listagem de Impresa', $format['titulo']);
+        $plan->writeString(0, 0, 'Listagem de Empresas', $format['titulo']);
         $plan->setMerge(0, 0, 0, 4);
         $plan->setColumn(0, 0, 15);
         $plan->setColumn(1, 1, 20);
@@ -128,18 +135,19 @@ class IndexController extends AbstractActionController
         $plan->writeString(2, 3, 'Título', $format['subtitulo']);
         $plan->writeString(2, 4, 'Status', $format['subtitulo']);
 
-        $daoImprensas = App_Model_DAO_Imprensas::getInstance();
-        $filter->limit(null, null);
-        $totalRegistros = $daoImprensas->getCount(clone $filter);
+        
+        
+        $totalRegistros = count($filter) ;
+
         if ($totalRegistros > 0) {
             $linha = 3;
-            $rsRegistros = $daoImprensas->fetchAll($filter);
+            $rsRegistros = $filter;
             foreach ($rsRegistros as $record) {
                 $plan->writeString($linha, 0, $record->getCodigo(), $format["normal-cen"]);
-                $plan->writeString($linha, 1, App_Funcoes_Rotulos::$tipoImprensa[$record->getTipo()], $format["normal-cen"]);
-                $plan->writeString($linha, 2, App_Funcoes_Date::conversion($record->getData()), $format["normal-cen"]);
-                $plan->writeString($linha, 3, $record->getTitulo(), $format["normal"]);
-                $plan->writeString($linha, 4, App_Funcoes_Rotulos::$status[$record->getStatus()], $format["normal-cen"]);
+                $plan->writeString($linha, 1, $record->getRazaoSocial(), $format["normal-cen"]);
+                $plan->writeString($linha, 2, $record->getNomeFantasia(), $format["normal-cen"]);
+                $plan->writeString($linha, 3, $record->getCnpj(), $format["normal"]);
+                $plan->writeString($linha, 4, Application\Model\Rotulos::$tipoEmpresa[$record->getTipoEmpresa()], $format["normal-cen"]);
                 $linha++;
             }
             unset($rsRegistros);
@@ -150,7 +158,7 @@ class IndexController extends AbstractActionController
             }
             $plan->setMerge(3, 0, 3, 4);
         }
-        unset($daoImprensas, $filter);
+        unset($filter);
 
         $xls->close();
     }

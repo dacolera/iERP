@@ -102,6 +102,13 @@ class Empresa extends EventProvider implements ServiceManagerAwareInterface
         }
         return $empresasArray;
     }
+    
+    public function pegarEmpresasForExcel()
+    {
+        $mapperEmpresa = $this->getService()->get('Application\Mapper\Empresa');
+        
+        return $mapperEmpresa->loadAllEmpresas();
+    }
 
     public function pegarEmpresaPorId($id)
     {
