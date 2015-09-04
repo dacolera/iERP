@@ -146,7 +146,7 @@ class EmpresaController  extends AbstractActionController{
         $uploadfile = $uploaddir .'/'. basename($file['name']);
         
         try {
-            move_uploaded_file($file['tmp_name'], $uploadfile)); 
+            move_uploaded_file($file['tmp_name'], $uploadfile); 
         } catch(\Exception $e) {
             throw $e;
         }
