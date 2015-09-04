@@ -36,7 +36,7 @@
   </div> 
 </div>
 
-                <div class="row">
+                 <div class="row">
                     <div class="col-lg-12">
                         <h2>Listagem de Empresas</h2>
                         <div class="table-responsive">
@@ -65,14 +65,14 @@
                                           $status = $empresa['status'] == 'A' ? 'Ativa' : 'Inativa';  
                                 ?>
                                     <tr>
-                                        <td><?= $empresa['id'] ?></td>
+                                        <td class="fa fa-search">  <?= $empresa['id'] ?></td>
                                         <td><?= $empresa['razao_social'] ?></td>
                                         <td><?= $empresa['cnpj'] ?></td>
                                         <td><?= $empresa['inscricao_municipal'] ?></td>
                                         <td><?= $empresa['inscricao_estadual'] ?></td>
                                         <td><?= $empresa['CNAE_principal'] ?></td>
                                         <td><?= $empresa['regime_tributacao'] ?></td>
-                                        <td><?= $empresa['valor_honorarios'] ?></td>
+                                        <td><?= Application\Utils\Money::toCurrency($empresa['valor_honorarios']) ?></td>
                                         <td><?= Application\Utils\DateConversion::conversion($empresa['vencimento_honorarios']) ?></td>
                                         <td class="text-center status-emp-<?= $empresa['usr_id'] ?>"><?=$status ?></td>
                                         <td class="text-center"><a href="<?php echo $this->basePath()?>/editar/<?php echo $empresa['id'] ?>"><i class="fa fa-fw fa-edit"></i></a></td>

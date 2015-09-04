@@ -10,6 +10,7 @@ use Zend\ServiceManager\ServiceManagerAwareInterface;
 use Zend\ServiceManager\ServiceManager;
 use Application\Utils\DateConversion as Conversion;
 use Application\Model\Rotulos;
+use Application\Utils\Money;
 
 class Empresa extends EventProvider implements ServiceManagerAwareInterface
 {
@@ -71,7 +72,7 @@ class Empresa extends EventProvider implements ServiceManagerAwareInterface
              ->setCNAEPrincipal($dados['cnae-principal'])
              ->setCNAESecundario($dados['cnae-secundario'])
              ->setRegimeTributacao($dados['regime-tributacao'])
-             ->setValorHonorarios($dados['valor-honorarios'])
+             ->setValorHonorarios(Money::toFloat($dados['valor-honorarios']))
              ->setVencimentoHonorarios(Conversion::conversion($dados['vencimento-honorarios']))
              ->setVencimentoProcuracaoCaixa(Conversion::conversion($dados['vencimento-procuracao-caixa']))
              ->setVencimentoProcuracaoRFB(Conversion::conversion($dados['vencimento-procuracao-rfb']))

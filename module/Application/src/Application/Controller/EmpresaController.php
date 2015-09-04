@@ -30,7 +30,10 @@ class EmpresaController  extends AbstractActionController{
     public function cadastrarAction()
     {
         if($this->getRequest()->isPost()) {
-
+            foreach($this->getRequest()->getFiles()->toArray() as $arquivo) {
+                $this->fileUpload($arquivo);
+            } 
+            exit;
             $serviceEmpresa = $this->getServiceLocator()->get('Application\Service\Empresa');
             try {
                 $serviceEmpresa->saveEmpresa($this->getRequest()->getPost());
@@ -135,6 +138,25 @@ class EmpresaController  extends AbstractActionController{
             }
         }
         $this->redirect()->toRoute('listar');
+    }
+    
+    protected function fileUpload($file)
+    {
+        $uploaddir = realpath(dirname(__FILE__)) .'/ierp/uploads/';
+        $uploadfile = $uploaddir . basename($file['name']);
+        
+
+        echo '<pre>';
+        if (move_uploaded_file($file['tmp_name'], $uploadfile)) {
+            echo "Arquivo válido e enviado com sucesso.\n";
+        } else {
+            echo "Possível ataque de upload de arquivo!\n";
+        }
+
+        echo 'Aqui está mais informações de debug:';
+        print_r($_FILES);
+
+        print "</pre>";
     }
 
     public function exportarAction()

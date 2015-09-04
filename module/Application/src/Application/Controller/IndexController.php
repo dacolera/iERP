@@ -37,7 +37,7 @@ class IndexController extends AbstractActionController
             }
         }
 
-        $model->setTemplate('application/index/dashboard.phtml');
+        $model->setTemplate('application/empresa/detalhe.phtml');
         return $model;
     }
     
