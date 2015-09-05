@@ -30,13 +30,21 @@ class EmpresaController  extends AbstractActionController{
     public function cadastrarAction()
     {
         if($this->getRequest()->isPost()) {
-            foreach($this->getRequest()->getFiles()->toArray() as $arquivo) {
-                $this->fileUpload($arquivo);
-            } 
             
             $serviceEmpresa = $this->getServiceLocator()->get('Application\Service\Empresa');
+            $files = [];
+            foreach($this->getRequest()->getFiles()->toArray() as $chave => $arquivo) {
+                $mod = substr(md5('H:i:s'),0,5).'_';
+                $files[$chave] = $mod.$arquivo['name'];
+                $this->fileUpload($arquivo,$mod);
+                      
+            } 
             try {
-                $serviceEmpresa->saveEmpresa($this->getRequest()->getPost());
+                $serviceEmpresa->saveEmpresa(
+                    
+                        $this->getRequest()->getPost(),
+                        $files
+                );
             } catch (\Eception $e) {
                 throw $e;
             }
@@ -140,10 +148,10 @@ class EmpresaController  extends AbstractActionController{
         $this->redirect()->toRoute('listar');
     }
     
-    protected function fileUpload($file)
+    protected function fileUpload($file, $mod)
     {
         $uploaddir = realpath(__DIR__ .'/../../../../../data/upload/');
-        $uploadfile = $uploaddir .'/'. basename($file['name']);
+        $uploadfile = $uploaddir ."/{$mod}". basename($file['name']);
         
         try {
             move_uploaded_file($file['tmp_name'], $uploadfile); 

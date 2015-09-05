@@ -30,13 +30,15 @@ class Empresa extends EventProvider implements ServiceManagerAwareInterface
         return $this->serviceManager;
     }
 
-    public function saveEmpresa($dados)
+    public function saveEmpresa($dados, $files = null)
     {
         $id = $dados['id'] ? $dados['id'] : null;
         $usr_id = $dados['usr_id'] ? $dados['usr_id'] : null;
         $end_id = $dados['end_id'] ? $dados['end_id'] : null;
         $status = $dados['status'] ? $dados['status'] : 'A';
         $origem = $dados['origem'] ? $dados['origem'] : 'C';
+        $certDig = $files['certificado-digital'] ? $files['certificado-digital'] : $dados['certificado-digital'];
+        $contrato = $files['contrato'] ? $files['contrato'] : $dados['contrato'];
 
         $usuarioEntity = new UsuarioEntity;
         $usuarioEntity
@@ -76,19 +78,20 @@ class Empresa extends EventProvider implements ServiceManagerAwareInterface
              ->setVencimentoHonorarios(Conversion::conversion($dados['vencimento-honorarios']))
              ->setVencimentoProcuracaoCaixa(Conversion::conversion($dados['vencimento-procuracao-caixa']))
              ->setVencimentoProcuracaoRFB(Conversion::conversion($dados['vencimento-procuracao-rfb']))
-             ->setCertificadoDigital($dados['certificado-digital'])
+             ->setCertificadoDigital($certDig)
              ->setSenhaWeb($dados['senha-web'])
              ->setSenhaFazenda($dados['senha-fazenda'])
              ->setTipoEmpresa($dados['tipo-empresa'])
-             ->setContrato($dados['contrato'])
+             ->setContrato($contrato)
              ->setVencimentoContrato(Conversion::conversion($dados['vencimento-contrato']));
 
         try {
             $mapperEmpresa = $this->getService()->get('Application\Mapper\Empresa');
-            $mapperEmpresa->save($empresaEntity);
+            $id = $mapperEmpresa->save($empresaEntity);
         } catch (\Exception $e) {
            throw $e;
         }
+        return $id;
     }
 
     public function pegarEmpresas()
@@ -152,7 +155,7 @@ class Empresa extends EventProvider implements ServiceManagerAwareInterface
         $num_registros = count($filter);
         if($num_registros > 0 ) {
             
-            $objPHPExcel->getActiveSheet()->getStyle('X1')->getFont()->setBold(true);
+            $objPHPExcel->getActiveSheet()->getStyle('Z1')->getFont()->setBold(true);
             $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(15);
             $campos = [];
             $count = 0;

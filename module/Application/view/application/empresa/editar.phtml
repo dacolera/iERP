@@ -89,8 +89,9 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="control-label" for="certificado-digital">Certificado Digital</label>
-                                <input type="text" class="form-control" id="certificado-digital" name="certificado-digital" value="<?= $empresa['certificado_digital'] ?>">
+                                <label for="certificado-digital">Certificado Digital</label>
+                                <input type="file" id="certificado-digital" name="certificado-digital">
+                                <input type="hidden" name="certificado-digital" value="<?= $empresa['certificado_digital'] ?>">
                             </div>
 
                             <div class="form-group">
@@ -114,8 +115,9 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="control-label" for="contrato">Contrato</label>
-                                <input type="text" class="form-control" id="contrato" name="contrato" value="<?= $empresa['contrato'] ?>">
+                                <label for="contrato">Contrato</label>
+                                <input type="file" id="contrato" name="contrato">
+                                <input type="hidden" name="contrato" value="<?= $empresa['contrato'] ?>">
                             </div>
 
                             <div class="form-group">
@@ -184,11 +186,6 @@
                             <div class="form-group">
                                 <label class="control-label" for="login">Login</label>
                                 <input type="text" class="form-control obr login" id="login" name="login" value="<?= $empresa['login'] ?>">
-                            </div>
-
-                            <div class="form-group">
-                                <label class="control-label" for="senha">Senha</label>
-                                <input type="text" class="form-control obr senha" id="senha" name="senha" value="<?= $empresa['senha'] ?>">
                             </div>
                         </fieldset>
                     </div>
