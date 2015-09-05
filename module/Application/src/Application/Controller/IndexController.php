@@ -25,11 +25,20 @@ class IndexController extends AbstractActionController
                         ->getServiceLocator()
                         ->get('Application\Mapper\Empresa');
 
-        $renderer->headTitle("ADMIN | ");
+        $renderer->headTitle("ADMIN | Contjet");
 
-        if(!$this->logar()) {
-            $this->layout()->setTemplate('layout/layout-deslogado');
+        $model = new ViewModel();
+        if(!isset($_SESSION['user']['logado']) || !$_SESSION['user']['logado']) {
+            $this->logar();
+
+            if(!$_SESSION['user']['logado']) {
+                $this->layout()->setTemplate('layout/layout-deslogado');
+                return $model;
+            }
         }
+
+        $model->setTemplate('application/index/dashboard.phtml');
+        return $model;
     }
     
     public function formsAction()
@@ -50,11 +59,6 @@ class IndexController extends AbstractActionController
         return new ViewModel();
     }
     
-    public function tablesAction()
-    {
-        return new ViewModel();
-    }
-    
     public function logar()
     {
         $users = array(
@@ -63,14 +67,22 @@ class IndexController extends AbstractActionController
             array('user' =>'dacolera' , 'senha' => '666007')
         );  
 
+        $_SESSION['user']['logado'] = false;
         $login = $this->getRequest()->getPost()->get('login', false);
         $senha = $this->getRequest()->getPost()->get('password', false);
 
         foreach($users as $user) {
             if($login == $user['user'] && $senha == $user['senha']) {
-                return true;
+                $_SESSION['user']['logado'] = true;
+                $_SESSION['user']['nome'] = $login;
             }
         }
-        return false;
     }
+
+    public function logoutAction()
+    {
+        unset($_SESSION['user']);
+        $this->redirect()->toRoute('home');
+    }
+
 }

@@ -53,3 +53,15 @@ fieldset {
   .modal-footer {
       background-color: #f9f9f9;
   }
+  
+  #emp_content .deletar a {
+      color : red;
+  }
+  
+  #ordered [ord] , #emp_content tr td:first-child , #emp_content tr td:last-child {
+      cursor: pointer;
+  }
+  
+  .datepicker {
+      width: 36%;
+  }

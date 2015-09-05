@@ -128,7 +128,20 @@
 
 
 $(function(){
-
+    
+    $('.datepicker').datepicker({
+        dateFormat: 'dd/mm/yy',
+        dayNames: ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'],
+        dayNamesMin: ['D','S','T','Q','Q','S','S','D'],
+        dayNamesShort: ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb','Dom'],
+        monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
+        monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'],
+        nextText: 'Próximo',
+        prevText: 'Anterior'
+    });
+    
+    $('#cnpj').mask('99.999.999/9999-99');
+    $('#cep').mask('99999-999');
 
     //login no sistema
 
@@ -229,5 +242,9 @@ $(function(){
        App.modalConfirm('Tem certeza que deseja deletar essa empresa ?', function(){
             window.location.href = $(self).find('a').attr('href');
        });
+    });
+    
+    $('tbody').on('click', 'tr td:first-child', function(){
+        $('#detalhe').modal('show');
     });
 });

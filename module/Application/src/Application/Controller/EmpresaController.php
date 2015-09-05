@@ -30,22 +30,41 @@ class EmpresaController  extends AbstractActionController{
     public function cadastrarAction()
     {
         if($this->getRequest()->isPost()) {
-
+            
             $serviceEmpresa = $this->getServiceLocator()->get('Application\Service\Empresa');
+            $files = [];
+            foreach($this->getRequest()->getFiles()->toArray() as $chave => $arquivo) {
+                $mod = substr(md5('H:i:s'),0,5).'_';
+                $files[$chave] = $mod.$arquivo['name'];
+                $this->fileUpload($arquivo,$mod);
+                      
+            } 
             try {
-                $serviceEmpresa->saveEmpresa($this->getRequest()->getPost());
+                $serviceEmpresa->saveEmpresa(
+                    
+                        $this->getRequest()->getPost(),
+                        $files
+                );
             } catch (\Eception $e) {
                 throw $e;
             }
 
             $this->redirect()->toRoute('listar');
         }
+        $model = new ViewModel();
+
+        $dados = [];
+        $dados['tipo-empresa'] = \Application\Model\Rotulos::$tipoEmpresa;
+        $dados['estados'] = \Application\Model\Rotulos::$UF;
+
+        $model->setVariable('combos', $dados);
+
+        return $model;
+
     }
 
     public function editarAction()
     {
-
-
         if($this->getRequest()->isPost()) {
             $serviceEmpresa = $this->getServiceLocator()->get('Application\Service\Empresa');
 
@@ -128,9 +147,28 @@ class EmpresaController  extends AbstractActionController{
         }
         $this->redirect()->toRoute('listar');
     }
-
+    
+    protected function fileUpload($file, $mod)
+    {
+        $uploaddir = realpath(__DIR__ .'/../../../../../data/upload/');
+        $uploadfile = $uploaddir ."/{$mod}". basename($file['name']);
+        
+        try {
+            move_uploaded_file($file['tmp_name'], $uploadfile); 
+        } catch(\Exception $e) {
+            throw $e;
+        }
+    }
+    
     public function exportarAction()
     {
-
+            //pega o service de empresa
+            $serviceEmp = $this->getServiceLocator()->get('Application\Service\Empresa');
+            //pega o(s) parametros de filtro da rota ajax
+            $filter = $this->params()->fromRoute('filter', false);
+            //realiza a query e retorna array
+            $listaEmpresas = $serviceEmp->pegarEmpresas();//$serviceEmp->pegarEmpresasExcel($filter);
+            //chama o exporta excel
+            $serviceEmp->exportExcel($listaEmpresas);
     }
 }

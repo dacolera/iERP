@@ -11,6 +11,7 @@ namespace Application;
 
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
+use Zend\Session\SessionManager;
 
 class Module
 {
@@ -19,7 +20,31 @@ class Module
         $eventManager        = $e->getApplication()->getEventManager();
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
+        $session = new SessionManager();
+        $session->start();
+        $eventManager->attach(
+            'dispatch',
+             array(
+                $this,
+                'secureSession'
+            )
+        ); 
     }
+
+    public function secureSession($e) 
+    { 
+        $target = $e->getTarget(); 
+
+        if(!$target instanceof \Application\Controller\IndexController 
+            && (
+                !isset($_SESSION['user']['logado']) || 
+                !$_SESSION['user']['logado']
+            )
+        )
+        {
+            return $target->redirect()->toRoute('home');    
+        }        
+    } 
 
     public function getConfig()
     {
@@ -46,18 +71,10 @@ class Module
                  */
                 'Application\Mapper\Empresa' => 'Application\Factory\Mapper\Empresa',
                 'Application\Mapper\Endereco' => 'Application\Factory\Mapper\Endereco',
-                'Application\Mapper\Usuario' => 'Application\Factory\Mapper\Usuario',
-                'Application\Service\Empresa' => function($sm) {
-                    $empresaService = new \Application\Service\Empresa(
-                        new \Application\Entity\Empresa(),
-                        new \Application\Entity\Usuario(),
-                        new \Application\Entity\Endereco()
-                    );
-
-                    $empresaService->setService($sm);
-
-                    return $empresaService;
-                }
+                'Application\Mapper\Usuario' => 'Application\Factory\Mapper\Usuario'
+            ),
+            'invokables' => array(
+                'Application\Service\Empresa' => 'Application\Service\Empresa'
             )
         );
     }                        

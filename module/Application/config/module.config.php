@@ -116,6 +116,16 @@ return array(
                     ),
                 ),
             ),
+            'exportar' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route'    => '/exportar[/:filter]',
+                    'defaults' => array(
+                        'controller' => 'Application\Controller\Empresa',
+                        'action'     => 'exportar',
+                    ),
+                ),
+            ),
             'suspender' => array(
                 'type' => 'Segment',
                 'options' => array(
@@ -166,6 +176,16 @@ return array(
                     'defaults' => array(
                         'controller' => 'Application\Controller\Index',
                         'action'     => 'login',
+                    ),
+                ),
+            ),
+            'logout' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route'    => '/logout',
+                    'defaults' => array(
+                        'controller' => 'Application\Controller\Index',
+                        'action'     => 'logout',
                     ),
                 ),
             ),
