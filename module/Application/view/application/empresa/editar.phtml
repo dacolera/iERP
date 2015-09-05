@@ -89,7 +89,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="certificado-digital">Certificado Digital</label>
+                                <label for="certificado-digital" class="btn btn-primary">Upload de Certificado Digital</label><br /><span class="certificado-digital"><?php echo $empresa['certificado_digital'] ? substr($empresa['certificado_digital'],6) : 'Nenhum arquivo selecionado' ?></span>
                                 <input type="file" id="certificado-digital" name="certificado-digital">
                                 <input type="hidden" name="certificado-digital" value="<?= $empresa['certificado_digital'] ?>">
                             </div>
@@ -115,7 +115,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="contrato">Contrato</label>
+                                <label for="contrato" class="btn btn-primary">Upload de Contrato</label><br /><span class="contrato"><?php echo $empresa['contrato'] ? substr($empresa['contrato'],6) : 'Nenhum arquivo selecionado' ?></span>
                                 <input type="file" id="contrato" name="contrato">
                                 <input type="hidden" name="contrato" value="<?= $empresa['contrato'] ?>">
                             </div>

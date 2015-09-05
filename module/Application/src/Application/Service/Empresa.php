@@ -37,8 +37,8 @@ class Empresa extends EventProvider implements ServiceManagerAwareInterface
         $end_id = $dados['end_id'] ? $dados['end_id'] : null;
         $status = $dados['status'] ? $dados['status'] : 'A';
         $origem = $dados['origem'] ? $dados['origem'] : 'C';
-        $certDig = $files['certificado-digital'] ? $files['certificado-digital'] : $dados['certificado-digital'];
-        $contrato = $files['contrato'] ? $files['contrato'] : $dados['contrato'];
+        $certDig = isset($files['certificado-digital']) ? $files['certificado-digital'] : $dados['certificado-digital'];
+        $contrato = isset($files['contrato']) ? $files['contrato'] : $dados['contrato'];
 
         $usuarioEntity = new UsuarioEntity;
         $usuarioEntity

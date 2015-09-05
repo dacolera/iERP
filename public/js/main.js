@@ -247,4 +247,8 @@ $(function(){
     $('tbody').on('click', 'tr td:first-child', function(){
         $('#detalhe').modal('show');
     });
+
+    $('input[type=file]').change(function(e){
+        $('span.'+$(this).attr('id')).text(e.target.files[0].name);
+    });
 });

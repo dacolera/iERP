@@ -32,17 +32,11 @@ class EmpresaController  extends AbstractActionController{
         if($this->getRequest()->isPost()) {
             
             $serviceEmpresa = $this->getServiceLocator()->get('Application\Service\Empresa');
-            $files = [];
-            foreach($this->getRequest()->getFiles()->toArray() as $chave => $arquivo) {
-                $mod = substr(md5(date('H:i:s')),0,5).'_';
-                $files[$chave] = $mod.$arquivo['name'];
-                $this->fileUpload($arquivo,$mod);
-            } 
             try {
                 $serviceEmpresa->saveEmpresa(
                     
                         $this->getRequest()->getPost(),
-                        $files
+                        $this->sanitizeFiles($this->getRequest()->getFiles())
                 );
             } catch (\Eception $e) {
                 throw $e;
@@ -68,7 +62,10 @@ class EmpresaController  extends AbstractActionController{
             $serviceEmpresa = $this->getServiceLocator()->get('Application\Service\Empresa');
 
             try {
-                $serviceEmpresa->saveEmpresa($this->getRequest()->getPost());
+                $serviceEmpresa->saveEmpresa(
+                    $this->getRequest()->getPost(),
+                    $this->sanitizeFiles($this->getRequest()->getFiles())
+                );
             } catch (\Eception $e) {
                 throw $e;
             }
@@ -147,18 +144,6 @@ class EmpresaController  extends AbstractActionController{
         $this->redirect()->toRoute('listar');
     }
     
-    protected function fileUpload($file, $mod)
-    {
-        $uploaddir = realpath(__DIR__ .'/../../../../../data/upload/');
-        $uploadfile = $uploaddir ."/{$mod}". basename($file['name']);
-        
-        try {
-            move_uploaded_file($file['tmp_name'], $uploadfile); 
-        } catch(\Exception $e) {
-            throw $e;
-        }
-    }
-    
     public function exportarAction()
     {
             //pega o service de empresa
@@ -169,5 +154,35 @@ class EmpresaController  extends AbstractActionController{
             $listaEmpresas = $serviceEmp->pegarEmpresas();//$serviceEmp->pegarEmpresasExcel($filter);
             //chama o exporta excel
             $serviceEmp->exportExcel($listaEmpresas);
+    }
+
+    protected function fileUpload($file, $mod)
+    {
+        $uploaddir = realpath(__DIR__ .'/../../../../../data/upload/');
+        $uploadfile = $uploaddir ."/{$mod}". basename($file['name']);
+
+        try {
+            move_uploaded_file($file['tmp_name'], $uploadfile);
+        } catch(\Exception $e) {
+            throw $e;
+        }
+    }
+
+    protected function filterFiles(array $files)
+    {
+        return array_filter($files, function($file){
+            return $file['error'] == 0;
+        });
+    }
+
+    protected function sanitizeFiles($FILES)
+    {
+        $files = [];
+        foreach($this->filterFiles($FILES->toArray()) as $chave => $arquivo) {
+            $mod = substr(md5(date('H:i:s')),0,5).'_';
+            $files[$chave] = $mod.$arquivo['name'];
+            $this->fileUpload($arquivo,$mod);
+        }
+        return $files;
     }
 }
