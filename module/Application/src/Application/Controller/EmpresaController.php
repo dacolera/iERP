@@ -34,10 +34,9 @@ class EmpresaController  extends AbstractActionController{
             $serviceEmpresa = $this->getServiceLocator()->get('Application\Service\Empresa');
             $files = [];
             foreach($this->getRequest()->getFiles()->toArray() as $chave => $arquivo) {
-                $mod = substr(md5('H:i:s'),0,5).'_';
+                $mod = substr(md5(date('H:i:s')),0,5).'_';
                 $files[$chave] = $mod.$arquivo['name'];
                 $this->fileUpload($arquivo,$mod);
-                      
             } 
             try {
                 $serviceEmpresa->saveEmpresa(
