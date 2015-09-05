@@ -104,6 +104,22 @@ class EmpresaController  extends AbstractActionController{
         }
     }
 
+    public function detalheAction()
+    {
+        $id =  $this->params()->fromRoute('id', false);
+
+        if($id) {
+            $serviceEmpresa = $this->getServiceLocator()->get('Application\Service\Empresa');
+            $model = new ViewModel();
+            $model->setVariable(
+                'empresa',
+                $serviceEmpresa->pegarEmpresaPorId($id)
+            );
+            return $model;
+        }
+        $this->redirect()->toRoute('listar');
+    }
+
     public function ordenarAjaxAction()
     {
         if($this->getRequest()->isXmlHttpRequest()){

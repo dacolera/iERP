@@ -74,7 +74,7 @@
                                           $status = $empresa['status'] == 'A' ? 'Ativa' : 'Inativa';  
                                 ?>
                                     <tr>
-                                        <td class="fa fa-search">  <?= $empresa['id'] ?></td>
+                                        <td class="fa fa-search"><a href="<?= $this->basePath()?>/detalhe/<?= $empresa['id'] ?>"> <?= $empresa['id'] ?></a></td>
                                         <td><?= $empresa['razao_social'] ?></td>
                                         <td><?= $empresa['cnpj'] ?></td>
                                         <td><?= $empresa['inscricao_municipal'] ?></td>

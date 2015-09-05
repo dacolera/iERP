@@ -1,50 +1,42 @@
 <div class="container-fluid">
 
-                <!-- Modal -->
-        <div class="container">
-          <div class="modal fade" id="detalhe" role="dialog">
-              <!-- Modal content-->
-              <div class="modal-content">
-                <div class="modal-body" style="padding:40px 50px;">
-                    
-                    <div class="row">
-                        <div class="col-lg-3 col-lg-offset-1">
-                            Nome:
-                        </div>
-                        <div class="col-lg-5 col-lg-offset-6">
-                            Jurandir Dacol Junior
-                        </div>
-                    </div> 
-                    <div class="row">
-                        <div class="col-lg-3 col-lg-offset-1">
-                            Nome:
-                        </div>
-                        <div class="col-lg-5 col-lg-offset-6">
-                            Jurandir Dacol Junior
-                        </div>
-                    </div> 
-                    <div class="row">
-                        <div class="col-lg-3 col-lg-offset-1">
-                            Nome:
-                        </div>
-                        <div class="col-lg-5 col-lg-offset-6">
-                            Jurandir Dacol Junior
-                        </div>
-                    </div> 
-                    <div class="row">
-                        <div class="col-lg-3 col-lg-offset-1">
-                            Nome:
-                        </div>
-                        <div class="col-lg-5 col-lg-offset-6">
-                            Jurandir Dacol Junior
-                        </div>
-                    </div> 
-                    
-                </div>
-            </div>
-          </div> 
+    <div class="col-md-10 col-lg-offset-1">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 style="background-color: #f5f5f5; color: black!important;">Detalhes da Empresa </h4></div>
         </div>
-          <!-- Modal -->
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Campos</th>
+                        <th>Valores</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <?php foreach($empresa as $campo => $valor) :?>
+                    <tr>
+                        <td><?= Application\Utils\StringConversion::indexToTitle($campo) ;?></td>
+                        <td><?= $valor ;?></td>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+
+        <!--/panel-->
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+
+            </div>
+            <div class="panel-body">
+                    <button class="btn btn-primary center-block"><a style="color:white;" href="<?= $this->basePath()?>/listar">Listagem de Empresas</a></button>
+            </div>
+        </div>
+        <!--/panel-->
+
+    </div>
 </div>
 
-<script>$(function(){$('#detalhe').modal('show');});</script>
+<script>//$(function(){$('#detalhe').modal('show');});</script>

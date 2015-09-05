@@ -106,6 +106,19 @@ return array(
                     ),
                 ),
             ),
+            'detalhe' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route'    => '/detalhe/:id',
+                    'constraints' => array(
+                        'id' => '\d+'
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Application\Controller\Empresa',
+                        'action'     => 'detalhe',
+                    ),
+                ),
+            ),
             'ordenar' => array(
                 'type' => 'Segment',
                 'options' => array(
