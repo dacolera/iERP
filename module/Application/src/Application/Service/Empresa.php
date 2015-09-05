@@ -154,8 +154,7 @@ class Empresa extends EventProvider implements ServiceManagerAwareInterface
         
         $num_registros = count($filter);
         if($num_registros > 0 ) {
-            
-            $objPHPExcel->getActiveSheet()->getStyle('Z1')->getFont()->setBold(true);
+
             $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(15);
             $campos = [];
             $count = 0;
@@ -166,7 +165,7 @@ class Empresa extends EventProvider implements ServiceManagerAwareInterface
                 $normalizeField[] = $chave;
                 
             }
-            foreach ( range('A', $objPHPExcel->getActiveSheet()->getHighestColumn()) as $column_key) {
+            foreach ( $this->createColumnsArray('AH') as $column_key) {
                 $objPHPExcel->getActiveSheet()->getStyle($column_key.'1')->getFont()->setBold(true);
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue($column_key.'1', $campos[$count]);
                 if($column_key != 'A') 
@@ -200,5 +199,38 @@ class Empresa extends EventProvider implements ServiceManagerAwareInterface
         $objWriter->save('php://output'); 
         
         exit;
+    }
+
+    protected function createColumnsArray($end_column, $first_letters = '')
+    {
+        $columns = array();
+        $length = strlen($end_column);
+        $letters = range('A', 'Z');
+
+        // Iterate over 26 letters.
+        foreach ($letters as $letter) {
+            // Paste the $first_letters before the next.
+            $column = $first_letters . $letter;
+
+            // Add the column to the final array.
+            $columns[] = $column;
+
+            // If it was the end column that was added, return the columns.
+            if ($column == $end_column)
+                return $columns;
+        }
+
+        // Add the column children.
+        foreach ($columns as $column) {
+            // Don't itterate if the $end_column was already set in a previous itteration.
+            // Stop iterating if you've reached the maximum character length.
+            if (!in_array($end_column, $columns) && strlen($column) < $length) {
+                $new_columns = $this->createColumnsArray($end_column, $column);
+                // Merge the new columns which were created with the final columns array.
+                $columns = array_merge($columns, $new_columns);
+            }
+        }
+
+        return $columns;
     }
 }
