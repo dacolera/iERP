@@ -6,62 +6,34 @@
          email : function(field){
             return /^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/i.test($(field).val());
          },
-         cnpj : function(field){
-             var i = 0,
-                 l = 0;
-                strNum = "",
-                strMul = "0000000000000",
-                character = "",
-                iValido = 1,
-                iSoma = 0,
-                strNum_base = "",
-                iLenNum_base = 0,
-                iLenMul = 0,
-                iSoma = 0,
-                strNum_base = 0,
-                iLenNum_base = 0,
-                cnpj = $(field).val();
+         cnpj : function($value){
+             $value = $($value).val().replace('.','').replace('/','').replace('-','').replace('.','');
 
-             if (cnpj == "")
-                 return false;
+             //calcula o primeiro dígito verificador
+             var $a = 0,
+                 $i = $a ,
+                 $d1 = $i,
+                 $d2 = $d1,
+                 $j = 5;
 
-             l = cnpj.length;
-             for (i = 0; i < l; i++) {
-                 caracter = cnpj.substring(i,i+1)
-                 if ((caracter >= '0') && (caracter <= '9'))
-                     strNum = strNum + caracter;
-             };
+             for ($i=0; $i<12; $i++) {
+                 $a += $value[$i] * $j;
+                 ($j > 2) ? $j-- : $j = 9;
+             }
+             $a = $a % 11;
+             ($a > 1) ? $d1 = 11 - $a : $d1 = 0;
 
-             if(strNum.length != 14)
-                 return false;
+             //calcula o segundo dígito verificador
+             $a = $i = 0;
+             $j = 6;
+             for ($i=0; $i<13; $i++) {
+                 $a += $value[$i] * $j;
+                 ($j > 2) ? $j-- : $j = 9;
+             }
+             $a = ($a % 11);
+             ($a > 1) ? $d2 = 11 - $a : $d2 = 0;
 
-             strNum_base = strNum.substring(0,12);
-             iLenNum_base = strNum_base.length - 1;
-             iLenMul = strMul.length - 1;
-             for(i = 0;i < 12; i++)
-                 iSoma = iSoma +
-                 parseInt(strNum_base.substring((iLenNum_base-i),(iLenNum_base-i)+1),10) *
-                 parseInt(strMul.substring((iLenMul-i),(iLenMul-i)+1),10);
-
-             iSoma = 11 - (iSoma - Math.floor(iSoma/11) * 11);
-             if(iSoma == 11 || iSoma == 10)
-                 iSoma = 0;
-
-             strNum_base = strNum_base + iSoma;
-             iSoma = 0;
-             iLenNum_base = strNum_base.length - 1
-             for(i = 0; i < 13; i++)
-                 iSoma = iSoma +
-                 parseInt(strNum_base.substring((iLenNum_base-i),(iLenNum_base-i)+1),10) *
-                 parseInt(strMul.substring((iLenMul-i),(iLenMul-i)+1),10)
-
-             iSoma = 11 - (iSoma - Math.floor(iSoma/11) * 11);
-             if(iSoma == 11 || iSoma == 10)
-                 iSoma = 0;
-             strNum_base = strNum_base + iSoma;
-             if(strNum != strNum_base)
-                 return false;
-             return true;
+             return (($d1 == $value[12]*1) && ($d2 == $value[13]*1));
          },
          vazio : function(field){
             return $(field).val() != '';
