@@ -15,9 +15,6 @@ use Application\Utils\Money;
 class Empresa extends EventProvider implements ServiceManagerAwareInterface
 {
     protected $serviceManager;
-    protected $empresaEntity;
-    protected $usuarioEntity;
-    protected $enderecoEntity;
 
     public function setServiceManager(ServiceManager $serviceManager)
     {
