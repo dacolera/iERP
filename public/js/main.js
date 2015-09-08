@@ -51,43 +51,51 @@
 
     return {
         valida : function(field){
+            var erro = 0;
             if($(field).hasClass('email')) {
                 if(!validations.email(field)){
                     $(field).parents('.form-group').addClass('has-error');
+                    erro++;
                 } else {
                     $(field).parents('.form-group').removeClass('has-error');
                 }
             } else if($(field).hasClass('cnpj')){
                 if(!validations.cnpj(field)){
                     $(field).parents('.form-group').addClass('has-error');
+                    erro++;
                 } else {
                     $(field).parents('.form-group').removeClass('has-error');
                 }
             } else if($(field).hasClass('cep')){
                 if(!validations.cep(field)){
                     $(field).parents('.form-group').addClass('has-error');
+                    erro++;
                 } else {
                     $(field).parents('.form-group').removeClass('has-error');
                 }
             } else if($(field).hasClass('login')){
                 if(!validations.login(field)){
                     $(field).parents('.form-group').addClass('has-error');
+                    erro++;
                 } else {
                     $(field).parents('.form-group').removeClass('has-error');
                 }
             } else if($(field).hasClass('senha')){
                 if(!validations.senha(field)){
                     $(field).parents('.form-group').addClass('has-error');
+                    erro++;
                 } else {
                     $(field).parents('.form-group').removeClass('has-error');
                 }
             } else {
                 if(!validations.vazio(field)){
                     $(field).parents('.form-group').addClass('has-error');
+                    erro++;
                 } else {
                     $(field).parents('.form-group').removeClass('has-error');
                 }
             }
+            return erro;
         },
         modalConfirm : function(msg, handler) {
            
@@ -121,25 +129,23 @@ $(function(){
         $("#myModal").modal();
     });
 
-    var erros = 0;
     //submit form cadastrar empresa
     $('.emp-cad').click(function(e){
 
         e.preventDefault();
-
+        var erro = 0;
         $('#emp-cad-form input.obr').each(function(){
-            App.valida(this);
+         erro  += App.valida(this);
         });
+        
 
-        erros = $('#emp-cad-form .has-error').length;
-
-        if(erros > 0)
+        if(erro > 0)
             return false;
         $('#emp-cad-form').submit();
     });
 
     $('#emp-cad-form input.obr').blur(function(){
-        App.valida(this);
+         App.valida(this);
     });
 
     //ordenacao ajax
