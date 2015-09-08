@@ -43,7 +43,7 @@
                                 <h2>Listagem de Empresas</h2>
                             </div>
                             <div class="col-lg-6">
-                                <h2>
+
                                     <form class="navbar-form navbar-left" method="get" action="<?= $this->basePath()?>/listar" role="search">
                                         <div class="form-group">
                                             <input type="text" class="form-control" placeholder="Busca" name="busca">
@@ -57,7 +57,6 @@
                                         </span> Export
                                         </button>
                                     </a>
-                                </h2>
                             </div>
                         </div>
                         <div class="table-responsive">
@@ -86,7 +85,7 @@
                                           $status = $empresa['status'] == 'A' ? 'Ativa' : 'Inativa';  
                                 ?>
                                     <tr>
-                                        <td class="fa fa-search"><a href="<?= $this->basePath()?>/detalhe/<?= $empresa['id'] ?>"> <?= $empresa['id'] ?></a></td>
+                                        <td><i class="fa fa-search"></i><a href="<?= $this->basePath()?>/detalhe/<?= $empresa['id'] ?>"> <?= $empresa['id'] ?></a></td>
                                         <td><?= $empresa['razao_social'] ?></td>
                                         <td><?= $empresa['cnpj'] ?></td>
                                         <td><?= $empresa['inscricao_municipal'] ?></td>
