@@ -3,6 +3,7 @@
 namespace Application\Mapper;
 
 use Application\Entity\Empresa as EmpresaEntity;
+use Zend\Db\Sql\Where;
 
 class Empresa extends AbstractMapper
 {
@@ -37,15 +38,25 @@ class Empresa extends AbstractMapper
      * carrega todas as empresas
      * @return \Zend\Db\ResultSet\HydratingResultSet;
      */
-    public function loadAllEmpresas()
+    public function loadAllEmpresas($busca = null, $filtro = null)
     {
+        $where = array();
+        if(null !== $busca) {
+
+        }
+
+        if(null !== $filtro) {
+
+        }
+
         $sql = $this->getSelect()
             ->join('usr',
                 'usr.usr_id = emp.usr_id'
             )
             ->join('endereco',
                 'endereco.end_id = emp.end_id'
-            );
+            )
+            ->where($where);
 
         return $this->select($sql);
     }

@@ -19,7 +19,10 @@ class EmpresaController  extends AbstractActionController{
     {
         $empresaService = $this->getServiceLocator()->get('\Application\Service\Empresa');
 
-        $dados = $empresaService->pegarEmpresas();
+        $busca = $this->params()->fromQuery('busca', null);
+        $filtro = $this->params()->fromQuery('filtro', null);
+
+        $dados = $empresaService->pegarEmpresas($busca, $filtro);
 
         $model = new ViewModel();
         $model->setVariable('empresas', $dados);
