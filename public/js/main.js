@@ -108,6 +108,13 @@
 
 
 $(function(){
+
+    var url = window.location.href;
+    if(url.indexOf('listar?')) {
+        var query = url.split('listar')[1];
+        var atual = $('.exportUrl').attr('href');
+        $('.exportUrl').attr('href', atual+query);
+    }
     
     $('.datepicker').datepicker({
         dateFormat: 'dd/mm/yy',
@@ -171,7 +178,7 @@ $(function(){
                     for (i in json) {
                         var status = json[i].status == "A" ? "Ativa" : "Inativa";
                         var row = '<tr>';
-                        row += '<td>'+json[i].id+'</td>';
+                        row += '<td><i class="fa fa-search"></i><a href="/ierp/public/detalhe/'+json[i].id+'">'+json[i].id+'</a></td>';
                         row += '<td>'+json[i].razao_social+'</td>';
                         row += '<td>'+json[i].cnpj+'</td>';
                         row += '<td>'+json[i].inscricao_municipal+'</td>';

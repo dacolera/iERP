@@ -132,7 +132,7 @@ return array(
             'exportar' => array(
                 'type' => 'Segment',
                 'options' => array(
-                    'route'    => '/exportar[/:filter]',
+                    'route'    => '/exportar',
                     'defaults' => array(
                         'controller' => 'Application\Controller\Empresa',
                         'action'     => 'exportar',
