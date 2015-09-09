@@ -91,11 +91,11 @@ class Empresa extends EventProvider implements ServiceManagerAwareInterface
         return $id;
     }
 
-    public function pegarEmpresas($busca = null, $filtro = null)
+    public function pegarEmpresas($field = null, $busca = null)
     {
         $mapperEmpresa = $this->getService()->get('Application\Mapper\Empresa');
 
-        $empresas = $mapperEmpresa->loadAllEmpresas($busca, $filtro);
+        $empresas = $mapperEmpresa->loadAllEmpresas($field, $busca);
         $empresasArray = [];
         foreach($empresas->getDataSource() as $empresa) {
             $empresasArray[] = $empresa;

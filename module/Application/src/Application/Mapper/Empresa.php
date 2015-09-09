@@ -38,15 +38,11 @@ class Empresa extends AbstractMapper
      * carrega todas as empresas
      * @return \Zend\Db\ResultSet\HydratingResultSet;
      */
-    public function loadAllEmpresas($busca = null, $filtro = null)
+    public function loadAllEmpresas($field = null, $busca = null)
     {
         $where = array();
-        if(null !== $busca) {
-
-        }
-
-        if(null !== $filtro) {
-
+        if (null != $busca && null != $field) {
+            $where[$field] = $busca;
         }
 
         $sql = $this->getSelect()
@@ -57,7 +53,6 @@ class Empresa extends AbstractMapper
                 'endereco.end_id = emp.end_id'
             )
             ->where($where);
-
         return $this->select($sql);
     }
 

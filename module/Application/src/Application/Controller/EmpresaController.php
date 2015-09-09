@@ -10,6 +10,9 @@ namespace Application\Controller;
 
 use Application\Utils\DateConversion;
 use Zend\Mvc\Controller\AbstractActionController;
+use Zend\Paginator\Adapter\ArrayAdapter;
+use Zend\Paginator\Factory;
+use Zend\Paginator\Paginator;
 use Zend\View\Model\ViewModel;
 
 
@@ -20,12 +23,20 @@ class EmpresaController  extends AbstractActionController{
         $empresaService = $this->getServiceLocator()->get('\Application\Service\Empresa');
 
         $busca = $this->params()->fromQuery('busca', null);
-        $filtro = $this->params()->fromQuery('filtro', null);
+        $field = $this->params()->fromQuery('field', null);
 
-        $dados = $empresaService->pegarEmpresas($busca, $filtro);
+        $dados = $empresaService->pegarEmpresas($field, $busca);
+
+        $page = $this->params()->fromRoute('page', false);
+        $paginator = new Paginator(new ArrayAdapter($dados));
+        $paginator->setCurrentPageNumber($page)
+            ->setDefaultItemCountPerPage(10);
+        $viewHelperManager = $this->getServiceLocator()->get('ViewHelperManager');
+        $paginationHelper = $viewHelperManager->get('paginationControl');
 
         $model = new ViewModel();
-        $model->setVariable('empresas', $dados);
+        $model->setVariable('empresas', $paginator)
+            ->setVariable('paginator' , $paginationHelper);
         //do something here
         return $model;
     }

@@ -153,12 +153,16 @@ return array(
                 ),
             ),
             'listar' => array(
-                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'type' => 'Segment',
                 'options' => array(
-                    'route'    => '/listar',
+                    'route'    => '/listar[/page][/:page]',
+                    'constraints' => array(
+                        'page' => '\d+'
+                    ),
                     'defaults' => array(
                         'controller' => 'Application\Controller\Empresa',
                         'action'     => 'index',
+                        'page' => 1,
                     ),
                 ),
             ),
