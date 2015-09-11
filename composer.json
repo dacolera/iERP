@@ -11,5 +11,13 @@
         "zendframework/zendframework": "~2.5",
         "zf-commons/zfc-base": "0.1.2",
         "phpoffice/phpexcel": "^1.8"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "*",
+        "behat/behat": "*",
+        "behat/mink": "*",
+        "behat/mink-extension": "*",
+        "behat/mink-goutte-driver": "*",
+        "behat/mink-selenium2-driver": "*"
     }
 }
