@@ -27,7 +27,7 @@ class EmpresaController  extends AbstractActionController{
 
         $dados = $empresaService->pegarEmpresas($field, $busca);
 
-        $page = $this->params()->fromRoute('page', false);
+        $page = $this->params()->fromRoute('page', 1);
         $paginator = new Paginator(new ArrayAdapter($dados));
         $paginator->setCurrentPageNumber($page)
             ->setDefaultItemCountPerPage(10);
