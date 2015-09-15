@@ -139,6 +139,16 @@ return array(
                     ),
                 ),
             ),
+            'importar' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route'    => '/importar',
+                    'defaults' => array(
+                        'controller' => 'Application\Controller\Empresa',
+                        'action'     => 'importar',
+                    ),
+                ),
+            ),
             'suspender' => array(
                 'type' => 'Segment',
                 'options' => array(

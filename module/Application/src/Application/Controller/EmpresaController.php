@@ -9,6 +9,7 @@
 namespace Application\Controller;
 
 use Application\Utils\DateConversion;
+use Application\Utils\Money;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Paginator\Adapter\ArrayAdapter;
 use Zend\Paginator\Factory;
@@ -145,7 +146,14 @@ class EmpresaController  extends AbstractActionController{
                $model = new ViewModel();
                $model->setTerminal(true);
                $arrayOrdenado = $serviceEmpresa->pegarEmpresasOrdenadas($campo, $order);
-               echo  json_encode($arrayOrdenado);
+               
+               $arrayNew = array_map(function($linha){
+               		$linha['valor_honorarios'] =  Money::toCurrency($linha['valor_honorarios']);
+               		$linha['vencimento_honorarios'] = DateConversion::conversion($linha['vencimento_honorarios'], false);
+               		return $linha;
+               }, $arrayOrdenado);
+               
+               echo  json_encode($arrayNew);
                exit;
             }
         }
@@ -187,8 +195,25 @@ class EmpresaController  extends AbstractActionController{
             //chama o exporta excel
             $serviceEmp->exportExcel($listaEmpresas);
     }
+    
+    public function importarAction()
+    {
+    	//pega o service de empresa
+           $serviceEmp = $this->getServiceLocator()->get('Application\Service\Empresa');
+           
+           $file = $this->filterFiles($this->getRequest()->getFiles()->toArray());
+           
+           if(!is_array($file))
+           {
+           		throw new \InvalidArgumentException('File not supplied');
+           }
+           $this->fileUpload($file['import']);
+           
+           $serviceEmp->importExcel('data/upload/'.$file['import']['name']);
+           die;
+    }
 
-    protected function fileUpload($file, $mod)
+    protected function fileUpload($file, $mod = '')
     {
         $uploaddir = realpath(__DIR__ .'/../../../../../data/upload/');
         $uploadfile = $uploaddir ."/{$mod}". basename($file['name']);
