@@ -5,7 +5,7 @@
         "contabil",
         "fiscal"
     ],
-    "homepage": "http://framework.zend.com/",
+    "homepage": "http://contjet.com.br/ierp",
     "require": {
         "php": ">=5.5",
         "zendframework/zendframework": "~2.5",
