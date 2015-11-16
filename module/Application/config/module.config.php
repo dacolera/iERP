@@ -212,9 +212,12 @@ return array(
         'abstract_factories' => array(
             'Zend\Cache\Service\StorageCacheAbstractServiceFactory',
             'Zend\Log\LoggerAbstractServiceFactory',
+            'Application\ServiceManager\AbstractFactories\MappersAbstractFactory',
+            'Application\ServiceManager\AbstractFactories\CommonServicesAbstractFactory',
         ),
         'factories' => array(
             'translator' => 'Zend\Mvc\Service\TranslatorServiceFactory',
+            'Application\Mapper\Empresa' => 'Application\Factory\Mapper\Empresa',
         ),
     ),
     'translator' => array(
@@ -228,10 +231,6 @@ return array(
         ),
     ),
     'controllers' => array(
-        'invokables' => array(
-            #'Application\Controller\Index' => 'Application\Controller\IndexController',
-            #'Application\Controller\Empresa' => 'Application\Controller\EmpresaController'
-        ),
         'abstract_factories' => array(
             'Application\ServiceManager\AbstractFactories\CommonControllersAbstractFactory'
         ),

@@ -61,24 +61,4 @@ class Module
             ),
         );
     }
-
-    public function getServiceConfig()
-    {
-        return array(
-            'factories' => array(
-                /*
-                 * Configurações de Mappers
-                 */
-                'Application\Mapper\Empresa' => 'Application\Factory\Mapper\Empresa',
-                #'Application\Mapper\Endereco' => 'Application\Factory\Mapper\Endereco',
-                #'Application\Mapper\Usuario' => 'Application\Factory\Mapper\Usuario'
-            ),
-            'abstract_factories' => array(
-                'Application\ServiceManager\AbstractFactories\MappersAbstractFactory'
-            ),
-            'invokables' => array(
-                'Application\Service\Empresa' => 'Application\Service\Empresa'
-            )
-        );
-    }                        
 }
