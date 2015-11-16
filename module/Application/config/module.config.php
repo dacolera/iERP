@@ -229,8 +229,11 @@ return array(
     ),
     'controllers' => array(
         'invokables' => array(
-            'Application\Controller\Index' => 'Application\Controller\IndexController',
-            'Application\Controller\Empresa' => 'Application\Controller\EmpresaController'
+            #'Application\Controller\Index' => 'Application\Controller\IndexController',
+            #'Application\Controller\Empresa' => 'Application\Controller\EmpresaController'
+        ),
+        'abstract_factories' => array(
+            'Application\ServiceManager\AbstractFactories\CommonControllersAbstractFactory'
         ),
     ),
     'view_manager' => array(
