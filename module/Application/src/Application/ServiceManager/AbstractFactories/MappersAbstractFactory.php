@@ -2,6 +2,7 @@
 
 namespace Application\ServiceManager\AbstractFactories;
 
+use Tests\Bootstrap;
 use Zend\ServiceManager\AbstractFactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -36,9 +37,12 @@ class MappersAbstractFactory implements AbstractFactoryInterface
         if(!class_exists($requestedName)) {
             return false;
         }
+
         //fullqualifiedname das mappers \Application\Mapper\?
         //instanciar a mapper
+
         $mapper = new $requestedName;
+
         //extrair a chave de montagem
         $assembleKey = substr($requestedName, (strrpos($requestedName, '\\') + 1));
         //extrair o root Namespace da request
@@ -48,7 +52,26 @@ class MappersAbstractFactory implements AbstractFactoryInterface
         //montar o nome da hydrator
         $hydratorClass = "$rootNamespace\\Mapper\\Hydrator\\$assembleKey";
         //injetar as dependencias caso necessario
-        $dbConfig = $serviceLocator->get('Configuration')['db'];
+
+
+            //$dbConfig = $serviceLocator->get('Configuration')['db'];
+
+        //fallback para os teste
+
+        //TODO descobrir porque isso eh necessario
+        //if (!is_array($dbConfig)) {
+            $dbConfig = array(
+                'driver' => 'Pdo',
+                'dsn' => 'mysql:dbname=ierp;host=localhost',
+                'username' => 'root',
+                'password' => '2013',
+                'driver_options' => array(
+                    \PDO::MYSQL_ATTR_INIT_COMMAND =>
+                        'SET NAMES \'UTF8\''
+                )
+            );
+        //}
+
         $mapper->setDbAdapter(new \Zend\Db\Adapter\Adapter($dbConfig));
         if (class_exists($entityClass)) {
             $mapper->setEntityPrototype(new $entityClass);
