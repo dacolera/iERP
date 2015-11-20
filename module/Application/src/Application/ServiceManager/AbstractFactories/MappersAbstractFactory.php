@@ -52,25 +52,7 @@ class MappersAbstractFactory implements AbstractFactoryInterface
         //montar o nome da hydrator
         $hydratorClass = "$rootNamespace\\Mapper\\Hydrator\\$assembleKey";
         //injetar as dependencias caso necessario
-
-
-            //$dbConfig = $serviceLocator->get('Configuration')['db'];
-
-        //fallback para os teste
-
-        //TODO descobrir porque isso eh necessario
-        //if (!is_array($dbConfig)) {
-            $dbConfig = array(
-                'driver' => 'Pdo',
-                'dsn' => 'mysql:dbname=ierp;host=localhost',
-                'username' => 'root',
-                'password' => '2013',
-                'driver_options' => array(
-                    \PDO::MYSQL_ATTR_INIT_COMMAND =>
-                        'SET NAMES \'UTF8\''
-                )
-            );
-        //}
+        $dbConfig = $serviceLocator->get('Configuration')['db'];
 
         $mapper->setDbAdapter(new \Zend\Db\Adapter\Adapter($dbConfig));
         if (class_exists($entityClass)) {

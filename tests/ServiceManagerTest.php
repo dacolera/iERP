@@ -21,8 +21,6 @@ class ServiceManagerTest extends TestCase
     public function getServices()
     {
         return array(
-            array('Application\\Mapper\\Usuario', 'Application\\Mapper\\Usuario'),
-            array('Application\\Mapper\\Endereco', 'Application\\Mapper\\Endereco'),
             array('Application\\Service\\Empresa', 'Application\\Service\\Empresa')
         );
     }
@@ -32,6 +30,15 @@ class ServiceManagerTest extends TestCase
         return array(
             array('Application\\Controller\\Index', 'Application\\Controller\\IndexController'),
             array('Application\\Controller\\Empresa', 'Application\\Controller\\EmpresaController'),
+        );
+    }
+
+    public function getMappers()
+    {
+        return array(
+            array('Application\\Mapper\\Usuario', 'Application\\Mapper\\Usuario'),
+            array('Application\\Mapper\\Endereco', 'Application\\Mapper\\Endereco'),
+            array('Application\\Mapper\\Empresa', 'Application\\Mapper\\Empresa'),
         );
     }
 
@@ -51,5 +58,14 @@ class ServiceManagerTest extends TestCase
     public function controllers_instanciados_corretamente_pelo_service_manager($serviceKey, $className)
     {
         $this->assertInstanceOf($className, $this->getServiceManager()->get('ControllerLoader')->get($serviceKey));
+    }
+
+    /**
+     * @test
+     * @dataProvider getMappers
+     **/
+    public function mappers_instanciados_corretamente_pelo_service_manager($serviceKey, $className)
+    {
+        $this->assertInstanceOf($className, $this->getServiceManager()->get($serviceKey));
     }
 }
