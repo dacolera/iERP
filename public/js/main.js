@@ -6,62 +6,34 @@
          email : function(field){
             return /^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/i.test($(field).val());
          },
-         cnpj : function(field){
-             var i = 0,
-                 l = 0;
-                strNum = "",
-                strMul = "0000000000000",
-                character = "",
-                iValido = 1,
-                iSoma = 0,
-                strNum_base = "",
-                iLenNum_base = 0,
-                iLenMul = 0,
-                iSoma = 0,
-                strNum_base = 0,
-                iLenNum_base = 0,
-                cnpj = $(field).val();
+         cnpj : function($value){
+             $value = $($value).val().replace(/(\.|\-|\/)/g, '');
 
-             if (cnpj == "")
-                 return false;
+             //calcula o primeiro dígito verificador
+             var $a = 0,
+                 $i = $a ,
+                 $d1 = $i,
+                 $d2 = $d1,
+                 $j = 5;
 
-             l = cnpj.length;
-             for (i = 0; i < l; i++) {
-                 caracter = cnpj.substring(i,i+1)
-                 if ((caracter >= '0') && (caracter <= '9'))
-                     strNum = strNum + caracter;
-             };
+             for ($i=0; $i<12; $i++) {
+                 $a += $value[$i] * $j;
+                 ($j > 2) ? $j-- : $j = 9;
+             }
+             $a = $a % 11;
+             ($a > 1) ? $d1 = 11 - $a : $d1 = 0;
 
-             if(strNum.length != 14)
-                 return false;
+             //calcula o segundo dígito verificador
+             $a = $i = 0;
+             $j = 6;
+             for ($i=0; $i<13; $i++) {
+                 $a += $value[$i] * $j;
+                 ($j > 2) ? $j-- : $j = 9;
+             }
+             $a = ($a % 11);
+             ($a > 1) ? $d2 = 11 - $a : $d2 = 0;
 
-             strNum_base = strNum.substring(0,12);
-             iLenNum_base = strNum_base.length - 1;
-             iLenMul = strMul.length - 1;
-             for(i = 0;i < 12; i++)
-                 iSoma = iSoma +
-                 parseInt(strNum_base.substring((iLenNum_base-i),(iLenNum_base-i)+1),10) *
-                 parseInt(strMul.substring((iLenMul-i),(iLenMul-i)+1),10);
-
-             iSoma = 11 - (iSoma - Math.floor(iSoma/11) * 11);
-             if(iSoma == 11 || iSoma == 10)
-                 iSoma = 0;
-
-             strNum_base = strNum_base + iSoma;
-             iSoma = 0;
-             iLenNum_base = strNum_base.length - 1
-             for(i = 0; i < 13; i++)
-                 iSoma = iSoma +
-                 parseInt(strNum_base.substring((iLenNum_base-i),(iLenNum_base-i)+1),10) *
-                 parseInt(strMul.substring((iLenMul-i),(iLenMul-i)+1),10)
-
-             iSoma = 11 - (iSoma - Math.floor(iSoma/11) * 11);
-             if(iSoma == 11 || iSoma == 10)
-                 iSoma = 0;
-             strNum_base = strNum_base + iSoma;
-             if(strNum != strNum_base)
-                 return false;
-             return true;
+             return (($d1 == $value[12]*1) && ($d2 == $value[13]*1));
          },
          vazio : function(field){
             return $(field).val() != '';
@@ -79,43 +51,51 @@
 
     return {
         valida : function(field){
+            var erro = 0;
             if($(field).hasClass('email')) {
                 if(!validations.email(field)){
                     $(field).parents('.form-group').addClass('has-error');
+                    erro++;
                 } else {
                     $(field).parents('.form-group').removeClass('has-error');
                 }
             } else if($(field).hasClass('cnpj')){
                 if(!validations.cnpj(field)){
                     $(field).parents('.form-group').addClass('has-error');
+                    erro++;
                 } else {
                     $(field).parents('.form-group').removeClass('has-error');
                 }
             } else if($(field).hasClass('cep')){
                 if(!validations.cep(field)){
                     $(field).parents('.form-group').addClass('has-error');
+                    erro++;
                 } else {
                     $(field).parents('.form-group').removeClass('has-error');
                 }
             } else if($(field).hasClass('login')){
                 if(!validations.login(field)){
                     $(field).parents('.form-group').addClass('has-error');
+                    erro++;
                 } else {
                     $(field).parents('.form-group').removeClass('has-error');
                 }
             } else if($(field).hasClass('senha')){
                 if(!validations.senha(field)){
                     $(field).parents('.form-group').addClass('has-error');
+                    erro++;
                 } else {
                     $(field).parents('.form-group').removeClass('has-error');
                 }
             } else {
                 if(!validations.vazio(field)){
                     $(field).parents('.form-group').addClass('has-error');
+                    erro++;
                 } else {
                     $(field).parents('.form-group').removeClass('has-error');
                 }
             }
+            return erro;
         },
         modalConfirm : function(msg, handler) {
            
@@ -128,6 +108,13 @@
 
 
 $(function(){
+
+    var url = window.location.href;
+    if(url.indexOf('listar?')) {
+        var query = url.split('listar')[1];
+        var atual = $('.exportUrl').attr('href');
+        $('.exportUrl').attr('href', atual+query);
+    }
     
     $('.datepicker').datepicker({
         dateFormat: 'dd/mm/yy',
@@ -149,25 +136,23 @@ $(function(){
         $("#myModal").modal();
     });
 
-    var erros = 0;
     //submit form cadastrar empresa
     $('.emp-cad').click(function(e){
 
         e.preventDefault();
-
+        var erro = 0;
         $('#emp-cad-form input.obr').each(function(){
-            App.valida(this);
+         erro  += App.valida(this);
         });
+        
 
-        erros = $('#emp-cad-form .has-error').length;
-
-        if(erros > 0)
+        if(erro > 0)
             return false;
         $('#emp-cad-form').submit();
     });
 
     $('#emp-cad-form input.obr').blur(function(){
-        App.valida(this);
+         App.valida(this);
     });
 
     //ordenacao ajax
@@ -193,7 +178,7 @@ $(function(){
                     for (i in json) {
                         var status = json[i].status == "A" ? "Ativa" : "Inativa";
                         var row = '<tr>';
-                        row += '<td>'+json[i].id+'</td>';
+                        row += '<td><i class="fa fa-search"></i><a href="/ierp/public/detalhe/'+json[i].id+'">'+json[i].id+'</a></td>';
                         row += '<td>'+json[i].razao_social+'</td>';
                         row += '<td>'+json[i].cnpj+'</td>';
                         row += '<td>'+json[i].inscricao_municipal+'</td>';
@@ -246,5 +231,9 @@ $(function(){
     
     $('tbody').on('click', 'tr td:first-child', function(){
         $('#detalhe').modal('show');
+    });
+
+    $('input[type=file]').change(function(e){
+        $('span.'+$(this).attr('id')).text(e.target.files[0].name);
     });
 });

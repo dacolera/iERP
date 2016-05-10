@@ -10,6 +10,9 @@ namespace Application\Controller;
 
 use Application\Utils\DateConversion;
 use Zend\Mvc\Controller\AbstractActionController;
+use Zend\Paginator\Adapter\ArrayAdapter;
+use Zend\Paginator\Factory;
+use Zend\Paginator\Paginator;
 use Zend\View\Model\ViewModel;
 
 
@@ -19,10 +22,21 @@ class EmpresaController  extends AbstractActionController{
     {
         $empresaService = $this->getServiceLocator()->get('\Application\Service\Empresa');
 
-        $dados = $empresaService->pegarEmpresas();
+        $busca = $this->params()->fromQuery('busca', null);
+        $field = $this->params()->fromQuery('field', null);
+
+        $dados = $empresaService->pegarEmpresas($field, $busca);
+
+        $page = $this->params()->fromRoute('page', false);
+        $paginator = new Paginator(new ArrayAdapter($dados));
+        $paginator->setCurrentPageNumber($page)
+            ->setDefaultItemCountPerPage(10);
+        $viewHelperManager = $this->getServiceLocator()->get('ViewHelperManager');
+        $paginationHelper = $viewHelperManager->get('paginationControl');
 
         $model = new ViewModel();
-        $model->setVariable('empresas', $dados);
+        $model->setVariable('empresas', $paginator)
+            ->setVariable('paginator' , $paginationHelper);
         //do something here
         return $model;
     }
@@ -32,18 +46,11 @@ class EmpresaController  extends AbstractActionController{
         if($this->getRequest()->isPost()) {
             
             $serviceEmpresa = $this->getServiceLocator()->get('Application\Service\Empresa');
-            $files = [];
-            foreach($this->getRequest()->getFiles()->toArray() as $chave => $arquivo) {
-                $mod = substr(md5('H:i:s'),0,5).'_';
-                $files[$chave] = $mod.$arquivo['name'];
-                $this->fileUpload($arquivo,$mod);
-                      
-            } 
             try {
                 $serviceEmpresa->saveEmpresa(
                     
                         $this->getRequest()->getPost(),
-                        $files
+                        $this->sanitizeFiles($this->getRequest()->getFiles())
                 );
             } catch (\Eception $e) {
                 throw $e;
@@ -69,7 +76,10 @@ class EmpresaController  extends AbstractActionController{
             $serviceEmpresa = $this->getServiceLocator()->get('Application\Service\Empresa');
 
             try {
-                $serviceEmpresa->saveEmpresa($this->getRequest()->getPost());
+                $serviceEmpresa->saveEmpresa(
+                    $this->getRequest()->getPost(),
+                    $this->sanitizeFiles($this->getRequest()->getFiles())
+                );
             } catch (\Eception $e) {
                 throw $e;
             }
@@ -106,6 +116,22 @@ class EmpresaController  extends AbstractActionController{
 
             $this->redirect()->toRoute('listar');
         }
+    }
+
+    public function detalheAction()
+    {
+        $id =  $this->params()->fromRoute('id', false);
+
+        if($id) {
+            $serviceEmpresa = $this->getServiceLocator()->get('Application\Service\Empresa');
+            $model = new ViewModel();
+            $model->setVariable(
+                'empresa',
+                $serviceEmpresa->pegarEmpresaPorId($id)
+            );
+            return $model;
+        }
+        $this->redirect()->toRoute('listar');
     }
 
     public function ordenarAjaxAction()
@@ -148,27 +174,47 @@ class EmpresaController  extends AbstractActionController{
         $this->redirect()->toRoute('listar');
     }
     
-    protected function fileUpload($file, $mod)
-    {
-        $uploaddir = realpath(__DIR__ .'/../../../../../data/upload/');
-        $uploadfile = $uploaddir ."/{$mod}". basename($file['name']);
-        
-        try {
-            move_uploaded_file($file['tmp_name'], $uploadfile); 
-        } catch(\Exception $e) {
-            throw $e;
-        }
-    }
-    
     public function exportarAction()
     {
             //pega o service de empresa
             $serviceEmp = $this->getServiceLocator()->get('Application\Service\Empresa');
             //pega o(s) parametros de filtro da rota ajax
-            $filter = $this->params()->fromRoute('filter', false);
+            $busca = $this->params()->fromQuery('busca', null);
+            $field = $this->params()->fromQuery('field', null);
+
             //realiza a query e retorna array
-            $listaEmpresas = $serviceEmp->pegarEmpresas();//$serviceEmp->pegarEmpresasExcel($filter);
+            $listaEmpresas = $serviceEmp->pegarEmpresas($field, $busca);//$serviceEmp->pegarEmpresasExcel($filter);
             //chama o exporta excel
             $serviceEmp->exportExcel($listaEmpresas);
+    }
+
+    protected function fileUpload($file, $mod)
+    {
+        $uploaddir = realpath(__DIR__ .'/../../../../../data/upload/');
+        $uploadfile = $uploaddir ."/{$mod}". basename($file['name']);
+
+        try {
+            move_uploaded_file($file['tmp_name'], $uploadfile);
+        } catch(\Exception $e) {
+            throw $e;
+        }
+    }
+
+    protected function filterFiles(array $files)
+    {
+        return array_filter($files, function($file){
+            return $file['error'] == 0;
+        });
+    }
+
+    protected function sanitizeFiles($FILES)
+    {
+        $files = [];
+        foreach($this->filterFiles($FILES->toArray()) as $chave => $arquivo) {
+            $mod = substr(md5(date('H:i:s')),0,5).'_';
+            $files[$chave] = $mod.$arquivo['name'];
+            $this->fileUpload($arquivo,$mod);
+        }
+        return $files;
     }
 }

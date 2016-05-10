@@ -65,3 +65,7 @@ fieldset {
   .datepicker {
       width: 36%;
   }
+
+  input[type=file] {
+      visibility: hidden;
+  }

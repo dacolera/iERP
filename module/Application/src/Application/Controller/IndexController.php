@@ -21,13 +21,11 @@ class IndexController extends AbstractActionController
         $renderer->headMeta()->appendName('keywords', 'contabilidade-fiscal');
         $renderer->headMeta()->appendName('description', 'Escrituracao fiscal, contabilidade de empresas');
 
-        $mapperEmpresa = $this
-                        ->getServiceLocator()
-                        ->get('Application\Mapper\Empresa');
 
         $renderer->headTitle("ADMIN | Contjet");
 
         $model = new ViewModel();
+
         if(!isset($_SESSION['user']['logado']) || !$_SESSION['user']['logado']) {
             $this->logar();
 

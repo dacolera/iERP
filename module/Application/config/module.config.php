@@ -106,6 +106,19 @@ return array(
                     ),
                 ),
             ),
+            'detalhe' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route'    => '/detalhe/:id',
+                    'constraints' => array(
+                        'id' => '\d+'
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Application\Controller\Empresa',
+                        'action'     => 'detalhe',
+                    ),
+                ),
+            ),
             'ordenar' => array(
                 'type' => 'Segment',
                 'options' => array(
@@ -119,7 +132,7 @@ return array(
             'exportar' => array(
                 'type' => 'Segment',
                 'options' => array(
-                    'route'    => '/exportar[/:filter]',
+                    'route'    => '/exportar',
                     'defaults' => array(
                         'controller' => 'Application\Controller\Empresa',
                         'action'     => 'exportar',
@@ -140,12 +153,16 @@ return array(
                 ),
             ),
             'listar' => array(
-                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'type' => 'Segment',
                 'options' => array(
-                    'route'    => '/listar',
+                    'route'    => '/listar[/page][/:page]',
+                    'constraints' => array(
+                        'page' => '\d+'
+                    ),
                     'defaults' => array(
                         'controller' => 'Application\Controller\Empresa',
                         'action'     => 'index',
+                        'page' => 1,
                     ),
                 ),
             ),
