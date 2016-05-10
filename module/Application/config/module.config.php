@@ -206,6 +206,16 @@ return array(
                     ),
                 ),
             ),
+            'download' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route'    => '/download/nfe',
+                    'defaults' => array(
+                        'controller' => 'Application\Controller\Index',
+                        'action'     => 'download',
+                    ),
+                ),
+            ),
         ),
     ),
     'service_manager' => array(
