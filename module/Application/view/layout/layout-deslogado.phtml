@@ -3,7 +3,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <?php echo $this->headTitle("ADMIN | Contjet") ?>
+        <?php echo $this->headTitle("Contjet - Gestão") ?>
 
         <?php echo $this->headMeta()
             ->appendName('viewport', 'width=device-width, initial-scale=1.0')
@@ -12,69 +12,15 @@
 
         <!-- Le styles -->
         <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))
-
-                        ->prependStylesheet($this->basePath('css/style.css'))
-                        ->prependStylesheet($this->basePath('css/demo-style.css'))
-                        ->prependStylesheet($this->basePath('font-awesome-4.1.0/css/font-awesome.min.css'))
-                        ->prependStylesheet($this->basePath('css/sb-admin.css'))
-                        ->prependStylesheet($this->basePath('css/bootstrap.min.css'))
-                        ->prependStylesheet($this->basePath('css/bootstrap-theme.min.css'))
-                        ->prependStylesheet($this->basePath('css/morris.css'))
-                        ->prependStylesheet($this->basePath('css/owl.carousel.css'))
-                        ->prependStylesheet($this->basePath('css/owl.theme.css'))
-                        ->prependStylesheet($this->basePath('css/owl.transitions.css'))
-                        ?>
-
-
-        <!-- Scripts -->
-        <?php echo $this->headScript()
-            ->prependFile($this->basePath('js/jquery.cycle.all.js'))
-            ->prependFile($this->basePath('js/plugins/morris/raphael.min.js'))
-            ->prependFile($this->basePath('js/plugins/morris/morris.min.js'))
-            ->prependFile($this->basePath('js/plugins/morris/morris-data.js'))
-            ->prependFile($this->basePath('js/modernizr.js'))
-            ->prependFile($this->basePath('js/owl.carousel.min.js'))
-            ->prependFile($this->basePath('js/jquery.eislideshow.js'))
-            ->prependFile($this->basePath('js/jquery.easing.1.3.js'))
-            ->prependFile($this->basePath('js/respond.min.js'), 'text/javascript', array('conditional' => 'lt IE 9',))
-            ->prependFile($this->basePath('js/html5shiv.min.js'),   'text/javascript', array('conditional' => 'lt IE 9',))
-            ->prependFile($this->basePath('js/bootstrap.min.js'))
-            ->prependFile($this->basePath('js/maskedInput.js'))
-            ->prependFile($this->basePath('js/main.js'))
-            ->prependFile($this->basePath('js/jquery.ui.js'))
-            ->prependFile($this->basePath('js/jquery.min.js'))
-        ; ?>
+        
+        ?>
 
     </head>
     <body>
         <div id="wrapper">
-            <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-                <!-- Brand and toggle get grouped for better mobile display -->
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="<?php echo $this->basePath()?>">Contjet Admin</a>
-                </div>
-
-                <ul class="nav navbar-right top-nav">
-                    <li class="dropdown">
-                        <a href="javascript:void(0);" id="login" class="dropdown-toggle" ><i class="fa fa-user"></i> LOGIN <b class="caret"></b></a>
-                    </li>
-                </ul>
-                <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
-            
-                <!-- /.navbar-collapse -->
-            </nav>
             <div id="page-wrapper">
                 <?php echo $this->content; ?>
             </div>
-                <footer>
-                    <p>&copy; 2015 - <?php echo date('Y') ?> by Coffee Digital Ltd. <?php echo $this->translate('All rights reserved.') ?></p>
-                </footer>
         </div>
         <?php echo $this->inlineScript() ?>
     </body>

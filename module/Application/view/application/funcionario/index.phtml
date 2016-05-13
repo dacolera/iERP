@@ -1,0 +1,303 @@
+<!-- ============================================================== -->
+			<!-- Start Content here -->
+			<!-- ============================================================== -->
+            <div class="content">
+								<!-- Page Heading Start -->
+				<div class="page-heading">
+            		<h1><i class='fa fa-table'></i> Listagem de Funcionários</h1>
+            		<h3>Funcionários > Listar Funcionários</h3>            	</div>
+            	<!-- Page Heading End-->				<!-- Your awesome content goes here -->
+								
+				<div class="row">
+					<div class="col-md-12">
+						<div class="widget">
+							<div class="widget-header transparent">
+								<h2>Listagem de Funcionários</h2>
+								<div class="additional-btn">
+									<a href="#" class="widget-toggle"><i class="icon-down-open-2"></i></a>
+								</div>
+							</div>
+							<div class="widget-content">
+								<div class="data-table-toolbar">
+									<div class="row">
+										<form method="get" action="<?= $this->basePath()?>/listar" role="form">
+										<div class="col-md-4">
+										    <select name="field" class="form-control">
+                                                <option value="razao_social">Nome</option>
+                                            </select>
+										</div>
+										<div class="col-md-4">	
+										    <input type="text" name="busca" class="form-control" placeholder="Buscar">
+										</div>
+										</form>
+										<div class="col-md-4">
+											<div class="toolbar-btn-action">
+												<a class="btn btn-success"><i class="fa fa-cloud-download"></i> Exportar</a>
+											</div>
+										</div>
+									</div>
+								</div>
+									
+								<div class="table-responsive">
+									<table data-sortable class="table table-hover table-striped">
+										<thead>
+											<tr>
+												<th>Nº</th>
+												<th>Nome</th>
+												<th>Departamento</th>
+												<th>Cargo</th>
+												<th>Salário</th>
+												<th>Status</th>
+												<th data-sortable="false">Ação</th>
+											</tr>
+										</thead>
+										
+										<tbody>
+										<tr>
+											<td><a href="#">1</a></td><td>Lucas Villasboas</td>
+											<td>Fiscal</td><td>Coordenador Fiscal</td>
+											<td>R$ 4.500,00</td>
+										    <td><span class="label label-success">Ativo</span></td>
+											<td>
+												<div class="btn-group btn-group-xs">
+													<a data-toggle="tooltip" href="#" title="Editar" class="btn btn-primary"><i class="fa fa-edit"></i></a>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td><a href="#">1</a></td><td>Robson Rosa</td>
+											<td>Contábil</td><td>Analista Contábil Pleno</td>
+											<td>R$ 2.800,00</td>
+										    <td><span class="label label-success">Ativo</span></td>
+											<td>
+												<div class="btn-group btn-group-xs">
+													<a data-toggle="tooltip" href="#" title="Editar" class="btn btn-primary"><i class="fa fa-edit"></i></a>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td><a href="#">1</a></td><td>Bruna Paiva</td>
+											<td>Recursos Humanos</td><td>Analista RH Pleno</td>
+											<td>R$ 3.000,00</td>
+										    <td><span class="label label-success">Ativo</span></td>
+											<td>
+												<div class="btn-group btn-group-xs">
+													<a data-toggle="tooltip" href="#" title="Editar" class="btn btn-primary"><i class="fa fa-edit"></i></a>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td><a href="#">1</a></td><td>Gabriel Dacol</td>
+											<td>Financeiro</td><td>Assistente Financeiro Júnior</td>
+											<td>R$ 1.200,00</td>
+										    <td><span class="label label-danger">Inativo</span></td>
+											<td>
+												<div class="btn-group btn-group-xs">
+													<a data-toggle="tooltip" href="#" title="Editar" class="btn btn-primary"><i class="fa fa-edit"></i></a>
+												</div>
+											</td>
+										</tr>
+									<?php
+                                    /*if($empresas) {
+                                        foreach($empresas as $empresa) {
+                                          $status = $empresa['status'] == 'A' ? 'Ativa' : 'Inativa';  
+                                ?>
+											<tr>
+												<td><a href="<?= $this->basePath()?>/detalhe/<?= $empresa['id'] ?>"><?= $empresa['id'] ?></a></td><td><strong><?= $empresa['razao_social'] ?></strong></td>
+												<td><?= $empresa['cnpj'] ?></td><td><?= $empresa['regime_tributacao'] ?></td>
+											    <td><span class="label label-success"><?=$status ?></span></td>
+												<td>
+													<div class="btn-group btn-group-xs">
+														<a data-toggle="tooltip" href="<?php echo $this->basePath()?>/editar/<?php echo $empresa['id'] ?>" title="Editar" class="btn btn-primary"><i class="fa fa-edit"></i></a>
+													</div>
+												</td>
+											</tr>
+									<?php
+                                      /*      }
+                                        }*/
+                                    ?>		
+										</tbody>
+									</table>
+								</div>
+									
+								<div class="data-table-toolbar">
+									<ul class="pagination">
+									  <li class="disabled"><a href="#">&laquo;</a></li>
+									  <li class="active"><a href="#">1</a></li>
+									  <li><a href="#">2</a></li>
+									  <li><a href="#">3</a></li>
+									  <li><a href="#">4</a></li>
+									  <li><a href="#">5</a></li>
+									  <li><a href="#">&raquo;</a></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+						
+				</div>
+
+				            <!-- Footer Start -->
+           
+            <!-- Footer End -->			
+            </div>
+			<!-- ============================================================== -->
+			<!-- End content here -->
+			<!-- ============================================================== -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ <?php /*
+
+
+<div class="container-fluid">
+
+                <!-- Page Heading -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">
+
+                        </h1>
+                        <ol class="breadcrumb">
+                            <li>
+                                <i class="fa fa-dashboard"></i>  <a href="javascript:void(0)">Dashboard</a>
+                            </li>
+                            <li class="active">
+                                <i class="fa fa-table"></i> Listagem de Empresas
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+                <!-- /.row -->
+<div class="container">
+  <!-- Modal -->
+  <div class="modal fade " id="confirm" role="dialog">
+    <div class="modal-dialog"   style="top:200px;">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+          <div class="modal-body" style="padding:50px 20px;">
+                Voce tem certeza que deseja excluir essa empresa?
+          </div>
+        <div class="modal-footer">
+          <button class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+          <button class="btn btn-success btn-default pull-right confirm-ok" data-dismiss="modal"><span class="glyphicon glyphicon-on"></span> Ok</button>
+        </div>
+      </div>     
+    </div>
+  </div> 
+</div>
+
+                 <div class="row">
+                    <div class="col-lg-12">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <h2>Listagem de Empresas</h2>
+                            </div>
+                            <div class="col-lg-6">
+                                <h2>
+                                    <form class="navbar-form navbar-left" method="get" action="<?= $this->basePath()?>/listar" role="search">
+                                        <div class="form-group">
+                                            <select name="field" class="form-control">
+                                                <option value="">CAMPO</option>
+                                                <option value="id">ID</option>
+                                                <option value="razao_social">Razão Social</option>
+                                                <option value="nome_fantasia">Nome Fantasia</option>
+                                                <option value="email">Email</option>
+                                                <option value="login">Login</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" placeholder="Busca" name="busca">
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Enviar</button>
+                                    </form>
+                                    <a class="exportUrl" href="<?php echo $this->basePath()?>/exportar">
+                                        <button class="btn btn-success btn-default pull-right export">
+                                        <span class="glyphicon glyphicon-on">
+
+                                        </span> Export
+                                        </button>
+                                    </a>
+                                </h2>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover table-striped">
+                                <thead>
+                                    <tr id="ordered">
+                                        <th ord="desc" campo="id"><i class="fa fa-fw"></i> Id</th>
+                                        <th ord="desc" campo="razao_social"><i class="fa fa-fw"></i> Razão Social</th>
+                                        <th>CNPJ</th>
+                                        <th>I.M.</th>
+                                        <th>I.E.</th>
+                                        <th>CNAE</th>
+                                        <th ord="desc" campo="regime_tributacao"><i class="fa fa-fw"></i> Regime de Tributação</th>
+                                        <th ord="desc" campo="valor_honorarios"><i class="fa fa-fw"></i> Valor dos Honorários</th>
+                                        <th ord="desc" campo="vencimento_honorarios"><i class="fa fa-fw"></i> Vencimento dos Honorários</th>
+                                        <th ord="desc" campo="status"><i class="fa fa-fw"></i> Status</th>
+                                        <th>Editar</th>
+                                        <th>Excluir</th>
+                                        <th>Suspender</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="emp_content">
+                                <?php
+                                    if($empresas) {
+                                        foreach($empresas as $empresa) {
+                                          $status = $empresa['status'] == 'A' ? 'Ativa' : 'Inativa';  
+                                ?>
+                                    <tr>
+                                        <td><i class="fa fa-search"></i><a href="<?= $this->basePath()?>/detalhe/<?= $empresa['id'] ?>"> <?= $empresa['id'] ?></a></td>
+                                        <td><?= $empresa['razao_social'] ?></td>
+                                        <td><?= $empresa['cnpj'] ?></td>
+                                        <td><?= $empresa['inscricao_municipal'] ?></td>
+                                        <td><?= $empresa['inscricao_estadual'] ?></td>
+                                        <td><?= $empresa['CNAE_principal'] ?></td>
+                                        <td><?= $empresa['regime_tributacao'] ?></td>
+                                        <td><?= Application\Utils\Money::toCurrency($empresa['valor_honorarios']) ?></td>
+                                        <td><?= Application\Utils\DateConversion::conversion($empresa['vencimento_honorarios']) ?></td>
+                                        <td class="text-center status-emp-<?= $empresa['usr_id'] ?>"><?=$status ?></td>
+                                        <td class="text-center"><a href="<?php echo $this->basePath()?>/editar/<?php echo $empresa['id'] ?>"><i class="fa fa-fw fa-edit"></i></a></td>
+                                        <td class="text-center deletar"><a href="<?php echo $this->basePath()?>/deletar/<?php echo $empresa['id'] ?>"><i class="fa fa-fw fa-times"></i></a></td>
+                                        <td class="suspender text-center" emp="<?= $empresa['usr_id'] ?>"><i class="fa fa-fw fa-lock"></i></td>
+                                    </tr>
+                                <?php
+                                        }
+                                    }
+                                ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.row -->
+                <!-- Page Heading -->
+                <div class="row">
+                    <div class="col-lg-4">
+                    <?= $paginator($empresas, 'Sliding', 'partials/paginator', array('route' => 'listar'))?>
+                    </div>
+                </div>
+                <!-- /.row -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">
+
+                        </h1>
+                    </div>
+                </div>
+
+</div>
+
+*/?>

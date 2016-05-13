@@ -28,7 +28,15 @@ class Module
                 $this,
                 'secureSession'
             )
-        ); 
+        );
+       $eventManager->attach(
+            'dispatch',
+            array(
+                $this,
+                'activeAction'
+            ),
+            -100
+        );
     }
 
     public function secureSession($e) 
@@ -44,7 +52,15 @@ class Module
         {
             return $target->redirect()->toRoute('home');    
         }        
-    } 
+    }
+    
+    public function activeAction($e)
+    {
+        $routeMatch = $e->getRouteMatch();
+        $viewModel = $e->getViewModel();
+        $viewModel->setVariable('controller', substr($routeMatch->getParam('controller'), strrpos($routeMatch->getParam('controller'),'\\')+1));
+        $viewModel->setVariable('action', $routeMatch->getParam('action'));
+    }
 
     public function getConfig()
     {

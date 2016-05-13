@@ -22,7 +22,7 @@ class IndexController extends AbstractActionController
         $renderer->headMeta()->appendName('description', 'Escrituracao fiscal, contabilidade de empresas');
 
 
-        $renderer->headTitle("ADMIN | Contjet");
+        //$renderer->headTitle("ADMIN | Contjet");
 
         $model = new ViewModel();
 

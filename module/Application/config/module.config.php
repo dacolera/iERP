@@ -50,40 +50,20 @@ return array(
                     ),
                 ),
             ),
-            'charts' => array(
+            'cadastrarEmpresa' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
-                    'route'    => '/charts',
-                    'defaults' => array(
-                        'controller' => 'Application\Controller\Index',
-                        'action'     => 'charts',
-                    ),
-                ),
-            ),
-            'forms' => array(
-                'type' => 'Zend\Mvc\Router\Http\Literal',
-                'options' => array(
-                    'route'    => '/forms',
-                    'defaults' => array(
-                        'controller' => 'Application\Controller\Index',
-                        'action'     => 'forms',
-                    ),
-                ),
-            ),
-            'cadastrar' => array(
-                'type' => 'Zend\Mvc\Router\Http\Literal',
-                'options' => array(
-                    'route'    => '/cadastrar',
+                    'route'    => '/empresa/cadastrar',
                     'defaults' => array(
                         'controller' => 'Application\Controller\Empresa',
                         'action'     => 'cadastrar',
                     ),
                 ),
             ),
-            'editar' => array(
+            'editarEmpresa' => array(
                 'type' => 'Segment',
                 'options' => array(
-                    'route'    => '/editar/:id',
+                    'route'    => '/empresa/editar/:id',
                     'constraints' => array(
                         'id' => '\d+'
                     ),
@@ -93,10 +73,10 @@ return array(
                     ),
                 ),
             ),
-            'deletar' => array(
+            'deletarEmpresa' => array(
                 'type' => 'Segment',
                 'options' => array(
-                    'route'    => '/deletar/:id',
+                    'route'    => '/empresa/deletar/:id',
                     'constraints' => array(
                         'id' => '\d+'
                     ),
@@ -106,10 +86,10 @@ return array(
                     ),
                 ),
             ),
-            'detalhe' => array(
+            'detalheEmpresa' => array(
                 'type' => 'Segment',
                 'options' => array(
-                    'route'    => '/detalhe/:id',
+                    'route'    => '/empresa/detalhe/:id',
                     'constraints' => array(
                         'id' => '\d+'
                     ),
@@ -119,30 +99,20 @@ return array(
                     ),
                 ),
             ),
-            'ordenar' => array(
+            'exportarEmpresa' => array(
                 'type' => 'Segment',
                 'options' => array(
-                    'route'    => '/ordenar/:campo/:order',
-                    'defaults' => array(
-                        'controller' => 'Application\Controller\Empresa',
-                        'action'     => 'ordenarAjax',
-                    ),
-                ),
-            ),
-            'exportar' => array(
-                'type' => 'Segment',
-                'options' => array(
-                    'route'    => '/exportar',
+                    'route'    => '/empresa/exportar',
                     'defaults' => array(
                         'controller' => 'Application\Controller\Empresa',
                         'action'     => 'exportar',
                     ),
                 ),
             ),
-            'suspender' => array(
+            'suspenderEmpresa' => array(
                 'type' => 'Segment',
                 'options' => array(
-                    'route'    => '/suspender-ativar-toogle/:id/:status',
+                    'route'    => '/empresa/suspender-ativar-toogle/:id/:status',
                     'constraints' => array(
                         'id' => '\d+'
                     ),
@@ -152,10 +122,10 @@ return array(
                     ),
                 ),
             ),
-            'listar' => array(
+            'listarEmpresa' => array(
                 'type' => 'Segment',
                 'options' => array(
-                    'route'    => '/listar[/page][/:page]',
+                    'route'    => '/empresa/listar[/page][/:page]',
                     'constraints' => array(
                         'page' => '\d+'
                     ),
@@ -166,23 +136,176 @@ return array(
                     ),
                 ),
             ),
-            'tables' => array(
+            
+            'cadastrarDepartamento' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
-                    'route'    => '/tables',
+                    'route'    => '/departamento/cadastrar',
                     'defaults' => array(
-                        'controller' => 'Application\Controller\Index',
-                        'action'     => 'tables',
+                        'controller' => 'Application\Controller\Departamento',
+                        'action'     => 'cadastrar',
                     ),
                 ),
             ),
-            'bootstrap-elements' => array(
+            'editarDepartamento' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route'    => '/departamento/editar/:id',
+                    'constraints' => array(
+                        'id' => '\d+'
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Application\Controller\Departamento',
+                        'action'     => 'editar',
+                    ),
+                ),
+            ),
+            'deletarDepartamento' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route'    => '/departamento/deletar/:id',
+                    'constraints' => array(
+                        'id' => '\d+'
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Application\Controller\Departamento',
+                        'action'     => 'deletar',
+                    ),
+                ),
+            ),
+            'detalheDepartamento' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route'    => '/departamento/detalhe/:id',
+                    'constraints' => array(
+                        'id' => '\d+'
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Application\Controller\Departamento',
+                        'action'     => 'detalhe',
+                    ),
+                ),
+            ),
+            'exportarDepartamento' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route'    => '/departamento/exportar',
+                    'defaults' => array(
+                        'controller' => 'Application\Controller\Departamento',
+                        'action'     => 'exportar',
+                    ),
+                ),
+            ),
+            'suspenderDepartamento' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route'    => '/departamento/suspender-ativar-toogle/:id/:status',
+                    'constraints' => array(
+                        'id' => '\d+'
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Application\Controller\Departamento',
+                        'action'     => 'suspenderAtivarDepartamentoToogleAjax',
+                    ),
+                ),
+            ),
+            'listarDepartamento' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route'    => '/departamento/listar[/page][/:page]',
+                    'constraints' => array(
+                        'page' => '\d+'
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Application\Controller\Departamento',
+                        'action'     => 'index',
+                        'page' => 1,
+                    ),
+                ),
+            ),
+            'cadastrarFuncionario' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
-                    'route'    => '/bootstrap-elements',
+                    'route'    => '/funcionario/cadastrar',
                     'defaults' => array(
-                        'controller' => 'Application\Controller\Index',
-                        'action'     => 'bootstrapElements',
+                        'controller' => 'Application\Controller\Funcionario',
+                        'action'     => 'cadastrar',
+                    ),
+                ),
+            ),
+            'editarFuncionario' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route'    => '/funcionario/editar/:id',
+                    'constraints' => array(
+                        'id' => '\d+'
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Application\Controller\Funcionario',
+                        'action'     => 'editar',
+                    ),
+                ),
+            ),
+            'deletarFuncionario' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route'    => '/funcionario/deletar/:id',
+                    'constraints' => array(
+                        'id' => '\d+'
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Application\Controller\Funcionario',
+                        'action'     => 'deletar',
+                    ),
+                ),
+            ),
+            'detalheFuncionario' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route'    => '/funcionario/detalhe/:id',
+                    'constraints' => array(
+                        'id' => '\d+'
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Application\Controller\Funcionario',
+                        'action'     => 'detalhe',
+                    ),
+                ),
+            ),
+            'exportarFuncionario' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route'    => '/funcionario/exportar',
+                    'defaults' => array(
+                        'controller' => 'Application\Controller\Funcionario',
+                        'action'     => 'exportar',
+                    ),
+                ),
+            ),
+            'suspenderFuncionario' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route'    => '/funcionario/suspender-ativar-toogle/:id/:status',
+                    'constraints' => array(
+                        'id' => '\d+'
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Application\Controller\Funcionario',
+                        'action'     => 'suspenderAtivarFuncionarioToogleAjax',
+                    ),
+                ),
+            ),
+            'listarFuncionario' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route'    => '/funcionario/listar[/page][/:page]',
+                    'constraints' => array(
+                        'page' => '\d+'
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Application\Controller\Funcionario',
+                        'action'     => 'index',
+                        'page' => 1,
                     ),
                 ),
             ),
@@ -240,7 +363,9 @@ return array(
     'controllers' => array(
         'invokables' => array(
             'Application\Controller\Index' => 'Application\Controller\IndexController',
-            'Application\Controller\Empresa' => 'Application\Controller\EmpresaController'
+            'Application\Controller\Empresa' => 'Application\Controller\EmpresaController',
+            'Application\Controller\Funcionario' => 'Application\Controller\FuncionarioController',
+            'Application\Controller\Departamento' => 'Application\Controller\DepartamentoController'
         ),
     ),
     'view_manager' => array(
