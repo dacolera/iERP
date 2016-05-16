@@ -17,6 +17,4 @@ class Usuario extends AbstractMapper
 
         return $this->select($sql);
     }
-
-    
 }
