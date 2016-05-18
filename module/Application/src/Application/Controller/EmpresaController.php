@@ -178,6 +178,7 @@ class EmpresaController  extends AbstractActionController{
     {
             //pega o service de empresa
             $serviceEmp = $this->getServiceLocator()->get('Application\Service\Empresa');
+            $serviceExport = $this->getServiceLocator()->get('Application\Service\Export');
             //pega o(s) parametros de filtro da rota ajax
             $busca = $this->params()->fromQuery('busca', null);
             $field = $this->params()->fromQuery('field', null);
@@ -185,7 +186,7 @@ class EmpresaController  extends AbstractActionController{
             //realiza a query e retorna array
             $listaEmpresas = $serviceEmp->pegarEmpresas($field, $busca);//$serviceEmp->pegarEmpresasExcel($filter);
             //chama o exporta excel
-            $serviceEmp->exportExcel($listaEmpresas);
+            $serviceExport->exportExcel($listaEmpresas, 'Listagem de Empresas');
     }
 
     protected function fileUpload($file, $mod)

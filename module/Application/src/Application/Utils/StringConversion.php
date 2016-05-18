@@ -21,4 +21,13 @@ class StringConversion
         }
         return $title;
     }
+    
+    public static function titleToIndex($title)
+    {
+        //pegar titulos tipo Nome Fantasia
+        //transformar em nome_fantasia
+        $index = '';
+        $title = strtolower($title);
+        return preg_replace('/\s+/', '_', $title);
+    }
 }

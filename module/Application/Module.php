@@ -58,7 +58,14 @@ class Module
     {
         $routeMatch = $e->getRouteMatch();
         $viewModel = $e->getViewModel();
-        $viewModel->setVariable('controller', substr($routeMatch->getParam('controller'), strrpos($routeMatch->getParam('controller'),'\\')+1));
+        $viewModel->setVariable(
+            'controller',
+            substr(
+                $routeMatch->getParam('controller'),
+                (strrpos($routeMatch->getParam('controller'), '\\') +1)
+            )
+        );
+        
         $viewModel->setVariable('action', $routeMatch->getParam('action'));
     }
 
@@ -87,10 +94,13 @@ class Module
                  */
                 'Application\Mapper\Empresa' => 'Application\Factory\Mapper\Empresa',
                 'Application\Mapper\Endereco' => 'Application\Factory\Mapper\Endereco',
-                'Application\Mapper\Usuario' => 'Application\Factory\Mapper\Usuario'
+                'Application\Mapper\Usuario' => 'Application\Factory\Mapper\Usuario',
+                'Application\Mapper\Departamento' => 'Application\Factory\Mapper\Departamento',
+                'Application\Mapper\Funcionario' => 'Application\Factory\Mapper\Funcionario'
             ),
             'invokables' => array(
-                'Application\Service\Empresa' => 'Application\Service\Empresa'
+                'Application\Service\Empresa' => 'Application\Service\Empresa',
+                'Application\Service\Export' => 'Application\Service\Export'
             )
         );
     }                        
