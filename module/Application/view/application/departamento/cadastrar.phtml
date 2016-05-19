@@ -19,10 +19,10 @@
 							</div>
 							<div class="widget-content padding">							
 								<div id="basic-form">
-									<form role="form">
+									<form role="form" method="post" action="<?= $this->basePath()?>/departamento/cadastrar">
 									  <div class="form-group">
 										<label for="departamento">Nome</label>
-										<input type="text" class="form-control" id="departamento" name="departamento" placeholder="Nome do Departamento">
+										<input type="text" class="form-control" id="departamento" name="nome" placeholder="Nome do Departamento">
 									  </div>
 									  <input type="submit" class="btn btn-default" value="Cadastrar" />
 									</form>

@@ -11,7 +11,9 @@ class Departamento extends Hydrator
 
     public function getMap()
     {
-        return array();
+        return array(
+            'id' => 'id_departamento'    
+        );
     }
 
     protected function getTemporary()

@@ -18,6 +18,22 @@ class Departamento extends AbstractMapper
         return $this->select($sql);
     }
     
+    /**
+     * carrega todas os departamentos
+     * @return \Zend\Db\ResultSet\HydratingResultSet;
+     */
+    public function loadAllDepartamentos($field = null, $busca = null)
+    {
+        $where = array();
+        if (null != $busca && null != $field) {
+            $where[$field] = $busca;
+        }
+
+        $sql = $this->getSelect()
+            ->where($where);
+        return $this->select($sql);
+    }
+    
     public function save(DepartamentoEntity $departamentoEntity)
     {
         if ($departamentoEntity->getId() > 0) {

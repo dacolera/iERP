@@ -23,7 +23,7 @@ class Departamento
     
     public function setNome($nome)
     {
-        $this->nome = $id;
+        $this->nome = $nome;
         return $this;
     }
     
