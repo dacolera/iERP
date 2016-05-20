@@ -7,7 +7,6 @@
             		<h1><i class='fa fa-table'></i> Listagem de Departamentos</h1>
             		<h3>Departamentos > Listar Departamentos</h3>            	</div>
             	<!-- Page Heading End-->				<!-- Your awesome content goes here -->
-							<?php #print_r($departamentos); die; ?>	
 				<div class="row">
 					<div class="col-md-12">
 						<div class="widget">
@@ -20,7 +19,7 @@
 							<div class="widget-content">
 								<div class="data-table-toolbar">
 									<div class="row">
-										<form method="get" action="<?= $this->basePath()?>/listar" role="form">
+										<form method="get" action="<?= $this->basePath()?>/departamento/listar" role="form">
 										<div class="col-md-4">
 										    <select name="field" class="form-control">
                                                 <option value="nome">Nome</option>
@@ -42,7 +41,7 @@
 									<table data-sortable class="table table-hover table-striped">
 										<thead>
 											<tr>
-												<th>Nº</th>#
+												<th>Nº</th>
 												<th>Nome</th>
 												<th>Status</th>
 												<th data-sortable="false">Ação</th>
@@ -58,7 +57,7 @@
 										    <td><span class="label label-success"><?= \Application\Model\Rotulos::$status[$departamento->getStatus()]?></span></td>
 											<td>
 												<div class="btn-group btn-group-xs">
-													<a data-toggle="tooltip" href="#" title="Editar" class="btn btn-primary"><i class="fa fa-edit"></i></a>
+													<a data-toggle="tooltip" href="<?= $this->basePath()?>/departamento/editar/<?= $departamento->getId() ?>" title="Editar" class="btn btn-primary"><i class="fa fa-edit"></i></a>
 												</div>
 											</td>
 										</tr>
@@ -89,15 +88,7 @@
 								</div>
 									
 								<div class="data-table-toolbar">
-									<ul class="pagination">
-									  <li class="disabled"><a href="#">&laquo;</a></li>
-									  <li class="active"><a href="#">1</a></li>
-									  <li><a href="#">2</a></li>
-									  <li><a href="#">3</a></li>
-									  <li><a href="#">4</a></li>
-									  <li><a href="#">5</a></li>
-									  <li><a href="#">&raquo;</a></li>
-									</ul>
+									<?= $paginator($departamentos, 'Sliding', 'partials/paginator', array('route' => 'listar'))?>
 								</div>
 							</div>
 						</div>

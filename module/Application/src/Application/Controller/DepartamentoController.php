@@ -4,8 +4,11 @@ namespace Application\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+use Zend\Paginator\Adapter\Iterator;
+use Zend\Paginator\Factory;
+use Zend\Paginator\Paginator;
 
-class DepartamentoController  extends AbstractActionController
+class DepartamentoController extends AbstractActionController
 {
     public function indexAction()
     {
@@ -14,8 +17,17 @@ class DepartamentoController  extends AbstractActionController
         
         $serviceDepartamento = $this->getServiceLocator()->get('Application\Service\Departamento');
         $listaDepartamentos = $serviceDepartamento->pegarDepartamentos($field, $busca);
+        $listaDepartamentos->buffer();
         
-        $model = new ViewModel(['departamentos' => $listaDepartamentos]);
+        $paginator = new Paginator(new Iterator($listaDepartamentos));
+        $page = $this->params()->fromRoute('page', false);
+        
+        $paginator->setCurrentPageNumber($page)
+            ->setDefaultItemCountPerPage(1);
+        $viewHelperManager = $this->getServiceLocator()->get('ViewHelperManager');
+        $paginationHelper = $viewHelperManager->get('paginationControl');
+        
+        $model = new ViewModel(['departamentos' => $paginator, 'paginator' => $paginationHelper]);
         return $model;
     }
     

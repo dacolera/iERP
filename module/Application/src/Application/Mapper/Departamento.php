@@ -4,6 +4,8 @@ namespace Application\Mapper;
 
 use Application\Entity\Departamento as DepartamentoEntity;
 use Zend\Db\Sql\Select;
+use Zend\Db\Sql\Where;
+use Zend\Db\Sql\Predicate\Like;
 
 class Departamento extends AbstractMapper
 {
@@ -24,13 +26,14 @@ class Departamento extends AbstractMapper
      */
     public function loadAllDepartamentos($field = null, $busca = null)
     {
-        $where = array();
+        $where = [];
         if (null != $busca && null != $field) {
-            $where[$field] = $busca;
+            $where[] = new Like($field, '%' . $busca . '%');
         }
 
         $sql = $this->getSelect()
             ->where($where);
+            
         return $this->select($sql);
     }
     
