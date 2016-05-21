@@ -4,6 +4,7 @@ namespace Application\Mapper;
 
 use Application\Entity\Empresa as EmpresaEntity;
 use Zend\Db\Sql\Where;
+use Zend\Db\Sql\Predicate\Like;
 
 class Empresa extends AbstractMapper
 {
@@ -42,7 +43,7 @@ class Empresa extends AbstractMapper
     {
         $where = array();
         if (null != $busca && null != $field) {
-            $where[$field] = $busca;
+            $where[] = new Like($field, '%' . $busca . '%');
         }
 
         $sql = $this->getSelect()
@@ -77,7 +78,7 @@ class Empresa extends AbstractMapper
 
     public function suspenderAtivarToogleEmpresa($id, $status)
     {
-        return $this->usuarioMapper->update(array("status" => $status), sprintf('usr_id = %s', $id));
+        return $this->usuarioMapper->update(["status" => $status], ['usr_id' => $id]);
     }
 
     public function loadEmpresasInOrder($campo, $order)
@@ -145,8 +146,8 @@ class Empresa extends AbstractMapper
                 $end_id = $arrayEnd['id'];
                 unset($arrayEnd['id']);
 
-                $this->usuarioMapper->update($arrayUser, sprintf("usr_id = %s", $usr_id));
-                $this->enderecoMapper->update($arrayEnd, sprintf("end_id = %s", $end_id));
+                $this->usuarioMapper->update($arrayUser, ["usr_id" => $usr_id]);
+                $this->enderecoMapper->update($arrayEnd, ["end_id" => $end_id]);
                 $empresa
                     ->setUsrId($empresa->getUsuario()->getId())
                     ->setEnderecoId($empresa->getEndereco()->getId());
@@ -155,7 +156,7 @@ class Empresa extends AbstractMapper
                 $emp_id = $arrayEmp['id'];
                 unset($arrayEmp['id']);
 
-                parent::update($arrayEmp, sprintf("id = %s", $emp_id));
+                parent::update($arrayEmp, ["id" => $emp_id]);
             }
             $con->commit();
         } catch (Exception $e) {

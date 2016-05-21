@@ -38,11 +38,11 @@
 										<form method="get" action="<?= $this->basePath()?>/departamento/listar" role="form">
 										<div class="col-md-4">
 										    <select name="field" class="form-control">
-                                                <option value="nome">Nome</option>
+                                                <option value="nome" <?= isset($_GET['field']) && $_GET['field'] == "nome" ? 'selected="selected"' : '' ?>>Nome</option>
                                             </select>
 										</div>
 										<div class="col-md-4">	
-										    <input type="text" name="busca" class="form-control" placeholder="Buscar">
+										    <input type="text" name="busca" value="<?= isset($_GET['busca']) ? $_GET['busca'] : '' ?>" class="form-control" placeholder="Buscar">
 										</div>
 										</form>
 										<div class="col-md-4">

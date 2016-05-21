@@ -171,11 +171,15 @@ $(function(){
     
     $('tbody').on('click', '.suspender', function(e){
         e.preventDefault();
+        
         var tipo = App.retornaTipo(this).tipo;
         var subject = App.retornaTipo(this).subject;
         
         var id = $(this).attr(tipo);
+        
         var status = $('.status-'+tipo+'-'+id).text() == 'Ativa' ? 'Inativa' : 'Ativa';
+        var statusClass = $('.status-'+tipo+'-'+id).text() == 'Ativa' ? 'label-danger' : 'label-success';
+        var actualClass = $('.status-'+tipo+'-'+id).text() == 'Ativa' ? 'label-success' : 'label-danger';
         
         App.modalConfirm('Tem certeza que deseja mudar o status para '+status+' ?', function(){
             $.ajax({
@@ -183,7 +187,7 @@ $(function(){
                 success: function (data) {
                     var json = JSON.parse(data);
                     if (json.status == 'ok') {
-                        $('.status-'+tipo+'-'+id).text(status);
+                        $('.status-'+tipo+'-'+id).text(status).removeClass(actualClass).addClass(statusClass);
                     }
                 }
             });

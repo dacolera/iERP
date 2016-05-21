@@ -38,12 +38,12 @@
 										<form method="get" action="<?= $this->basePath()?>/empresa/listar" role="form">
 										<div class="col-md-4">
 										    <select name="field" class="form-control">
-                                                <option value="razao_social">Nome</option>
-                                                <option value="regime_tributacao">Tributação</option>
+                                                <option value="razao_social" <?= isset($_GET['field']) && $_GET['field'] == "razao_social" ? 'selected="selected"' : '' ?>>Nome</option>
+                                                <option value="regime_tributacao" <?= isset($_GET['field']) && $_GET['field'] == "regime_tributacao" ? 'selected="selected"' : '' ?>>Tributação</option>
                                             </select>
 										</div>
 										<div class="col-md-4">	
-										    <input type="text" name="busca" class="form-control" placeholder="Buscar">
+										    <input type="text" name="busca" value="<?= isset($_GET['busca']) ? $_GET['busca'] : ''?>" class="form-control" placeholder="Buscar">
 										</div>
 										</form>
 										<div class="col-md-4">
@@ -76,10 +76,12 @@
 											<tr>
 												<td><a href="<?= $this->basePath()?>/empresa/detalhe/<?= $empresa['id'] ?>"><?= $empresa['id'] ?></a></td><td><strong><?= $empresa['razao_social'] ?></strong></td>
 												<td><?= $empresa['cnpj'] ?></td><td><?= $empresa['regime_tributacao'] ?></td>
-											    <td><span class="label label-<?= \Application\Model\Rotulos::$classStatus[$empresa['status']] ?> status-emp-<?= $empresa['usr_id'] ?>"><?= \Application\Model\Rotulos::$status[$empresa['status']] ?></span></td>
+											    <td><span class="label label-<?= \Application\Model\Rotulos::$classStatus[$empresa['status']] ?> status-emp-<?= $empresa['id'] ?>"><?= \Application\Model\Rotulos::$status[$empresa['status']] ?></span></td>
 												<td>
 													<div class="btn-group btn-group-xs">
 														<a data-toggle="tooltip" href="<?php echo $this->basePath()?>/empresa/editar/<?php echo $empresa['id'] ?>" title="Editar" class="btn btn-primary"><i class="fa fa-edit"></i></a>
+														<a data-toggle="tooltip" href="<?= $this->basePath()?>/empresa/deletar/<?= $empresa['id'] ?>" title="Deletar" class="btn btn-danger deletar"><i class="fa fa-eraser"></i></a>
+													    <a data-toggle="tooltip" tipo="emp" emp="<?= $empresa['id'] ?>" href="javascript:void(0)" title="Alterar Status" class="btn btn-warning suspender"><i class="fa fa-wrench"></i></a>
 													</div>
 												</td>
 											</tr>
