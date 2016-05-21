@@ -1,6 +1,6 @@
 <?php
 
-namespace \Application\Service;
+namespace Application\Service;
 
 use Application\Utils\StringConversion;
 
@@ -8,6 +8,10 @@ class Export
 {
    public function exportExcel($filter, $name = 'Listagem')
     {
+        if ($filter instanceof \Zend\Db\ResultSet\HydratingResultSet) {
+            $filter = iterator_to_array($filter->getDataSource());
+        }
+        
         // Create new PHPExcel object
         $objPHPExcel = new \PHPExcel();
         
@@ -26,7 +30,8 @@ class Export
                 $normalizeField[] = $chave;
                 
             }
-            foreach ( $this->createColumnsArray('AH') as $column_key) {
+            
+            foreach ($this->returnRange(count($filter[0])) as $column_key) {
                 $objPHPExcel->getActiveSheet()->getStyle($column_key.'1')->getFont()->setBold(true);
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue($column_key.'1', $campos[$count]);
                 if($column_key != 'A') 
@@ -93,5 +98,11 @@ class Export
         }
 
         return $columns;
-    } 
+    }
+    
+    private function returnRange($number_of_columns)
+    {
+        return array_splice($this->createColumnsArray('ZZ'), 0, $number_of_columns);
+        
+    }
 }
