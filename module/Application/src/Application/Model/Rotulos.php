@@ -43,6 +43,8 @@ class Rotulos
 	 
 	public static $status = ['A' => 'Ativa', 'I' => 'Inativa', 'S' => 'Inativa']; 
 	
+	public static $classStatus = ['A' => 'success', 'I' => 'danger', 'S' => 'danger'];
+	
 	public static $tipoPessoa = array(
 		'J' => 'Jurídica', 
 		'F' => 'Física'

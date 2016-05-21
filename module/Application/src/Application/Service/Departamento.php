@@ -60,7 +60,7 @@ class Departamento implements ServiceManagerAwareInterface
     public function deletarDepartamento($id)
     {
         $mapperDepartamento = $this->getService()->get('Application\Mapper\Departamento');
-        return  $mapperDepartamento->deletarEmpresa($id);
+        return  $mapperDepartamento->deletarDepartamento(['id_departamento' => $id]);
     }
 
     public function suspenderAtivarToogleDepartamento($id, $status)

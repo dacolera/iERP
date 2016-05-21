@@ -7,7 +7,22 @@
             		<h1><i class='fa fa-table'></i> Listagem de Empresas</h1>
             		<h3>Empresas > Listar Empresas</h3>            	</div>
             	<!-- Page Heading End-->				<!-- Your awesome content goes here -->
-								
+				<!-- Modal -->
+              <div class="modal fade " id="confirm" role="dialog">
+                <div class="modal-dialog"   style="top:200px;">
+                
+                  <!-- Modal content-->
+                  <div class="modal-content">
+                      <div class="modal-body" style="padding:50px 20px;">
+                            Voce tem certeza que deseja excluir essa empresa?
+                      </div>
+                    <div class="modal-footer">
+                      <button class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                      <button class="btn btn-success btn-default pull-right confirm-ok" data-dismiss="modal"><span class="glyphicon glyphicon-on"></span> Ok</button>
+                    </div>
+                  </div>     
+                </div>
+              </div>				
 				<div class="row">
 					<div class="col-md-12">
 						<div class="widget">
@@ -57,12 +72,11 @@
 									<?php
                                     if($empresas) {
                                         foreach($empresas as $empresa) {
-                                          $status = $empresa['status'] == 'A' ? 'Ativa' : 'Inativa';  
                                     ?>
 											<tr>
 												<td><a href="<?= $this->basePath()?>/empresa/detalhe/<?= $empresa['id'] ?>"><?= $empresa['id'] ?></a></td><td><strong><?= $empresa['razao_social'] ?></strong></td>
 												<td><?= $empresa['cnpj'] ?></td><td><?= $empresa['regime_tributacao'] ?></td>
-											    <td><span class="label label-success"><?=$status ?></span></td>
+											    <td><span class="label label-<?= \Application\Model\Rotulos::$classStatus[$empresa['status']] ?> status-emp-<?= $empresa['usr_id'] ?>"><?= \Application\Model\Rotulos::$status[$empresa['status']] ?></span></td>
 												<td>
 													<div class="btn-group btn-group-xs">
 														<a data-toggle="tooltip" href="<?php echo $this->basePath()?>/empresa/editar/<?php echo $empresa['id'] ?>" title="Editar" class="btn btn-primary"><i class="fa fa-edit"></i></a>
@@ -78,7 +92,7 @@
 								</div>
 									
 								<div class="data-table-toolbar">
-									<?= $paginator($empresas, 'Sliding', 'partials/paginator', array('route' => 'listar'))?>
+									<?= $paginator($empresas, 'Sliding', 'partials/paginator', array('route' => 'listarEmpresa'))?>
 								</div>
 							</div>
 						</div>

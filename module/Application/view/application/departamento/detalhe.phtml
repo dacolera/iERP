@@ -3,7 +3,7 @@
     <div class="col-md-10 col-lg-offset-1">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h4 style="background-color: #f5f5f5; color: black!important;">Detalhes da Empresa </h4></div>
+                <h4 style="background-color: #f5f5f5; color: black!important;">Detalhes do Departamento </h4></div>
         </div>
         <div class="table-responsive">
             <table class="table table-striped">
@@ -14,7 +14,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                <?php foreach($empresa as $campo => $valor) :?>
+                <?php foreach($departamento as $campo => $valor) :?>
                     <tr>
                         <td><?= Application\Utils\StringConversion::indexToTitle($campo) ;?></td>
                         <td><?= $valor ;?></td>
@@ -31,7 +31,7 @@
 
             </div>
             <div class="panel-body">
-                    <button class="btn btn-primary center-block"><a style="color:white;" href="<?= $this->url('listarEmpresa')?>">Listagem de Empresas</a></button>
+                    <button class="btn btn-primary center-block"><a style="color:white;" href="<?= $this->url('listarDepartamento') ?>">Listagem de Departamento</a></button>
             </div>
         </div>
         <!--/panel-->

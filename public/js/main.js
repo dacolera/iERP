@@ -102,6 +102,18 @@
             $('#confirm .modal-body').text(msg);
             $('#confirm').modal('show');
             $('#confirm .confirm-ok').unbind().click(handler);
+        },
+        retornaTipo : function(item) {
+            var tipo = $(item).attr('tipo');
+            var subject = '';
+            switch(tipo) {
+                case 'emp' : subject = 'empresa'; break;
+                case 'dep' : subject = 'departamento'; break;
+                case 'func': subject = 'funcionario'; break;
+                case 'proc': subject = 'procedimento'; break;
+                case 'tar' : subject = 'tarefa'; break;
+            }
+            return {"tipo":tipo,"subject":subject};
         }
     };
  })(jQuery, document ? document : window);
@@ -155,66 +167,23 @@ $(function(){
          App.valida(this);
     });
 
-    //ordenacao ajax
-    $('#ordered > th[ord]').each(function(){
-
-        $(this).on('click', function(){
-            if($(this).attr('ord') == 'desc')
-            {
-                $('#ordered > th[ord] i').removeClass('fa-arrow-down').removeClass('fa-arrow-up');
-                $(this).children('i').removeClass('fa-arrow-down').addClass('fa-arrow-up');
-                $(this).attr('ord','asc');
-            } else {
-                $('#ordered > th[ord] i').removeClass('fa-arrow-down').removeClass('fa-arrow-up');
-                $(this).children('i').removeClass('fa-arrow-up').addClass('fa-arrow-down');
-                $(this).attr('ord','desc');
-            }
-
-            $.ajax({
-                url : '/ierp/public/ordenar/'+$(this).attr('campo')+'/'+$(this).attr('ord'),
-                success : function(data) {
-                    var json = JSON.parse(data);
-                    $('#emp_content').empty();
-                    for (i in json) {
-                        var status = json[i].status == "A" ? "Ativa" : "Inativa";
-                        var row = '<tr>';
-                        row += '<td><i class="fa fa-search"></i><a href="/ierp/public/detalhe/'+json[i].id+'">'+json[i].id+'</a></td>';
-                        row += '<td>'+json[i].razao_social+'</td>';
-                        row += '<td>'+json[i].cnpj+'</td>';
-                        row += '<td>'+json[i].inscricao_municipal+'</td>';
-                        row += '<td>'+json[i].inscricao_estadual+'</td>';
-                        row += '<td>'+json[i].CNAE_principal+'</td>';
-                        row += '<td>'+json[i].regime_tributacao+'</td>';
-                        row += '<td>'+json[i].valor_honorarios+'</td>';
-                        row += '<td>'+json[i].vencimento_honorarios+'</td>';
-                        row += '<td class="text-center status-emp-'+json[i].usr_id+'">'+status+'</td>';
-                        row += '<td class="text-center"><a href="/ierp/public/editar/'+json[i].id+'"><i class="fa fa-fw fa-edit"></i></a></td>';
-                        row += '<td class="text-center deletar"><a href="/ierp/public/deletar/'+json[i].id+'"><i class="fa fa-fw fa-times"></i></a></td>';
-                        row += '<td class="text-center suspender" emp="'+json[i].usr_id+'"><i class="fa fa-fw fa-lock"></i></td>';
-                        row += '</tr>';
-                        $('#emp_content').append(row);
-
-                    }
-                }
-            });
-        });
-    });
-    // fim da ordenacao ajax
-
-    //suspender empresa ajax
-
+    //suspender ajax
+    
     $('tbody').on('click', '.suspender', function(e){
         e.preventDefault();
-        var id = $(this).attr('emp');
-        var status = $('.status-emp-'+id).text() == 'Ativa' ? 'Inativa' : 'Ativa';
-
-        App.modalConfirm('Tem certeza que deseja mudar o status dessa empresa para '+status+' ?', function(){
+        var tipo = App.retornaTipo(this).tipo;
+        var subject = App.retornaTipo(this).subject;
+        
+        var id = $(this).attr(tipo);
+        var status = $('.status-'+tipo+'-'+id).text() == 'Ativa' ? 'Inativa' : 'Ativa';
+        
+        App.modalConfirm('Tem certeza que deseja mudar o status para '+status+' ?', function(){
             $.ajax({
-                url: '/ierp/public/suspender-ativar-toogle/' + id +'/'+ status,
+                url: '/ierp/public/'+subject+'/suspender-ativar-toogle/' + id +'/'+ status,
                 success: function (data) {
                     var json = JSON.parse(data);
                     if (json.status == 'ok') {
-                        $('.status-emp-'+id).text(status);
+                        $('.status-'+tipo+'-'+id).text(status);
                     }
                 }
             });
@@ -224,8 +193,8 @@ $(function(){
     $('tbody').on('click', '.deletar', function(e) {
        e.preventDefault();
        self = this;
-       App.modalConfirm('Tem certeza que deseja deletar essa empresa ?', function(){
-            window.location.href = $(self).find('a').attr('href');
+       App.modalConfirm('Tem certeza que deseja deletar esse registro ?', function(){
+            window.location.href = $(self).attr('href');
        });
     });
     

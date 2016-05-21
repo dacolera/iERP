@@ -7,6 +7,22 @@
             		<h1><i class='fa fa-table'></i> Listagem de Departamentos</h1>
             		<h3>Departamentos > Listar Departamentos</h3>            	</div>
             	<!-- Page Heading End-->				<!-- Your awesome content goes here -->
+            	<!-- Modal -->
+              <div class="modal fade " id="confirm" role="dialog">
+                <div class="modal-dialog"   style="top:200px;">
+                
+                  <!-- Modal content-->
+                  <div class="modal-content">
+                      <div class="modal-body" style="padding:50px 20px;">
+                            Voce tem certeza que deseja excluir essa empresa?
+                      </div>
+                    <div class="modal-footer">
+                      <button class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                      <button class="btn btn-success btn-default pull-right confirm-ok" data-dismiss="modal"><span class="glyphicon glyphicon-on"></span> Ok</button>
+                    </div>
+                  </div>     
+                </div>
+              </div>
 				<div class="row">
 					<div class="col-md-12">
 						<div class="widget">
@@ -44,7 +60,7 @@
 												<th>Nº</th>
 												<th>Nome</th>
 												<th>Status</th>
-												<th data-sortable="false">Ação</th>
+												<th data-sortable="false">Ações</th>
 											</tr>
 										</thead>
 										
@@ -53,11 +69,13 @@
 										foreach ($departamentos as $departamento) :
 										?>    
 										<tr>
-											<td><a href="#"><?= $departamento->getId() ?></a></td><td><?= $departamento->getNome() ?></td>
-										    <td><span class="label label-success"><?= \Application\Model\Rotulos::$status[$departamento->getStatus()]?></span></td>
+											<td><a href="<?= $this->basePath()?>/departamento/detalhe/<?= $departamento->getId() ?>"><?= $departamento->getId() ?></a></td><td><?= $departamento->getNome() ?></td>
+										    <td><span class="label label-<?= \Application\Model\Rotulos::$classStatus[$departamento->getStatus()] ?> status-dep-<?= $departamento->getId() ?>"><?= \Application\Model\Rotulos::$status[$departamento->getStatus()]?></span></td>
 											<td>
 												<div class="btn-group btn-group-xs">
 													<a data-toggle="tooltip" href="<?= $this->basePath()?>/departamento/editar/<?= $departamento->getId() ?>" title="Editar" class="btn btn-primary"><i class="fa fa-edit"></i></a>
+													<a data-toggle="tooltip" href="<?= $this->basePath()?>/departamento/deletar/<?= $departamento->getId() ?>" title="Deletar" class="btn btn-danger deletar"><i class="fa fa-eraser"></i></a>
+													<a data-toggle="tooltip" tipo="dep" dep="<?= $departamento->getId() ?>" href="javascript:void(0)" title="Alterar Status" class="btn btn-warning suspender"><i class="fa fa-wrench"></i></a>
 												</div>
 											</td>
 										</tr>
@@ -88,7 +106,7 @@
 								</div>
 									
 								<div class="data-table-toolbar">
-									<?= $paginator($departamentos, 'Sliding', 'partials/paginator', array('route' => 'listar'))?>
+									<?= $paginator($departamentos, 'Sliding', 'partials/paginator', array('route' => 'listarDepartamento'))?>
 								</div>
 							</div>
 						</div>

@@ -56,7 +56,7 @@ class EmpresaController  extends AbstractActionController{
                 throw $e;
             }
 
-            $this->redirect()->toRoute('listar');
+            $this->redirect()->toRoute('listarEmpresa');
         }
         $model = new ViewModel();
 
