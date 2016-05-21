@@ -5,7 +5,7 @@ $formatUrl = function ($page) use ($urlPattern) {
     if (!preg_match('/page/', $urlPattern)) {
         return $urlPattern . '/page/' . (int) $page;
     }
-    return preg_replace('@/page/(\d+)@', '/page/' . (int) $page, $urlPattern);
+    return preg_replace('@/page/(\d+)@', '/page/' . (int) $page , $urlPattern);
 };
 
 if($this->pageCount > 1) : ?>

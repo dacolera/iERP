@@ -20,7 +20,7 @@
 							<div class="widget-content">
 								<div class="data-table-toolbar">
 									<div class="row">
-										<form method="get" action="<?= $this->basePath()?>/listar" role="form">
+										<form method="get" action="<?= $this->basePath()?>/empresa/listar" role="form">
 										<div class="col-md-4">
 										    <select name="field" class="form-control">
                                                 <option value="razao_social">Nome</option>
@@ -60,12 +60,12 @@
                                           $status = $empresa['status'] == 'A' ? 'Ativa' : 'Inativa';  
                                     ?>
 											<tr>
-												<td><a href="<?= $this->basePath()?>/detalhe/<?= $empresa['id'] ?>"><?= $empresa['id'] ?></a></td><td><strong><?= $empresa['razao_social'] ?></strong></td>
+												<td><a href="<?= $this->basePath()?>/empresa/detalhe/<?= $empresa['id'] ?>"><?= $empresa['id'] ?></a></td><td><strong><?= $empresa['razao_social'] ?></strong></td>
 												<td><?= $empresa['cnpj'] ?></td><td><?= $empresa['regime_tributacao'] ?></td>
 											    <td><span class="label label-success"><?=$status ?></span></td>
 												<td>
 													<div class="btn-group btn-group-xs">
-														<a data-toggle="tooltip" href="<?php echo $this->basePath()?>/editar/<?php echo $empresa['id'] ?>" title="Editar" class="btn btn-primary"><i class="fa fa-edit"></i></a>
+														<a data-toggle="tooltip" href="<?php echo $this->basePath()?>/empresa/editar/<?php echo $empresa['id'] ?>" title="Editar" class="btn btn-primary"><i class="fa fa-edit"></i></a>
 													</div>
 												</td>
 											</tr>
@@ -78,15 +78,7 @@
 								</div>
 									
 								<div class="data-table-toolbar">
-									<ul class="pagination">
-									  <li class="disabled"><a href="#">&laquo;</a></li>
-									  <li class="active"><a href="#">1</a></li>
-									  <li><a href="#">2</a></li>
-									  <li><a href="#">3</a></li>
-									  <li><a href="#">4</a></li>
-									  <li><a href="#">5</a></li>
-									  <li><a href="#">&raquo;</a></li>
-									</ul>
+									<?= $paginator($empresas, 'Sliding', 'partials/paginator', array('route' => 'listar'))?>
 								</div>
 							</div>
 						</div>

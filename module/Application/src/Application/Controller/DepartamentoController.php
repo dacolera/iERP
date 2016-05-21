@@ -33,18 +33,24 @@ class DepartamentoController extends AbstractActionController
     
     public function cadastrarAction()
     {
-        if($this->getRequest()->isPost()) {
+        if ($this->getRequest()->isPost()) {
             
             $serviceDepartamento = $this->getServiceLocator()->get('Application\Service\Departamento');
             try {
                 $serviceDepartamento->saveDepartamento(
-                        $this->getRequest()->getPost()
+                    $this->getRequest()->getPost()
                 );
-            } catch (\Eception $e) {
+            } catch (\Exception $e) {
                 throw $e;
             }
 
             $this->redirect()->toRoute('listarDepartamento');
         }
+    }
+    
+    public function editarAction()
+    {
+        $id = $this->params()->fromRoute('id', false);
+        
     }
 }

@@ -84,7 +84,7 @@ class EmpresaController  extends AbstractActionController{
                 throw $e;
             }
 
-            $this->redirect()->toRoute('listar');
+            $this->redirect()->toRoute('listarEmpresa');
         }
 
         $id =  $this->params()->fromRoute('id', false);
@@ -114,7 +114,7 @@ class EmpresaController  extends AbstractActionController{
                 throw $e;
             }
 
-            $this->redirect()->toRoute('listar');
+            $this->redirect()->toRoute('listarEmpresa');
         }
     }
 
@@ -131,25 +131,7 @@ class EmpresaController  extends AbstractActionController{
             );
             return $model;
         }
-        $this->redirect()->toRoute('listar');
-    }
-
-    public function ordenarAjaxAction()
-    {
-        if($this->getRequest()->isXmlHttpRequest()){
-            $campo =  $this->params()->fromRoute('campo', false);
-            $order =  $this->params()->fromRoute('order', false);
-
-            if($campo && $order) {
-                $serviceEmpresa = $this->getServiceLocator()->get('Application\Service\Empresa');
-               $model = new ViewModel();
-               $model->setTerminal(true);
-               $arrayOrdenado = $serviceEmpresa->pegarEmpresasOrdenadas($campo, $order);
-               echo  json_encode($arrayOrdenado);
-               exit;
-            }
-        }
-        $this->redirect()->toRoute('listar');
+        $this->redirect()->toRoute('listarEmpresa');
     }
 
     public function suspenderAtivarEmpresaToogleAjaxAction()
@@ -171,7 +153,7 @@ class EmpresaController  extends AbstractActionController{
                 exit;
             }
         }
-        $this->redirect()->toRoute('listar');
+        $this->redirect()->toRoute('listarEmpresa');
     }
     
     public function exportarAction()
