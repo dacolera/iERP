@@ -15,8 +15,7 @@ class Departamento extends AbstractMapper
     public function loadDepartamentoById($id)
     {
         $sql = $this->getSelect($this->tableName)
-                ->where('id_departamento' , $id);
-
+                ->where(['id_departamento' => $id]);
         return $this->select($sql)->current();
     }
     

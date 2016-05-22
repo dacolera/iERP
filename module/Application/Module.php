@@ -101,6 +101,7 @@ class Module
             'invokables' => array(
                 'Application\Service\Empresa' => 'Application\Service\Empresa',
                 'Application\Service\Departamento' => 'Application\Service\Departamento',
+                'Application\Service\Funcionario' => 'Application\Service\Funcionario',
                 'Application\Service\Export' => 'Application\Service\Export'
             )
         );

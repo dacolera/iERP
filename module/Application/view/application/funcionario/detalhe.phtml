@@ -1,0 +1,42 @@
+<div class="container-fluid">
+
+    <div class="col-md-10 col-lg-offset-1">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 style="background-color: #f5f5f5; color: black!important;">Detalhes do Funcionario </h4></div>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Campos</th>
+                        <th>Valores</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <?php foreach($funcionario as $campo => $valor) :?>
+                    <tr>
+                        <td><?= Application\Utils\StringConversion::indexToTitle($campo) ;?></td>
+                        <td><?= $valor ;?></td>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+
+        <!--/panel-->
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+
+            </div>
+            <div class="panel-body">
+                    <button class="btn btn-primary center-block"><a style="color:white;" href="<?= $this->url('listarFuncionario') ?>">Listagem de Funcionario</a></button>
+            </div>
+        </div>
+        <!--/panel-->
+
+    </div>
+</div>
+
+<script>//$(function(){$('#detalhe').modal('show');});</script>

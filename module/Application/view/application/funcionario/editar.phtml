@@ -4,32 +4,33 @@
             <div class="content">
 								<!-- Page Heading Start -->
 				<div class="page-heading">
-            		<h1><i class='icon-doc-new'></i> Cadastrar Funcionário</h1>
-            		<h3>Funcionários > Cadastrar Funcionário</h3>            	</div>
+            		<h1><i class='icon-doc-new'></i> Editar Funcionário</h1>
+            		<h3>Funcionários > Editar Funcionário</h3>            	</div>
             	<!-- Page Heading End-->				
 				<div class="row">
 					<div class="col-md-12 portlets">
 						<!-- Your awesome content goes here -->
 						<div class="widget animated fadeInDown">
-								<form id="myWizard" method="post" action="<?= $this->basePath() ?>/funcionario/cadastrar">
+								<form id="myWizard" method="post" action="<?= $this->basePath() ?>/funcionario/editar/<?= $funcionario->getId() ?>">
+								    <input type="hidden" id="id_funcionario" name="id_funcionario" value="<?= $funcionario->getId() ?>" class="form-control">
 								<section class="step" data-step-title="Informações Pessoais">
 									<div class="row">
 										<div class="col-sm-6">
 											<div class="form-group">
 												<label for="nome">Nome</label>
-												<input type="text" id="nome" name="nome" placeholder="Nome" class="form-control">
+												<input type="text" id="nome" value="<?= $funcionario->getNome() ?>" name="nome" placeholder="Nome" class="form-control">
 											</div>
 											<div class="form-group">
 												<label for="idade">Idade</label>
-												<input type="text" id="dataNascimento" name="dataNascimento" placeholder="Data de Nascimento" class="form-control">
+												<input type="text" id="dataNascimento" value="<?= \Application\Utils\DateConversion::conversion($funcionario->getDataNascimento(), false) ?>" name="dataNascimento" placeholder="Data de Nascimento" class="form-control">
 											</div>
 											<div class="form-group">
 												<label for="cep">CEP</label>
-												<input type="text" id="cep" name="cep" placeholder="CEP" class="form-control">
+												<input type="text" id="cep" name="cep" value="<?= $funcionario->getCep() ?>" placeholder="CEP" class="form-control">
 											</div>
 											<div class="form-group">
 												<label for="end">Endereço</label>
-												<input type="text" id="end" name="end" placeholder="Endereço" class="form-control">
+												<input type="text" id="end" name="end" value="<?= $funcionario->getEndereco() ?>" placeholder="Endereço" class="form-control">
 											</div>
 										
 											
@@ -37,21 +38,21 @@
 										<div class="col-sm-6">
 											<div class="form-group">
 												<label for="bairro">Bairro</label>
-												<input type="text" id="bairro" name="bairro" placeholder="Bairro" class="form-control">
+												<input type="text" id="bairro" name="bairro" value="<?= $funcionario->getBairro() ?>" placeholder="Bairro" class="form-control">
 											</div>
 											<div class="form-group">
 												<label for="codade">Cidade</label>
-												<input type="text" id="cidade" name="cidade" placeholder="Cidade" class="form-control">
+												<input type="text" id="cidade" name="cidade" value="<?= $funcionario->getCidade() ?>" placeholder="Cidade" class="form-control">
 											</div>
 											<div class="form-group">
 												<label for="uf">UF</label>
-												<input type="text" id="uf" name="uf" placeholder="UF" class="form-control">
+												<input type="text" id="uf" name="uf" value="<?= $funcionario->getEstado() ?>" placeholder="UF" class="form-control">
 											</div>
 											<div class="form-group">
 												<label for="sexo">Sexo</label>
 												<select id="sexo" name="sexo" class="form-control">
-												    <option value="Masculino">Masculino</option>
-												    <option value="Feminino">Feminino</option>
+												    <option value="M" <?= $funcionario->getSexo() == 'M' ? 'selected="selected"' : ''  ?>>Masculino</option>
+												    <option value="F" <?= $funcionario->getSexo() == 'F' ? 'selected="selected"' : ''  ?>>Feminino</option>
 												</select>
 											</div>
 										</div>
@@ -63,22 +64,22 @@
 											<div class="form-group">
 												<label for="departamento">Departamento</label>
 												<select id="departamento" name="departamento" class="form-control">
-												<?php foreach ($departamentos as $departamento): ?>
-												    <option value="<?= $departamento->getId() ?>"><?= $departamento->getNome() ?></option>
+												<?php foreach ($departamentos as $id => $departamento): ?>
+												    <option value="<?= $id ?>" <?= $funcionario->getDepartamento() == $id ? 'selected="selected"' : '' ?>><?= $departamento ?></option>
 												<?php endforeach; ?>    
 												</select>
 											</div>
 											<div class="form-group">
 												<label for="cargo">Cargo</label>
-												<input type="text" id="cargo" name="cargo" placeholder="Cargo" class="form-control">
+												<input type="text" id="cargo" name="cargo" value="<?= $funcionario->getCargo() ?>" placeholder="Cargo" class="form-control">
 											</div>
 											<div class="form-group">
 												<label for="salario">Salário</label>
-												<input type="text" id="salario" name="salario" placeholder="Salário" class="form-control">
+												<input type="text" id="salario" name="salario" value="<?= \Application\Utils\Money::toCurrency($funcionario->getSalario()) ?>" placeholder="Salário" class="form-control">
 											</div>
 											<div class="form-group">
 												<label for="custoTotal">Custo Total</label>
-												<input type="text" id="custoTotal" name="custoTotal" placeholder="Custo Total" class="form-control">
+												<input type="text" id="custoTotal" name="custoTotal" value="<?= \Application\Utils\Money::toCurrency($funcionario->getCusto()) ?>" placeholder="Custo Total" class="form-control">
 											</div>
 										</div>
 									</div>
@@ -88,11 +89,11 @@
 										<div class="col-sm-6">
 											<div class="form-group">
 												<label for="usuario">Usuário</label>
-												<input type="text" id="usuario" name="usuario" placeholder="Usuário" class="form-control">
+												<input type="text" id="usuario" name="usuario" value="<?= $funcionario->getUsuario() ?>" placeholder="Usuário" class="form-control">
 											</div>
 											<div class="form-group">
 												<label for="senha">Senha</label>
-												<input type="password" id="senha" name="senha" placeholder="Senha" class="form-control">
+												<input type="password" id="senha" name="senha" value="*********" placeholder="Senha" class="form-control">
 											</div>
 											<div class="form-group">
 												<label for="confirmarSenha">Confirmar Senha</label>
@@ -100,7 +101,7 @@
 											</div>
 											<div class="form-group">
 												<label for="email">E-mail</label>
-												<input type="text" id="email" name="email" placeholder="E-mail" class="form-control">
+												<input type="text" id="email" name="email" value="<?= $funcionario->getEmail() ?>" placeholder="E-mail" class="form-control">
 											</div>
 										</div>
 									</div>

@@ -141,6 +141,7 @@ $(function(){
     
     $('#cnpj').mask('99.999.999/9999-99');
     $('#cep').mask('99999-999');
+    $('#dataNascimento').mask('99/99/9999');
 
     //login no sistema
 
@@ -174,9 +175,7 @@ $(function(){
         
         var tipo = App.retornaTipo(this).tipo;
         var subject = App.retornaTipo(this).subject;
-        
         var id = $(this).attr(tipo);
-        
         var status = $('.status-'+tipo+'-'+id).text() == 'Ativa' ? 'Inativa' : 'Ativa';
         var statusClass = $('.status-'+tipo+'-'+id).text() == 'Ativa' ? 'label-danger' : 'label-success';
         var actualClass = $('.status-'+tipo+'-'+id).text() == 'Ativa' ? 'label-success' : 'label-danger';

@@ -2,11 +2,13 @@
 
 namespace Application\Service;
 
-use Application\Entity\Departamento as DepartamentoEntity;
+use Application\Entity\Funcionario as FuncionarioEntity;
 use Zend\ServiceManager\ServiceManagerAwareInterface;
 use Zend\ServiceManager\ServiceManager;
+use Application\Utils\DateConversion;
+use Application\Utils\Money;
 
-class Departamento extends implements ServiceManagerAwareInterface
+class Funcionario implements ServiceManagerAwareInterface
 {
     protected $serviceManager;
 
@@ -21,109 +23,65 @@ class Departamento extends implements ServiceManagerAwareInterface
         return $this->serviceManager;
     }
 
-    public function saveDepartamento($dados)
+    public function saveFuncionario($dados)
     {
-        $id = $dados['id_departamento'] ? $dados['id_departamento'] : null;
+        $id = $dados['id_funcionario'] ? $dados['id_funcionario'] : null;
 
-        $DepartamentoEntity = new DepartamentoEntity;
-        $DepartamentoEntity
+        $funcionarioEntity = new FuncionarioEntity;
+        $funcionarioEntity
             ->setId($id)
+            ->setNome($dados['nome'])
+            ->setDataNascimento(DateConversion::conversion($dados['dataNascimento'], false))
+            ->setEmail($dados['email'])
+            ->setUsuario($dados['usuario'])
+            ->setSenha($dados['senha'])
+            ->setCargo($dados['cargo'])
+            ->setSalario(Money::toFloat($dados['salario']))
+            ->setCusto(Money::toFloat($dados['custoTotal']))
+            ->setDepartamento($dados['departamento'])
+            ->setSexo($dados['sexo'])
+            ->setCep($dados['cep'])
+            ->setEndereco($dados['end'])
+            ->setBairro($dados['bairro'])
+            ->setCidade($dados['cidade'])
+            ->setEstado($dados['uf'])
             ->setDataCadastro(date('Y-m-d H:i:s'))
             ->setStatus('A');
 
-        $enderecoEntity = new EnderecoEntity;    
-        $enderecoEntity
-            ->setId($end_id)
-            ->setLogradouro($dados['logradouro'])
-            ->setNumero($dados['numero'])
-            ->setComplemento($dados['complemento'])
-            ->setBairro($dados['bairro'])
-            ->setMunicipio($dados['municipio'])
-            ->setCep($dados['cep'])
-            ->setEstado($dados['estado']);
-
-        $empresaEntity = new EmpresaEntity;
-        $empresaEntity
-             ->setId($id)
-             ->setUsuario($usuarioEntity)
-             ->setRazaoSocial($dados['razao-social'])
-             ->setNomeFantasia($dados['nome-fantasia'])
-             ->setCnpj($dados['cnpj'])
-             ->setEndereco($enderecoEntity)
-             ->setInscricaoMunicipal($dados['inscricao-municipal'])
-             ->setInscricaoEstadual($dados['inscricao-estadual'])
-             ->setCNAEPrincipal($dados['cnae-principal'])
-             ->setCNAESecundario($dados['cnae-secundario'])
-             ->setRegimeTributacao($dados['regime-tributacao'])
-             ->setValorHonorarios(Money::toFloat($dados['valor-honorarios']))
-             ->setVencimentoHonorarios(Conversion::conversion($dados['vencimento-honorarios']))
-             ->setVencimentoProcuracaoCaixa(Conversion::conversion($dados['vencimento-procuracao-caixa']))
-             ->setVencimentoProcuracaoRFB(Conversion::conversion($dados['vencimento-procuracao-rfb']))
-             ->setCertificadoDigital($certDig)
-             ->setSenhaWeb($dados['senha-web'])
-             ->setSenhaFazenda($dados['senha-fazenda'])
-             ->setTipoEmpresa($dados['tipo-empresa'])
-             ->setContrato($contrato)
-             ->setVencimentoContrato(Conversion::conversion($dados['vencimento-contrato']));
-
         try {
-            $mapperEmpresa = $this->getService()->get('Application\Mapper\Empresa');
-            $id = $mapperEmpresa->save($empresaEntity);
+            $mapperFuncionario = $this->getService()->get('Application\Mapper\Funcionario');
+            $id = $mapperFuncionario->save($funcionarioEntity);
         } catch (\Exception $e) {
            throw $e;
         }
         return $id;
     }
 
-    public function pegarEmpresas($field = null, $busca = null)
+    public function pegarFuncionarios($field = null, $busca = null)
     {
-        $mapperEmpresa = $this->getService()->get('Application\Mapper\Empresa');
+        $mapperFuncionario = $this->getService()->get('Application\Mapper\Funcionario');
 
-        $empresas = $mapperEmpresa->loadAllEmpresas($field, $busca);
-        $empresasArray = [];
-        foreach($empresas->getDataSource() as $empresa) {
-            $empresasArray[] = $empresa;
-        }
-        return $empresasArray;
-    }
-    
-    public function pegarEmpresasForExcel()
-    {
-        $mapperEmpresa = $this->getService()->get('Application\Mapper\Empresa');
-        
-        return $mapperEmpresa->loadAllEmpresas();
+        $funcionarios = $mapperFuncionario->loadAllFuncionarios($field, $busca);
+        return $funcionarios;
     }
 
-    public function pegarEmpresaPorId($id)
+    public function pegarFuncionarioPorId($id)
     {
-        $mapperEmpresa = $this->getService()->get('Application\Mapper\Empresa');
+        $mapperFuncionario = $this->getService()->get('Application\Mapper\Funcionario');
 
-        return $mapperEmpresa->loadEmpresaById($id);
+        return $mapperFuncionario->loadFuncionarioById($id);
     }
 
-    public function pegarEmpresasOrdenadas($campo, $order)
+    public function deletarFuncionario($id)
     {
-        $mapperEmpresa = $this->getService()->get('Application\Mapper\Empresa');
-
-        $empresas = $mapperEmpresa->loadEmpresasInOrder($campo, $order);
-        $empresasOrdenadas = [];
-        foreach($empresas->getdataSource() as $empresa) {
-            $empresasOrdenadas[] = $empresa;
-        }
-        return $empresasOrdenadas;
+        $mapperFuncionario = $this->getService()->get('Application\Mapper\Funcionario');
+        return  $mapperFuncionario->deletarFuncionario(['id_funcionario' => $id]);
     }
 
-    public function deletarEmpresa($id)
+    public function suspenderAtivarToogleFuncionario($id, $status)
     {
-        $mapperEmpresa = $this->getService()->get('Application\Mapper\Empresa');
-        return  $mapperEmpresa->deletarEmpresa($id);
-    }
-
-    public function suspenderAtivarToogleEmpresa($id, $status)
-    {
-        $mapperEmpresa = $this->getService()->get('Application\Mapper\Empresa');
+        $mapperFuncionario = $this->getService()->get('Application\Mapper\Funcionario');
         $novoStatus = $status == 'Ativa' ? 'A' : 'S';
-        return  $mapperEmpresa->suspenderAtivarToogleEmpresa($id, $novoStatus);
+        return  $mapperFuncionario->suspenderAtivarToogleFuncionario($id, $novoStatus);
     }
-    
 }

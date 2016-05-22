@@ -69,5 +69,4 @@ class Departamento implements ServiceManagerAwareInterface
         $novoStatus = $status == 'Ativa' ? 'A' : 'S';
         return  $mapperDepartamento->suspenderAtivarToogleDepartamento($id, $novoStatus);
     }
-    
 }

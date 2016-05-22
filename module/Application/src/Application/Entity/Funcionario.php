@@ -12,6 +12,7 @@ class Funcionario
     protected $senha;
     protected $cargo;
     protected $salario;
+    protected $custo;
     protected $departamento;
     protected $sexo;
     protected $cep;
@@ -208,5 +209,15 @@ class Funcionario
         $this->status = $status;
         return $this;
     }
-
+    
+    public function setCusto($custo)
+    {
+        $this->custo = $custo;
+        return $this;
+    }
+    
+    public function getCusto()
+    {
+        return $this->custo;
+    }
 }

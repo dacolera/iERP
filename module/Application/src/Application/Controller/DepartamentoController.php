@@ -23,7 +23,7 @@ class DepartamentoController extends AbstractActionController
         $page = $this->params()->fromRoute('page', false);
         
         $paginator->setCurrentPageNumber($page)
-            ->setDefaultItemCountPerPage(1);
+            ->setDefaultItemCountPerPage(10);
         $viewHelperManager = $this->getServiceLocator()->get('ViewHelperManager');
         $paginationHelper = $viewHelperManager->get('paginationControl');
         
@@ -97,11 +97,12 @@ class DepartamentoController extends AbstractActionController
         $id =  $this->params()->fromRoute('id', false);
 
         if($id) {
-            $serviceEmpresa = $this->getServiceLocator()->get('Application\Service\Departamento');
+            $serviceDepartamento = $this->getServiceLocator()->get('Application\Service\Departamento');
             $model = new ViewModel();
             $model->setVariable(
                 'departamento',
-                $serviceEmpresa->pegarDepartamentoPorId($id)
+                (new \Application\Mapper\Hydrator\Departamento)
+                    ->extract($serviceDepartamento->pegarDepartamentoPorId($id))
             );
             return $model;
         }

@@ -7,6 +7,22 @@
             		<h1><i class='fa fa-table'></i> Listagem de Funcionários</h1>
             		<h3>Funcionários > Listar Funcionários</h3>            	</div>
             	<!-- Page Heading End-->				<!-- Your awesome content goes here -->
+            		<!-- Modal -->
+                  <div class="modal fade " id="confirm" role="dialog">
+                    <div class="modal-dialog"   style="top:200px;">
+                    
+                      <!-- Modal content-->
+                      <div class="modal-content">
+                          <div class="modal-body" style="padding:50px 20px;">
+                                Voce tem certeza que deseja excluir essa empresa?
+                          </div>
+                        <div class="modal-footer">
+                          <button class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                          <button class="btn btn-success btn-default pull-right confirm-ok" data-dismiss="modal"><span class="glyphicon glyphicon-on"></span> Ok</button>
+                        </div>
+                      </div>     
+                    </div>
+                  </div>
 								
 				<div class="row">
 					<div class="col-md-12">
@@ -20,19 +36,19 @@
 							<div class="widget-content">
 								<div class="data-table-toolbar">
 									<div class="row">
-										<form method="get" action="<?= $this->basePath()?>/listar" role="form">
+										<form method="get" action="<?= $this->basePath()?>/funcionario/listar" role="form">
 										<div class="col-md-4">
 										    <select name="field" class="form-control">
-                                                <option value="razao_social">Nome</option>
+                                                <option value="nome" <?= isset($_GET['field']) && $_GET['field'] == "nome" ? 'selected="selected"' : '' ?>>Nome</option>
                                             </select>
 										</div>
 										<div class="col-md-4">	
-										    <input type="text" name="busca" class="form-control" placeholder="Buscar">
+										    <input type="text" name="busca" value="<?= isset($_GET['busca']) ? $_GET['busca'] : '' ?>" class="form-control" placeholder="Buscar">
 										</div>
 										</form>
 										<div class="col-md-4">
 											<div class="toolbar-btn-action">
-												<a class="btn btn-success"><i class="fa fa-cloud-download"></i> Exportar</a>
+												<a class="btn btn-success exportUrl" href="<?= $this->basePath() ?>/funcionario/exportar"><i class="fa fa-cloud-download"></i> Exportar</a>
 											</div>
 										</div>
 									</div>
@@ -48,55 +64,29 @@
 												<th>Cargo</th>
 												<th>Salário</th>
 												<th>Status</th>
-												<th data-sortable="false">Ação</th>
+												<th data-sortable="false">Ações</th>
 											</tr>
 										</thead>
 										
 										<tbody>
+										<?php foreach ($funcionarios as $funcionario): ?>
 										<tr>
-											<td><a href="#">1</a></td><td>Lucas Villasboas</td>
-											<td>Fiscal</td><td>Coordenador Fiscal</td>
-											<td>R$ 4.500,00</td>
-										    <td><span class="label label-success">Ativo</span></td>
+										    <td><a href="<?= $this->basePath()?>/funcionario/detalhe/<?= $funcionario->getId() ?>"><?= $funcionario->getId() ?></a></td>
+										    <td><?= $funcionario->getNome() ?></td>
+											<td><?= $departamentos[$funcionario->getDepartamento()] ?></td>
+											<td><?= $funcionario->getCargo() ?></td>
+											<td><?= \Application\Utils\Money::toCurrency($funcionario->getSalario()) ?></td>
+										    <td><span class="label label-<?= \Application\Model\Rotulos::$classStatus[$funcionario->getStatus()] ?> status-func-<?= $funcionario->getId() ?>"><?= \Application\Model\Rotulos::$status[$funcionario->getStatus()]?></span></td>
 											<td>
 												<div class="btn-group btn-group-xs">
-													<a data-toggle="tooltip" href="#" title="Editar" class="btn btn-primary"><i class="fa fa-edit"></i></a>
+													<a data-toggle="tooltip" href="<?= $this->basePath()?>/funcionario/editar/<?= $funcionario->getId() ?>" title="Editar" class="btn btn-primary"><i class="fa fa-edit"></i></a>
+													<a data-toggle="tooltip" href="<?= $this->basePath()?>/funcionario/deletar/<?= $funcionario->getId() ?>" title="Deletar" class="btn btn-danger deletar"><i class="fa fa-eraser"></i></a>
+													<a data-toggle="tooltip" tipo="func" func="<?= $funcionario->getId() ?>" href="javascript:void(0)" title="Alterar Status" class="btn btn-warning suspender"><i class="fa fa-wrench"></i></a>
 												</div>
 											</td>
 										</tr>
-										<tr>
-											<td><a href="#">1</a></td><td>Robson Rosa</td>
-											<td>Contábil</td><td>Analista Contábil Pleno</td>
-											<td>R$ 2.800,00</td>
-										    <td><span class="label label-success">Ativo</span></td>
-											<td>
-												<div class="btn-group btn-group-xs">
-													<a data-toggle="tooltip" href="#" title="Editar" class="btn btn-primary"><i class="fa fa-edit"></i></a>
-												</div>
-											</td>
-										</tr>
-										<tr>
-											<td><a href="#">1</a></td><td>Bruna Paiva</td>
-											<td>Recursos Humanos</td><td>Analista RH Pleno</td>
-											<td>R$ 3.000,00</td>
-										    <td><span class="label label-success">Ativo</span></td>
-											<td>
-												<div class="btn-group btn-group-xs">
-													<a data-toggle="tooltip" href="#" title="Editar" class="btn btn-primary"><i class="fa fa-edit"></i></a>
-												</div>
-											</td>
-										</tr>
-										<tr>
-											<td><a href="#">1</a></td><td>Gabriel Dacol</td>
-											<td>Financeiro</td><td>Assistente Financeiro Júnior</td>
-											<td>R$ 1.200,00</td>
-										    <td><span class="label label-danger">Inativo</span></td>
-											<td>
-												<div class="btn-group btn-group-xs">
-													<a data-toggle="tooltip" href="#" title="Editar" class="btn btn-primary"><i class="fa fa-edit"></i></a>
-												</div>
-											</td>
-										</tr>
+										<?php endforeach; ?>
+										
 									<?php
                                     /*if($empresas) {
                                         foreach($empresas as $empresa) {
@@ -121,15 +111,7 @@
 								</div>
 									
 								<div class="data-table-toolbar">
-									<ul class="pagination">
-									  <li class="disabled"><a href="#">&laquo;</a></li>
-									  <li class="active"><a href="#">1</a></li>
-									  <li><a href="#">2</a></li>
-									  <li><a href="#">3</a></li>
-									  <li><a href="#">4</a></li>
-									  <li><a href="#">5</a></li>
-									  <li><a href="#">&raquo;</a></li>
-									</ul>
+									<?= $paginator($funcionarios, 'Sliding', 'partials/paginator', array('route' => 'listarFuncionario'))?>
 								</div>
 							</div>
 						</div>

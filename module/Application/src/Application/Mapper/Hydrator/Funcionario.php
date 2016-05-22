@@ -11,7 +11,9 @@ class Funcionario extends Hydrator
 
     public function getMap()
     {
-        return array();
+        return array(
+            'id' => 'id_funcionario'    
+        );
     }
 
     protected function getTemporary()

@@ -30,7 +30,7 @@ class EmpresaController  extends AbstractActionController{
         $page = $this->params()->fromRoute('page', false);
         $paginator = new Paginator(new ArrayAdapter($dados));
         $paginator->setCurrentPageNumber($page)
-            ->setDefaultItemCountPerPage(2);
+            ->setDefaultItemCountPerPage(10);
         $viewHelperManager = $this->getServiceLocator()->get('ViewHelperManager');
         $paginationHelper = $viewHelperManager->get('paginationControl');
 
