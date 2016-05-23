@@ -11,6 +11,7 @@ namespace Application\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+use Zend\View\Model\JsonModel;
 
 class IndexController extends AbstractActionController
 {
@@ -92,6 +93,22 @@ class IndexController extends AbstractActionController
         header("Content-Disposition: attachment; filename=".basename($arquivo)); // informa ao navegador que é tipo anexo e faz abrir a janela de download, tambem informa o nome do arquivo
         readfile($arquivo); // lê o arquivo
         exit; // aborta pós-ações
+    }
+    
+    public function getCepAjaxAction()
+    {
+        header('Content-Type: application/json');
+        if($this->getRequest()->isXmlHttpRequest()) {
+            $cep =  $this->params()->fromRoute('cep', false);
+            
+            if($cep) {
+                $resultado = \Application\Utils\BuscaCep::retrieve($cep);
+                
+            }
+            
+           echo json_encode($resultado);
+           exit;
+        }
     }
 
 }

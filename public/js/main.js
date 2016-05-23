@@ -182,7 +182,7 @@ $(function(){
         
         App.modalConfirm('Tem certeza que deseja mudar o status para '+status+' ?', function(){
             $.ajax({
-                url: '/ierp/public/'+subject+'/suspender-ativar-toogle/' + id +'/'+ status,
+                url: '/ierp/'+subject+'/suspender-ativar-toogle/' + id +'/'+ status,
                 success: function (data) {
                     var json = JSON.parse(data);
                     if (json.status == 'ok') {
@@ -191,6 +191,25 @@ $(function(){
                 }
             });
         });       
+    });
+    
+    $('#cep').keyup(function(){
+        var value = $(this).val();
+        var cep = value.replace(/\D/g,'');
+        if (cep.length == 8) {
+            //console.log(cep.length);
+            
+            $.ajax({
+                url : '/ierp/buscacep/'+cep,
+                success : function(data) {
+                     $("#uf, #estado").val(data.uf);
+                     $('#end, #logradouro').val(data.tipo_logradouro+' '+data.logradouro);
+                     $('#bairro').val(data.bairro);
+                     $('#cidade, #municipio').val(data.cidade);
+                     $('#numero').focus();
+                }
+            });
+        }
     });
 
     $('tbody').on('click', '.deletar', function(e) {

@@ -46,11 +46,17 @@
 											</div>
 											<div class="form-group">
 												<label for="uf">UF</label>
-												<input type="text" id="uf" name="uf" value="<?= $funcionario->getEstado() ?>" placeholder="UF" class="form-control">
+												<select id="uf" name="uf" class="form-control">
+												    <option value="">Selecione</option>
+												<?php foreach ($combos['uf'] as $sigla => $uf): ?>
+												    <option value="<?= $sigla ?>" <?= $sigla == $funcionario->getEstado() ? 'selected="selected"' : '' ?>><?= $uf ?></option>
+												<?php endforeach; ?>    
+												</select>
 											</div>
 											<div class="form-group">
 												<label for="sexo">Sexo</label>
 												<select id="sexo" name="sexo" class="form-control">
+												    <option value="">Selecione</option>
 												    <option value="M" <?= $funcionario->getSexo() == 'M' ? 'selected="selected"' : ''  ?>>Masculino</option>
 												    <option value="F" <?= $funcionario->getSexo() == 'F' ? 'selected="selected"' : ''  ?>>Feminino</option>
 												</select>
@@ -64,6 +70,7 @@
 											<div class="form-group">
 												<label for="departamento">Departamento</label>
 												<select id="departamento" name="departamento" class="form-control">
+												    <option value="">Selecione</option>
 												<?php foreach ($departamentos as $id => $departamento): ?>
 												    <option value="<?= $id ?>" <?= $funcionario->getDepartamento() == $id ? 'selected="selected"' : '' ?>><?= $departamento ?></option>
 												<?php endforeach; ?>    

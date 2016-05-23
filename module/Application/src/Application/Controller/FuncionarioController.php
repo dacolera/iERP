@@ -7,6 +7,7 @@ use Zend\View\Model\ViewModel;
 use Zend\Paginator\Adapter\Iterator;
 use Zend\Paginator\Factory;
 use Zend\Paginator\Paginator;
+use Application\Model\Rotulos;
 
 class FuncionarioController extends AbstractActionController
 {
@@ -60,7 +61,13 @@ class FuncionarioController extends AbstractActionController
             $this->redirect()->toRoute('listarFuncionario');
         }
         $serviceDepartamento = $this->getServiceLocator()->get('Application\Service\Departamento');
-        $view = new ViewModel(['departamentos' => $serviceDepartamento->pegarDepartamentos('status', 'A')]);
+        $view = new ViewModel([
+            'departamentos' => $serviceDepartamento->pegarDepartamentos('status', 'A'),
+            'combos' => [
+                'uf' => Rotulos::$UF   
+            ]
+        
+        ]);
         return $view;
     }
     

@@ -50,6 +50,19 @@ return array(
                     ),
                 ),
             ),
+            'getCep' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route'    => '/buscacep/:cep',
+                    'constraints' => array(
+                        'cep' => '\d+'
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Application\Controller\Index',
+                        'action'     => 'getCepAjax',
+                    ),
+                ),    
+            ),
             'cadastrarEmpresa' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
